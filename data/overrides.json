@@ -1,0 +1,271 @@
+{
+  "_readme": "Manual decisions. Each entry has a value plus a note/source. The fetch script applies these AFTER downloading, so they survive data refreshes.",
+  "continents": {
+    "TR": {
+      "value": "Europe",
+      "note": "Rule given by the project owner."
+    },
+    "RU": {
+      "value": "Asia",
+      "note": "Rule given by the project owner."
+    },
+    "EG": {
+      "value": "Africa",
+      "note": "Rule given by the project owner."
+    },
+    "CY": {
+      "value": "Europe",
+      "note": "EU member; most common convention (geographically in Asia)."
+    },
+    "GE": {
+      "value": "Asia",
+      "note": "UN geoscheme: Western Asia. Caucasus is a convention call."
+    },
+    "AM": {
+      "value": "Asia",
+      "note": "UN geoscheme: Western Asia."
+    },
+    "AZ": {
+      "value": "Asia",
+      "note": "UN geoscheme: Western Asia."
+    },
+    "KZ": {
+      "value": "Asia",
+      "note": "Most of the territory lies in Asia (small part west of the Ural river)."
+    },
+    "GL": {
+      "value": "North America",
+      "note": "Geographically part of the North American continent."
+    }
+  },
+  "names": {
+    "TR": {
+      "value": "Turkey",
+      "note": "Dataset uses 'Türkiye'; 'Turkey' is the common English name."
+    },
+    "CG": {
+      "value": "Republic of the Congo",
+      "note": "Disambiguation from DR Congo; dataset says just 'Congo'."
+    }
+  },
+  "capitals": {
+    "BO": {
+      "value": [
+        "Sucre",
+        "La Paz"
+      ],
+      "note": "Sucre = constitutional capital, La Paz = seat of government. Wikipedia article on the country, infobox 'Capital' / 'Seat of government'"
+    },
+    "SZ": {
+      "value": [
+        "Mbabane",
+        "Lobamba"
+      ],
+      "note": "Mbabane = administrative, Lobamba = legislative/royal capital. Wikipedia article on the country, infobox 'Capital' / 'Seat of government'"
+    },
+    "PS": {
+      "value": [
+        "Ramallah",
+        "East Jerusalem"
+      ],
+      "note": "Ramallah = seat of government, East Jerusalem = declared capital. Wikipedia article on the country, infobox 'Capital' / 'Seat of government'"
+    },
+    "LK": {
+      "value": [
+        "Sri Jayawardenepura Kotte",
+        "Colombo"
+      ],
+      "note": "Kotte = legislative capital, Colombo = executive/judicial capital. Wikipedia article on the country, infobox 'Capital' / 'Seat of government'"
+    }
+  },
+  "capitalAliases": {
+    "UA": [
+      "Kiev"
+    ],
+    "CH": [
+      "Berne"
+    ],
+    "MN": [
+      "Ulaanbaatar",
+      "Ulaan Baatar"
+    ],
+    "SM": [
+      "San Marino"
+    ],
+    "US": [
+      "Washington",
+      "Washington DC"
+    ],
+    "AG": [
+      "St John's",
+      "St. John's"
+    ],
+    "GD": [
+      "Saint George's"
+    ],
+    "YE": [
+      "Sanaa",
+      "Sana"
+    ],
+    "TD": [
+      "Ndjamena"
+    ],
+    "SO": [
+      "Mogadiscio"
+    ],
+    "XK": [
+      "Prishtina",
+      "Pristina",
+      "Priština"
+    ],
+    "MM": [
+      "Naypyitaw",
+      "Nay Pyi Taw"
+    ],
+    "KI": [
+      "Tarawa"
+    ],
+    "IN": [
+      "Delhi"
+    ],
+    "LU": [
+      "Luxembourg City"
+    ],
+    "PA": [
+      "Panama"
+    ],
+    "GT": [
+      "Guatemala"
+    ],
+    "MX": [
+      "Mexico"
+    ],
+    "DJ": [
+      "Djibouti City"
+    ],
+    "KW": [
+      "Kuwait"
+    ],
+    "VA": [
+      "Vatican"
+    ],
+    "TH": [
+      "Krung Thep"
+    ],
+    "IR": [
+      "Teheran"
+    ],
+    "PW": [
+      "Melekeok"
+    ],
+    "TV": [
+      "Vaiaku"
+    ],
+    "NL": [
+      "The Hague",
+      "Den Haag"
+    ],
+    "BJ": [
+      "Cotonou"
+    ],
+    "CI": [
+      "Abidjan"
+    ],
+    "TZ": [
+      "Dar es Salaam"
+    ],
+    "MY": [
+      "Putrajaya"
+    ],
+    "CL": [
+      "Valparaiso"
+    ],
+    "BI": [
+      "Bujumbura"
+    ],
+    "PS": [
+      "Jerusalem",
+      "Al-Quds"
+    ],
+    "MH": [
+      "Delap-Uliga-Djarrit"
+    ],
+    "NR": [
+      "Yaren District"
+    ],
+    "ZA": [
+      "Tshwane"
+    ]
+  },
+  "fields": {
+    "FM": {
+      "currencies": {
+        "value": [
+          {
+            "code": "USD",
+            "name": "United States dollar",
+            "symbol": "$"
+          }
+        ],
+        "source": "Micronesia uses the US dollar (Wikipedia: Federated States of Micronesia, 'Currency'); missing in dataset."
+      }
+    },
+    "AT": {
+      "languages": {
+        "value": [
+          "German"
+        ],
+        "source": "Dataset lists only the dialect 'Austro-Bavarian German'; German is the official language (Austrian Federal Constitution, Art. 8)."
+      }
+    },
+    "CY": {
+      "government": {
+        "value": "presidential republic",
+        "source": "Wikipedia: Cyprus, infobox 'Government' (infobox field empty in parsed section; Wikidata gave a vague label)."
+      }
+    }
+  },
+  "_capitalAliases_note": "Extra ACCEPTED answers (not shown as the main capital). Alternate spellings, former/de-facto seats. Source: Wikipedia article of the country/city (alternative names), common English variants.",
+  "nameAliases": {
+    "TR": [
+      "Türkiye",
+      "Turkiye"
+    ],
+    "CV": [
+      "Cabo Verde"
+    ],
+    "VA": [
+      "Holy See"
+    ],
+    "CG": [
+      "Congo Republic",
+      "Congo-Brazzaville"
+    ],
+    "CD": [
+      "Congo-Kinshasa",
+      "Democratic Republic of Congo"
+    ],
+    "GB": [
+      "Britain"
+    ],
+    "US": [
+      "America"
+    ],
+    "MK": [
+      "Macedonia"
+    ],
+    "PS": [
+      "State of Palestine"
+    ],
+    "FM": [
+      "Micronesia"
+    ],
+    "BA": [
+      "Bosnia"
+    ],
+    "TW": [
+      "Republic of China"
+    ]
+  },
+  "_nameAliases_note": "Extra ACCEPTED country names for the map quiz, on top of the dataset's official name and alternative spellings."
+}

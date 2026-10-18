@@ -1,0 +1,30 @@
+# Optional: once a month, re-download the country data and open a pull request if anything changed.
+# You review the PR (the validation report is in the log) and merge it -> the site redeploys.
+# One-time setting needed: repo Settings -> Actions -> General -> "Allow GitHub Actions to create and approve pull requests".
+name: Refresh country data
+on:
+  schedule:
+    - cron: '0 6 1 * *' # 06:00 UTC on the 1st of every month
+  workflow_dispatch: # also adds a "Run workflow" button
+permissions:
+  contents: write
+  pull-requests: write
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - run: npm run data:refresh
+      - run: npm run data:validate # fails (no PR) if the new data is incomplete
+      - uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: 'Refresh country data'
+          title: 'Monthly data refresh'
+          body: 'Automatic refresh of data/countries.json. Check the diff, then merge.'
+          branch: data-refresh
+          add-paths: |
+            data/countries.json
+            public/flags
