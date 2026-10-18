@@ -86,7 +86,8 @@ function check(input: string, country: Country, all: Country[], answers: Answers
   return { kind: 'wrong' }
 }
 
-const capitalAnswers: Answers = (c) => [...c.capitals, ...c.capitalAliases]
+// English and German capital names are both accepted ("Vienna" and "Wien")
+const capitalAnswers: Answers = (c) => [...c.capitals, ...c.capitalAliases, ...(c.de?.capitals ?? [])]
 // "The Gambia" / "the Netherlands": a leading "the" is optional
 const stripThe = (n: string) => n.replace(/^the\s+/i, '')
 const nameAnswers: Answers = (c) =>

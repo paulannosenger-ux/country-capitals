@@ -93,3 +93,12 @@ describe('checkCountryName', () => {
     expect(name('Australia', 'AT')).toBe('wrong')
   })
 })
+
+describe('German capital names', () => {
+  it('accepts the German name too', () => {
+    expect(kind('Wien', 'AT')).toBe('correct')
+    expect(kind('Vienna', 'AT')).toBe('correct')
+    expect(kind('Moskau', 'RU')).toBe('correct')
+    expect(kind('Kopenhagen', 'DK')).toBe('correct')
+  })
+})

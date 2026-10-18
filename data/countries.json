@@ -1,9 +1,9 @@
 {
- "lastUpdated": "2026-10-17",
+ "lastUpdated": "2026-10-18",
  "sources": {
   "base": "https://github.com/mledoze/countries",
   "wikidata": "https://www.wikidata.org (SPARQL: population P1082, government P122)",
-  "summaries": "https://en.wikipedia.org (REST page summaries, CC BY-SA)",
+  "summaries": "https://en.wikipedia.org and https://de.wikipedia.org (REST page summaries, CC BY-SA)",
   "flags": "https://github.com/lipis/flag-icons"
  },
  "countries": [
@@ -54,7 +54,26 @@
     33,
     65
    ],
-   "wikidata": "Q889"
+   "wikidata": "Q889",
+   "de": {
+    "capitals": [
+     "Kabul"
+    ],
+    "government": "Emirat, islamische Theokratie",
+    "summary": {
+     "text": "Afghanistan ist ein Binnenstaat an der Schnittstelle von Südasien, Zentralasien und Vorderasien, der an Iran, Turkmenistan, Usbekistan, Tadschikistan, die Volksrepublik China und Pakistan grenzt. Drei Viertel des Landes mit heute 34 Provinzen bestehen aus schwer zugänglichen Gebirgsregionen.",
+     "url": "https://de.wikipedia.org/wiki/Afghanistan",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Dari",
+     "Paschtu",
+     "Turkmenisch"
+    ],
+    "currencies": [
+     "Afghanischer Afghani"
+    ]
+   }
   },
   {
    "id": "AL",
@@ -103,7 +122,24 @@
     41,
     20
    ],
-   "wikidata": "Q222"
+   "wikidata": "Q222",
+   "de": {
+    "capitals": [
+     "Tirana"
+    ],
+    "government": "parlamentarisches Regierungssystem",
+    "summary": {
+     "text": "748 km² auf der westlichen Balkanhalbinsel. Das Staatsgebiet grenzt im Norden an Montenegro und den Kosovo, im Osten an Nordmazedonien und im Süden an Griechenland. Die Westgrenze wird durch die Küsten des Adriatischen und des Ionischen Meeres gebildet, womit das Land zu den Anrainerstaaten des Mittelmeeres zählt.",
+     "url": "https://de.wikipedia.org/wiki/Albanien",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Albanisch"
+    ],
+    "currencies": [
+     "Albanischer Lek"
+    ]
+   }
   },
   {
    "id": "DZ",
@@ -151,7 +187,24 @@
     28,
     3
    ],
-   "wikidata": "Q262"
+   "wikidata": "Q262",
+   "de": {
+    "capitals": [
+     "Algier"
+    ],
+    "government": "Volksrepublik, Semipräsidentielles Regierungssystem",
+    "summary": {
+     "text": "Algerien ist ein Staat im Nordwesten Afrikas.",
+     "url": "https://de.wikipedia.org/wiki/Algerien",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Arabisch"
+    ],
+    "currencies": [
+     "Algerischer Dinar"
+    ]
+   }
   },
   {
    "id": "AD",
@@ -198,7 +251,24 @@
     42.5,
     1.5
    ],
-   "wikidata": "Q228"
+   "wikidata": "Q228",
+   "de": {
+    "capitals": [
+     "Andorra la Vella"
+    ],
+    "government": "Parlamentarisches Fürstentum",
+    "summary": {
+     "text": "000 Einwohnern. Der Binnenstaat liegt in den östlichen Pyrenäen zwischen Spanien und Frankreich. Andorra ist eine Demokratie in Form einer parlamentarischen Monarchie. Mit einer Fläche von 468 Quadratkilometern ist Andorra der drittgrößte der acht europäischen Zwergstaaten.",
+     "url": "https://de.wikipedia.org/wiki/Andorra",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Katalanisch"
+    ],
+    "currencies": [
+     "Euro"
+    ]
+   }
   },
   {
    "id": "AO",
@@ -246,7 +316,24 @@
     -12.5,
     18.5
    ],
-   "wikidata": "Q916"
+   "wikidata": "Q916",
+   "de": {
+    "capitals": [
+     "Luanda"
+    ],
+    "government": "Präsidentielles Regierungssystem, Republik",
+    "summary": {
+     "text": "Angola ist ein Staat im Südwesten Afrikas. Nationalfeiertag ist der 11. November, der Jahrestag der 1975 erlangten Unabhängigkeit.",
+     "url": "https://de.wikipedia.org/wiki/Angola",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Portugiesisch"
+    ],
+    "currencies": [
+     "Angolanischer Kwanza"
+    ]
+   }
   },
   {
    "id": "AG",
@@ -293,7 +380,24 @@
     17.05,
     -61.8
    ],
-   "wikidata": "Q781"
+   "wikidata": "Q781",
+   "de": {
+    "capitals": [
+     "Saint John's"
+    ],
+    "government": "konstitutionelle Monarchie",
+    "summary": {
+     "text": "Antigua und Barbuda ist ein Staat, der aus den Hauptinseln Antigua und Barbuda sowie 46 weiteren kleinen Inseln besteht und in der östlichen Karibik liegt. Er ist Mitglied des Commonwealth mit dem britischen König Charles III.",
+     "url": "https://de.wikipedia.org/wiki/Antigua_und_Barbuda",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch"
+    ],
+    "currencies": [
+     "Ostkaribischer Dollar"
+    ]
+   }
   },
   {
    "id": "AR",
@@ -341,7 +445,25 @@
     -34,
     -64
    ],
-   "wikidata": "Q414"
+   "wikidata": "Q414",
+   "de": {
+    "capitals": [
+     "Buenos Aires"
+    ],
+    "government": "Bundesstaat",
+    "summary": {
+     "text": "Argentinien ist eine Republik im Süden Südamerikas. Sie grenzt im Süden und Westen an Chile, im Norden an Bolivien, im Nordosten an Paraguay und an Brasilien, im Osten an Uruguay und im Südosten an den Atlantischen Ozean.",
+     "url": "https://de.wikipedia.org/wiki/Argentinien",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Guaraní",
+     "Spanisch"
+    ],
+    "currencies": [
+     "Argentinischer Peso"
+    ]
+   }
   },
   {
    "id": "AM",
@@ -389,7 +511,24 @@
     40,
     45
    ],
-   "wikidata": "Q399"
+   "wikidata": "Q399",
+   "de": {
+    "capitals": [
+     "Jerewan"
+    ],
+    "government": "parlamentarisches Regierungssystem, Republik",
+    "summary": {
+     "text": "743 km² großer Binnenstaat südlich des Kaukasus in Vorderasien mit rund drei Millionen Einwohnern. Armenien grenzt im Norden an Georgien, im Osten an Aserbaidschan, im Süden an die aserbaidschanische Exklave Nachitschewan und an den Iran, und im Westen an die Türkei.",
+     "url": "https://de.wikipedia.org/wiki/Armenien",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Armenisch"
+    ],
+    "currencies": [
+     "Armenischer Dram"
+    ]
+   }
   },
   {
    "id": "AU",
@@ -435,7 +574,24 @@
     -27,
     133
    ],
-   "wikidata": "Q408"
+   "wikidata": "Q408",
+   "de": {
+    "capitals": [
+     "Canberra"
+    ],
+    "government": "repräsentative Demokratie, konstitutionelle Monarchie",
+    "summary": {
+     "text": "Australien ist ein Staat auf der Südhalbkugel der Erde, der das Festland des australischen Kontinents, die ihm südlich vorgelagerte Insel Tasmanien, die subantarktische Macquarieinsel mit ihren Nebeninseln und als Außengebiete die pazifische Norfolkinsel, die Kokosinseln, die Weihnachtsinsel, die Ashmore- und Cartierinseln sowie Heard und die McDonaldinseln im Indischen Ozean umfasst.",
+     "url": "https://de.wikipedia.org/wiki/Australien",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch"
+    ],
+    "currencies": [
+     "Australischer Dollar"
+    ]
+   }
   },
   {
    "id": "AT",
@@ -483,7 +639,24 @@
     47.33333333,
     13.33333333
    ],
-   "wikidata": "Q40"
+   "wikidata": "Q40",
+   "de": {
+    "capitals": [
+     "Wien"
+    ],
+    "government": "parlamentarische Bundesrepublik, Semipräsidentielles Regierungssystem",
+    "summary": {
+     "text": "Österreich ist ein mitteleuropäischer Binnenstaat mit über 9,2 Millionen Einwohnern. Die angrenzenden Staaten sind Deutschland und Tschechien im Norden, die Slowakei und Ungarn im Osten, Slowenien und Italien im Süden sowie die Schweiz und Liechtenstein im Westen.",
+     "url": "https://de.wikipedia.org/wiki/%C3%96sterreich",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Deutsch"
+    ],
+    "currencies": [
+     "Euro"
+    ]
+   }
   },
   {
    "id": "AZ",
@@ -531,7 +704,25 @@
     40.5,
     47.5
    ],
-   "wikidata": "Q227"
+   "wikidata": "Q227",
+   "de": {
+    "capitals": [
+     "Baku"
+    ],
+    "government": "Semipräsidentielles Regierungssystem, Republik",
+    "summary": {
+     "text": "Aserbaidschan ist ein Staat in Vorderasien mit über 10 Millionen Einwohnern. Je nach Definition liegt ein kleiner Teil des Gebiets in Europa.",
+     "url": "https://de.wikipedia.org/wiki/Aserbaidschan",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Aserbaidschanisch",
+     "Russisch"
+    ],
+    "currencies": [
+     "Aserbaidschan-Manat"
+    ]
+   }
   },
   {
    "id": "BS",
@@ -582,7 +773,25 @@
     24.25,
     -76
    ],
-   "wikidata": "Q778"
+   "wikidata": "Q778",
+   "de": {
+    "capitals": [
+     "Nassau"
+    ],
+    "government": "konstitutionelle Monarchie",
+    "summary": {
+     "text": "Die Bahamas, englisch The Bahamas, amtlich Commonwealth der Bahamas, englisch The Commonwealth of The Bahamas, sind ein Inselstaat im Atlantik und Teil der Westindischen Inseln. Sie liegen südöstlich der Vereinigten Staaten sowie nordöstlich von Kuba und werden geographisch zu Mittelamerika gezählt.",
+     "url": "https://de.wikipedia.org/wiki/Bahamas",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch"
+    ],
+    "currencies": [
+     "Bahamas-Dollar",
+     "US-Dollar"
+    ]
+   }
   },
   {
    "id": "BH",
@@ -629,7 +838,24 @@
     26,
     50.55
    ],
-   "wikidata": "Q398"
+   "wikidata": "Q398",
+   "de": {
+    "capitals": [
+     "Manama"
+    ],
+    "government": "konstitutionelle Monarchie",
+    "summary": {
+     "text": "Das Königreich Bahrain ist ein aus 33 Inseln bestehender Staat in einer Bucht im Persischen Golf in Vorderasien, östlich von Saudi-Arabien und westlich von Katar. Die Fläche des Archipels beträgt rund 750 km².",
+     "url": "https://de.wikipedia.org/wiki/Bahrain",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Arabisch"
+    ],
+    "currencies": [
+     "Bahrain-Dinar"
+    ]
+   }
   },
   {
    "id": "BD",
@@ -676,7 +902,24 @@
     24,
     90
    ],
-   "wikidata": "Q902"
+   "wikidata": "Q902",
+   "de": {
+    "capitals": [
+     "Dhaka"
+    ],
+    "government": "Westminster-System, parlamentarische Republik",
+    "summary": {
+     "text": "Bangladesch ist ein Staat in Südasien. Er grenzt im Süden an den Golf von Bengalen, im Südosten an Myanmar und wird außerdem von den indischen Bundesstaaten Meghalaya, Tripura, Westbengalen, Mizoram und Assam umschlossen.",
+     "url": "https://de.wikipedia.org/wiki/Bangladesch",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Bengalisch"
+    ],
+    "currencies": [
+     "Bangladesch-Taka"
+    ]
+   }
   },
   {
    "id": "BB",
@@ -720,7 +963,24 @@
     13.16666666,
     -59.53333333
    ],
-   "wikidata": "Q244"
+   "wikidata": "Q244",
+   "de": {
+    "capitals": [
+     "Bridgetown"
+    ],
+    "government": "parlamentarische Republik",
+    "summary": {
+     "text": "Barbados ist ein Inselstaat im Atlantik und Teil der Kleinen Antillen. Barbados liegt nordöstlich von Venezuela in der Karibik und wird geografisch zu Mittelamerika gerechnet.",
+     "url": "https://de.wikipedia.org/wiki/Barbados",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch"
+    ],
+    "currencies": [
+     "Barbados-Dollar"
+    ]
+   }
   },
   {
    "id": "BY",
@@ -770,7 +1030,25 @@
     53,
     28
    ],
-   "wikidata": "Q184"
+   "wikidata": "Q184",
+   "de": {
+    "capitals": [
+     "Minsk"
+    ],
+    "government": "Präsidentielles Regierungssystem, Republik",
+    "summary": {
+     "text": "Belarus, im deutschen Sprachraum auch Weißrussland, ist ein osteuropäischer Binnenstaat. Politisches und wirtschaftliches Zentrum ist die Millionenstadt Minsk. Belarus grenzt an Litauen, Lettland, Russland, die Ukraine und Polen.",
+     "url": "https://de.wikipedia.org/wiki/Belarus",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Belarussisch",
+     "Russisch"
+    ],
+    "currencies": [
+     "Weißrussischer Rubel"
+    ]
+   }
   },
   {
    "id": "BE",
@@ -825,7 +1103,26 @@
     50.83333333,
     4
    ],
-   "wikidata": "Q31"
+   "wikidata": "Q31",
+   "de": {
+    "capitals": [
+     "Brüssel"
+    ],
+    "government": "Bundesstaat",
+    "summary": {
+     "text": "Belgien ist ein föderaler Staat in Westeuropa. Es liegt zwischen der Nordsee und den Ardennen und grenzt an die Niederlande, Deutschland, Luxemburg und Frankreich. Belgien zählte am 1. 688 Quadratkilometern.",
+     "url": "https://de.wikipedia.org/wiki/Belgien",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Deutsch",
+     "Französisch",
+     "Niederländisch"
+    ],
+    "currencies": [
+     "Euro"
+    ]
+   }
   },
   {
    "id": "BZ",
@@ -871,7 +1168,26 @@
     17.25,
     -88.75
    ],
-   "wikidata": "Q242"
+   "wikidata": "Q242",
+   "de": {
+    "capitals": [
+     "Belmopan"
+    ],
+    "government": "parlamentarische Monarchie, konstitutionelle Monarchie",
+    "summary": {
+     "text": "Belize ist ein Staat in Zentralamerika, der 1981 aus der Kolonie Britisch-Honduras entstand. Internationale Grenzen bestehen zu Mexiko und Guatemala.",
+     "url": "https://de.wikipedia.org/wiki/Belize",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Belize-Kreolisch",
+     "Englisch",
+     "Spanisch"
+    ],
+    "currencies": [
+     "Belize-Dollar"
+    ]
+   }
   },
   {
    "id": "BJ",
@@ -920,7 +1236,24 @@
     9.5,
     2.25
    ],
-   "wikidata": "Q962"
+   "wikidata": "Q962",
+   "de": {
+    "capitals": [
+     "Porto-Novo"
+    ],
+    "government": "Republik",
+    "summary": {
+     "text": "Benin ist ein Staat in Westafrika. Er grenzt im Westen an Togo, im Norden an Burkina Faso und Niger, im Osten an Nigeria und im Süden an den Golf von Guinea, genauer die Bucht von Benin. Diese ist benannt nach dem ehemaligen, überwiegend im heutigen Nigeria gelegenen Königreich Benin.",
+     "url": "https://de.wikipedia.org/wiki/Benin",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Französisch"
+    ],
+    "currencies": [
+     "CFA-Franc (BCEAO)"
+    ]
+   }
   },
   {
    "id": "BT",
@@ -971,7 +1304,25 @@
     27.5,
     90.5
    ],
-   "wikidata": "Q917"
+   "wikidata": "Q917",
+   "de": {
+    "capitals": [
+     "Thimphu"
+    ],
+    "government": "konstitutionelle Monarchie",
+    "summary": {
+     "text": "Das Königreich Bhutan ist ein Binnenstaat in Südasien. Der Großteil des Landes liegt in großer Höhe im Himalaya. Der Buddhismus ist offizielle Staatsreligion und prägend für die Politik Bhutans.",
+     "url": "https://de.wikipedia.org/wiki/Bhutan",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Dzongkha"
+    ],
+    "currencies": [
+     "Bhutan-Ngultrum",
+     "Indische Rupie"
+    ]
+   }
   },
   {
    "id": "BO",
@@ -1028,7 +1379,28 @@
     -17,
     -65
    ],
-   "wikidata": "Q750"
+   "wikidata": "Q750",
+   "de": {
+    "capitals": [
+     "Sucre",
+     "La Paz"
+    ],
+    "government": "parlamentarische Republik, Republik",
+    "summary": {
+     "text": "Bolivien ist ein Binnenstaat in Südamerika, der im Westen an Peru und Chile, im Süden an Argentinien und Paraguay, im Osten und Norden an Brasilien grenzt. Im Land gibt es drei klimatische Zonen: das Gebirge der Anden im Westen, die tropischen Tiefebenen im Osten und dazwischen eine Zone von Tälern mit gemäßigtem und subtropischem Klima.",
+     "url": "https://de.wikipedia.org/wiki/Bolivien",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Aymara",
+     "Guaraní",
+     "Quechua",
+     "Spanisch"
+    ],
+    "currencies": [
+     "Bolivianischer Boliviano"
+    ]
+   }
   },
   {
    "id": "BA",
@@ -1078,7 +1450,26 @@
     44,
     18
    ],
-   "wikidata": "Q225"
+   "wikidata": "Q225",
+   "de": {
+    "capitals": [
+     "Sarajevo"
+    ],
+    "government": "parlamentarische Bundesrepublik",
+    "summary": {
+     "text": "Bosnien und Herzegowina ist ein südosteuropäischer Bundesstaat. Er besteht geografisch aus der Region Bosnien im Norden – die rund 80 Prozent des Staatsgebietes einnimmt – und der kleineren Region Herzegowina im Süden.",
+     "url": "https://de.wikipedia.org/wiki/Bosnien_und_Herzegowina",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Bosnisch",
+     "Kroatisch",
+     "Serbisch"
+    ],
+    "currencies": [
+     "Konvertible Mark Bosnien und Herzegowina"
+    ]
+   }
   },
   {
    "id": "BW",
@@ -1126,7 +1517,25 @@
     -22,
     24
    ],
-   "wikidata": "Q963"
+   "wikidata": "Q963",
+   "de": {
+    "capitals": [
+     "Gaborone"
+    ],
+    "government": "parlamentarische Republik",
+    "summary": {
+     "text": "Botswana, nach amtlicher deutscher Schreibweise Republik Botsuana, ist ein Binnenstaat im südlichen Afrika. Es grenzt im Südosten und Süden an Südafrika, im Westen und Norden an Namibia und im Nordosten an Sambia und Simbabwe.",
+     "url": "https://de.wikipedia.org/wiki/Botswana",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch",
+     "Tswana"
+    ],
+    "currencies": [
+     "Botswanischer Pula"
+    ]
+   }
   },
   {
    "id": "BR",
@@ -1174,7 +1583,24 @@
     -10,
     -55
    ],
-   "wikidata": "Q155"
+   "wikidata": "Q155",
+   "de": {
+    "capitals": [
+     "Brasília"
+    ],
+    "government": "repräsentative Demokratie, Präsidentielles Regierungssystem",
+    "summary": {
+     "text": "Brasilien, amtlich die Föderative Republik Brasilien, ist der Fläche nach der fünftgrößte und mit rund 203 Millionen Einwohnern der Bevölkerung nach der siebtgrößte Staat der Erde und der größte Staat der Südhemisphäre.",
+     "url": "https://de.wikipedia.org/wiki/Brasilien",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Portugiesisch"
+    ],
+    "currencies": [
+     "Brasilianischer Real"
+    ]
+   }
   },
   {
    "id": "BN",
@@ -1228,7 +1654,25 @@
     4.5,
     114.66666666
    ],
-   "wikidata": "Q921"
+   "wikidata": "Q921",
+   "de": {
+    "capitals": [
+     "Bandar Seri Begawan"
+    ],
+    "government": "Islamischer Staat, absolute Monarchie",
+    "summary": {
+     "text": "Das Sultanat Brunei ist ein Staat in Südostasien. Er liegt auf der Insel Borneo im Südchinesischen Meer und grenzt an Malaysia. Das Staatsgebiet ist der Rest eines in historischer Zeit weit größeren Sultanates, das zwischen dem 16.",
+     "url": "https://de.wikipedia.org/wiki/Brunei",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Malaiisch"
+    ],
+    "currencies": [
+     "Brunei-Dollar",
+     "Singapur-Dollar"
+    ]
+   }
   },
   {
    "id": "BG",
@@ -1275,7 +1719,24 @@
     43,
     25
    ],
-   "wikidata": "Q219"
+   "wikidata": "Q219",
+   "de": {
+    "capitals": [
+     "Sofia"
+    ],
+    "government": "parlamentarische Republik",
+    "summary": {
+     "text": "Bulgarien ist eine Republik in Südosteuropa mit etwa 6,5 Millionen Einwohnern. Das Land nimmt den Großteil der östlichen Balkanhalbinsel ein und grenzt im Norden an Rumänien, im Westen an Serbien und Nordmazedonien, im Süden an Griechenland und die Türkei und im Osten an das Schwarze Meer.",
+     "url": "https://de.wikipedia.org/wiki/Bulgarien",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Bulgarisch"
+    ],
+    "currencies": [
+     "Bulgarischer Lew"
+    ]
+   }
   },
   {
    "id": "BF",
@@ -1319,7 +1780,24 @@
     13,
     -2
    ],
-   "wikidata": "Q965"
+   "wikidata": "Q965",
+   "de": {
+    "capitals": [
+     "Ouagadougou"
+    ],
+    "government": "Militärjunta, Republik",
+    "summary": {
+     "text": "Burkina Faso, übersetzt Land des aufrichtigen Menschen, ist ein westafrikanischer Binnenstaat, der südlich des Nigerbogens liegt und an Mali, Niger, Benin, Togo, Ghana und die Elfenbeinküste grenzt. Seine Unabhängigkeit erlangte das Land am 5.",
+     "url": "https://de.wikipedia.org/wiki/Burkina_Faso",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Französisch"
+    ],
+    "currencies": [
+     "CFA-Franc (BCEAO)"
+    ]
+   }
   },
   {
    "id": "BI",
@@ -1370,7 +1848,25 @@
     -3.5,
     30
    ],
-   "wikidata": "Q967"
+   "wikidata": "Q967",
+   "de": {
+    "capitals": [
+     "Gitega"
+    ],
+    "government": "repräsentative Demokratie, Präsidentielles Regierungssystem",
+    "summary": {
+     "text": "Burundi ist ein Binnenstaat in Ostafrika, im Großen Afrikanischen Grabenbruch. Er grenzt im Norden an Ruanda, im Osten an Tansania und im Westen an die Demokratische Republik Kongo und den Tanganjikasee, durch welchen der größte Teil der Grenze zur Demokratischen Republik Kongo führt.",
+     "url": "https://de.wikipedia.org/wiki/Burundi",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Französisch",
+     "Rundi"
+    ],
+    "currencies": [
+     "Burundi-Franc"
+    ]
+   }
   },
   {
    "id": "KH",
@@ -1421,7 +1917,25 @@
     13,
     105
    ],
-   "wikidata": "Q424"
+   "wikidata": "Q424",
+   "de": {
+    "capitals": [
+     "Phnom Penh"
+    ],
+    "government": "konstitutionelle Monarchie",
+    "summary": {
+     "text": "Das Königreich Kambodscha ist ein Staat in Südostasien. Es liegt am Golf von Thailand zwischen Thailand, Laos und Vietnam. Das Landschaftsbild wird durch eine Zentralebene geprägt, die teilweise von Gebirgen umgeben ist.",
+     "url": "https://de.wikipedia.org/wiki/Kambodscha",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Khmer"
+    ],
+    "currencies": [
+     "Kambodschanischer Riel",
+     "US-Dollar"
+    ]
+   }
   },
   {
    "id": "CM",
@@ -1469,7 +1983,25 @@
     6,
     12
    ],
-   "wikidata": "Q1009"
+   "wikidata": "Q1009",
+   "de": {
+    "capitals": [
+     "Yaoundé"
+    ],
+    "government": "Republik",
+    "summary": {
+     "text": "Kamerun ist ein Land in Zentralafrika. Es grenzt an Nigeria, den Tschad, die Zentralafrikanische Republik, die Republik Kongo, Gabun und Äquatorialguinea. Im Südwesten hat das Land eine Küste am Atlantik.",
+     "url": "https://de.wikipedia.org/wiki/Kamerun",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch",
+     "Französisch"
+    ],
+    "currencies": [
+     "CFA-Franc (BEAC)"
+    ]
+   }
   },
   {
    "id": "CA",
@@ -1514,7 +2046,25 @@
     60,
     -95
    ],
-   "wikidata": "Q16"
+   "wikidata": "Q16",
+   "de": {
+    "capitals": [
+     "Ottawa"
+    ],
+    "government": "parlamentarisches Regierungssystem, konstitutionelle Monarchie",
+    "summary": {
+     "text": "Kanada ist ein föderaler Staat in Nordamerika, der zwischen dem Atlantik im Osten und dem Pazifik im Westen liegt und nordwärts bis zum Arktischen Ozean reicht.",
+     "url": "https://de.wikipedia.org/wiki/Kanada",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch",
+     "Französisch"
+    ],
+    "currencies": [
+     "Kanadischer Dollar"
+    ]
+   }
   },
   {
    "id": "CV",
@@ -1562,7 +2112,24 @@
     16,
     -24
    ],
-   "wikidata": "Q1011"
+   "wikidata": "Q1011",
+   "de": {
+    "capitals": [
+     "Praia"
+    ],
+    "government": "parlamentarische Republik",
+    "summary": {
+     "text": "Kap Verde ist ein afrikanischer Inselstaat, bestehend aus den zehn Kapverdischen Inseln im Zentralatlantik, 570 Kilometer vor der Westküste des afrikanischen Kontinents. 000 Einwohner. Die Hauptstadt Praia liegt auf der Insel Santiago.",
+     "url": "https://de.wikipedia.org/wiki/Kap_Verde",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Portugiesisch"
+    ],
+    "currencies": [
+     "Cabo-Verde-Escudo"
+    ]
+   }
   },
   {
    "id": "CF",
@@ -1609,7 +2176,25 @@
     7,
     21
    ],
-   "wikidata": "Q929"
+   "wikidata": "Q929",
+   "de": {
+    "capitals": [
+     "Bangui"
+    ],
+    "government": "Präsidialrepublik",
+    "summary": {
+     "text": "Die Zentralafrikanische Republik ist ein Binnenstaat in Zentralafrika. Sie grenzt an den Tschad, den Sudan, den Südsudan, die Demokratische Republik Kongo, die Republik Kongo und Kamerun. Die Hauptstadt ist Bangui.",
+     "url": "https://de.wikipedia.org/wiki/Zentralafrikanische_Republik",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Französisch",
+     "Sango"
+    ],
+    "currencies": [
+     "CFA-Franc (BEAC)"
+    ]
+   }
   },
   {
    "id": "TD",
@@ -1660,7 +2245,25 @@
     15,
     19
    ],
-   "wikidata": "Q657"
+   "wikidata": "Q657",
+   "de": {
+    "capitals": [
+     "N’Djamena"
+    ],
+    "government": "Präsidialrepublik",
+    "summary": {
+     "text": "Die Republik Tschad ist ein Binnenstaat in Zentralafrika. Sie grenzt im Norden an Libyen, im Osten an den Sudan, im Süden an die Zentralafrikanische Republik und im Westen an Niger, Nigeria und Kamerun.",
+     "url": "https://de.wikipedia.org/wiki/Tschad",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Arabisch",
+     "Französisch"
+    ],
+    "currencies": [
+     "CFA-Franc (BEAC)"
+    ]
+   }
   },
   {
    "id": "CL",
@@ -1709,7 +2312,24 @@
     -30,
     -71
    ],
-   "wikidata": "Q298"
+   "wikidata": "Q298",
+   "de": {
+    "capitals": [
+     "Santiago de Chile"
+    ],
+    "government": "demokratische Republik",
+    "summary": {
+     "text": "Chile, amtlich República de Chile, ist ein Staat im Südwesten Südamerikas, der den westlichen Rand des Südkegels des Kontinents bildet. Chile erstreckt sich in Nord-Süd-Richtung zwischen den Breitengraden 17° 30′ S und 56° 0′ S.",
+     "url": "https://de.wikipedia.org/wiki/Chile",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Spanisch"
+    ],
+    "currencies": [
+     "Chilenischer Peso"
+    ]
+   }
   },
   {
    "id": "CN",
@@ -1760,7 +2380,24 @@
     35,
     105
    ],
-   "wikidata": "Q148"
+   "wikidata": "Q148",
+   "de": {
+    "capitals": [
+     "Peking"
+    ],
+    "government": "Volksrepublik",
+    "summary": {
+     "text": "Die Volksrepublik China, allgemein als China bezeichnet, ist ein Staat in Ostasien. Mit mehr als 1,4 Milliarden Einwohnern stellt China das nach Indien zweitbevölkerungsreichste und gemessen an seiner Gesamtfläche drittgrößte Land der Erde dar.",
+     "url": "https://de.wikipedia.org/wiki/Volksrepublik_China",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Chinesisch"
+    ],
+    "currencies": [
+     "Renminbi Yuan"
+    ]
+   }
   },
   {
    "id": "CO",
@@ -1807,7 +2444,24 @@
     4,
     -72
    ],
-   "wikidata": "Q739"
+   "wikidata": "Q739",
+   "de": {
+    "capitals": [
+     "Bogotá"
+    ],
+    "government": "Republik",
+    "summary": {
+     "text": "Kolumbien ist eine Republik im nördlichen Teil von Südamerika und mit 53,1 Millionen Einwohnern bevölkerungsmäßig der zweitgrößte und flächenmäßig viertgrößte Staat Südamerikas.",
+     "url": "https://de.wikipedia.org/wiki/Kolumbien",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Spanisch"
+    ],
+    "currencies": [
+     "Kolumbianischer Peso"
+    ]
+   }
   },
   {
    "id": "KM",
@@ -1858,7 +2512,26 @@
     -12.16666666,
     44.25
    ],
-   "wikidata": "Q970"
+   "wikidata": "Q970",
+   "de": {
+    "capitals": [
+     "Moroni"
+    ],
+    "government": "Bundesstaat",
+    "summary": {
+     "text": "Die Komoren, amtlich seit 2001 Union der Komoren, bilden einen föderalen Inselstaat im Indischen Ozean am nördlichen Ausgang der Straße von Mosambik zwischen Mosambik und Madagaskar. Sie umfassen drei der vier Hauptinseln des Komorenarchipels sowie einige kleinere Inseln.",
+     "url": "https://de.wikipedia.org/wiki/Komoren",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Arabisch",
+     "Französisch",
+     "Komorisch"
+    ],
+    "currencies": [
+     "Komoren-Franc"
+    ]
+   }
   },
   {
    "id": "CR",
@@ -1905,7 +2578,24 @@
     10,
     -84
    ],
-   "wikidata": "Q800"
+   "wikidata": "Q800",
+   "de": {
+    "capitals": [
+     "San José"
+    ],
+    "government": "Präsidialrepublik",
+    "summary": {
+     "text": "Costa Rica ist ein Staat in Zentralamerika, der im Norden an Nicaragua und im Süden an Panama grenzt. Im Osten ist er durch das Karibische Meer und im Westen durch den Pazifik begrenzt.",
+     "url": "https://de.wikipedia.org/wiki/Costa_Rica",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Spanisch"
+    ],
+    "currencies": [
+     "Costa-Rica-Colón"
+    ]
+   }
   },
   {
    "id": "HR",
@@ -1953,7 +2643,24 @@
     45.16666666,
     15.5
    ],
-   "wikidata": "Q224"
+   "wikidata": "Q224",
+   "de": {
+    "capitals": [
+     "Zagreb"
+    ],
+    "government": "Republik",
+    "summary": {
+     "text": "Kroatien ist ein demokratischer Verfassungsstaat in der Übergangszone von Mittel- bzw. Ostmitteleuropa und Südosteuropa.",
+     "url": "https://de.wikipedia.org/wiki/Kroatien",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Kroatisch"
+    ],
+    "currencies": [
+     "Euro"
+    ]
+   }
   },
   {
    "id": "CU",
@@ -2005,7 +2712,25 @@
     21.5,
     -80
    ],
-   "wikidata": "Q241"
+   "wikidata": "Q241",
+   "de": {
+    "capitals": [
+     "Havanna"
+    ],
+    "government": "Einheitsstaat",
+    "summary": {
+     "text": "Kuba ist ein Inselstaat in der Karibik. Er grenzt im Nordwesten an den Golf von Mexiko, im Nordosten an den Atlantischen Ozean und im Süden an das Karibische Meer. Kuba hat etwa 10 Millionen Einwohner, mehrheitlich Christen, und ist damit das nach Einwohnern drittgrößte Land der Karibik.",
+     "url": "https://de.wikipedia.org/wiki/Kuba",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Spanisch"
+    ],
+    "currencies": [
+     "Kubanischer Peso (konvertibel)",
+     "Kubanischer Peso"
+    ]
+   }
   },
   {
    "id": "CY",
@@ -2056,7 +2781,25 @@
     35,
     33
    ],
-   "wikidata": "Q229"
+   "wikidata": "Q229",
+   "de": {
+    "capitals": [
+     "Nikosia"
+    ],
+    "government": "Präsidentielles Regierungssystem, Republik",
+    "summary": {
+     "text": "Zypern ist ein Inselstaat im östlichen Mittelmeer und die drittgrößte Insel des Mittelmeers. Als südöstlichster Mitgliedstaat der Europäischen Union nimmt das Land eine bedeutende geopolitische Stellung an der Schnittstelle von Europa, dem Nahen Osten und Nordafrika ein.",
+     "url": "https://de.wikipedia.org/wiki/Republik_Zypern",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Griechisch",
+     "Türkisch"
+    ],
+    "currencies": [
+     "Euro"
+    ]
+   }
   },
   {
    "id": "CZ",
@@ -2105,7 +2848,25 @@
     49.75,
     15.5
    ],
-   "wikidata": "Q213"
+   "wikidata": "Q213",
+   "de": {
+    "capitals": [
+     "Prag"
+    ],
+    "government": "parlamentarische Republik",
+    "summary": {
+     "text": "Tschechien ist ein Binnenstaat in Mitteleuropa mit rund 10,9 Millionen Einwohnern. Es setzt sich aus den historischen Ländern Böhmen und Mähren sowie Teilen von Schlesien zusammen. Das Land grenzt im Westen an Deutschland, im Norden an Polen, im Osten an die Slowakei und im Süden an Österreich.",
+     "url": "https://de.wikipedia.org/wiki/Tschechien",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Tschechisch",
+     "Slowakisch"
+    ],
+    "currencies": [
+     "Tschechische Krone"
+    ]
+   }
   },
   {
    "id": "DK",
@@ -2153,7 +2914,24 @@
     56,
     10
    ],
-   "wikidata": "Q35"
+   "wikidata": "Q35",
+   "de": {
+    "capitals": [
+     "Kopenhagen"
+    ],
+    "government": "konstitutionelle Monarchie",
+    "summary": {
+     "text": "Dänemark ist ein Land im nördlichen Europa und mit Grönland und den Färöern eines der drei Länder des Königreiches Dänemark. 872 km² auf die Halbinsel Jütland und der Rest auf Inseln entfallen. Dänemark hatte am 1.",
+     "url": "https://de.wikipedia.org/wiki/D%C3%A4nemark",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Dänisch"
+    ],
+    "currencies": [
+     "Dänische Krone"
+    ]
+   }
   },
   {
    "id": "DJ",
@@ -2207,7 +2985,25 @@
     11.5,
     43
    ],
-   "wikidata": "Q977"
+   "wikidata": "Q977",
+   "de": {
+    "capitals": [
+     "Dschibuti"
+    ],
+    "government": "Präsidialrepublik",
+    "summary": {
+     "text": "Dschibuti ist eine Republik in Ostafrika an der Meerenge Bab al-Mandab. Sie grenzt im Norden an Eritrea, im Westen und im Süden an Äthiopien und im Südosten an Somalia bzw. das international nicht anerkannte Somaliland sowie im Osten an den Golf von Aden und das Rote Meer.",
+     "url": "https://de.wikipedia.org/wiki/Dschibuti",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Arabisch",
+     "Französisch"
+    ],
+    "currencies": [
+     "Dschibuti-Franc"
+    ]
+   }
   },
   {
    "id": "DM",
@@ -2255,7 +3051,24 @@
     15.41666666,
     -61.33333333
    ],
-   "wikidata": "Q784"
+   "wikidata": "Q784",
+   "de": {
+    "capitals": [
+     "Roseau"
+    ],
+    "government": "parlamentarische Republik",
+    "summary": {
+     "text": "Dominica ist ein Inselstaat in den Kleinen Antillen in der östlichen Karibik. Der Staat erstreckt sich über die gleichnamige Insel und ist Mitglied des Commonwealth of Nations. Neben der Amtssprache Englisch ist Antillen-Kreolisch, von den Einwohnern Patwa genannt, als Umgangssprache verbreitet.",
+     "url": "https://de.wikipedia.org/wiki/Dominica",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch"
+    ],
+    "currencies": [
+     "Ostkaribischer Dollar"
+    ]
+   }
   },
   {
    "id": "DO",
@@ -2299,7 +3112,24 @@
     19,
     -70.66666666
    ],
-   "wikidata": "Q786"
+   "wikidata": "Q786",
+   "de": {
+    "capitals": [
+     "Santo Domingo"
+    ],
+    "government": "Präsidialrepublik",
+    "summary": {
+     "text": "Die Dominikanische Republik ist ein auf der Insel Hispaniola der Großen Antillen zwischen dem Atlantik und der Karibik gelegener Inselstaat. Er umfasst mit knapp zwei Dritteln den Osten und die Mitte der Insel, der westliche Teil gehört dagegen zur Republik Haiti.",
+     "url": "https://de.wikipedia.org/wiki/Dominikanische_Republik",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Spanisch"
+    ],
+    "currencies": [
+     "Dominikanischer Peso"
+    ]
+   }
   },
   {
    "id": "CD",
@@ -2353,7 +3183,28 @@
     0,
     25
    ],
-   "wikidata": "Q974"
+   "wikidata": "Q974",
+   "de": {
+    "capitals": [
+     "Kinshasa"
+    ],
+    "government": "Republik",
+    "summary": {
+     "text": "Die Demokratische Republik Kongo ist eine Republik in Zentralafrika. Sie ist nach Fläche der zweitgrößte und nach Bevölkerungszahl der viertgrößte Staat Afrikas und grenzt an die Zentralafrikanische Republik, den Südsudan, Uganda, Ruanda, Burundi, Tansania, Sambia, Angola, den Atlantik und die Republik Kongo.",
+     "url": "https://de.wikipedia.org/wiki/Demokratische_Republik_Kongo",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Französisch",
+     "Kongolesisch",
+     "Lingala",
+     "Luba-Lulua",
+     "Suaheli"
+    ],
+    "currencies": [
+     "Kongo-Franc"
+    ]
+   }
   },
   {
    "id": "EC",
@@ -2400,7 +3251,24 @@
     -2,
     -77.5
    ],
-   "wikidata": "Q736"
+   "wikidata": "Q736",
+   "de": {
+    "capitals": [
+     "Quito"
+    ],
+    "government": "Präsidentielles Regierungssystem, Republik",
+    "summary": {
+     "text": "Ecuador ist eine Republik im Nordwesten Südamerikas zwischen Kolumbien und Peru und hat etwa 18 Millionen Einwohner. Die im Andenhochland auf 2850 m gelegene Hauptstadt heißt Quito; die größte Stadt Guayaquil liegt in der Pazifikküsten-Ebene.",
+     "url": "https://de.wikipedia.org/wiki/Ecuador",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Spanisch"
+    ],
+    "currencies": [
+     "US-Dollar"
+    ]
+   }
   },
   {
    "id": "EG",
@@ -2446,7 +3314,24 @@
     27,
     30
    ],
-   "wikidata": "Q79"
+   "wikidata": "Q79",
+   "de": {
+    "capitals": [
+     "Kairo"
+    ],
+    "government": "Republik",
+    "summary": {
+     "text": "Ägypten ist ein Staat im nordöstlichen Afrika mit mehr als 118 Millionen Einwohnern und einer Fläche von mehr als einer Million Quadratkilometern. Die Megastadt Kairo ist ägyptische Hauptstadt und die größte Metropole Afrikas und Arabiens.",
+     "url": "https://de.wikipedia.org/wiki/%C3%84gypten",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Arabisch"
+    ],
+    "currencies": [
+     "Ägyptisches Pfund"
+    ]
+   }
   },
   {
    "id": "SV",
@@ -2493,7 +3378,24 @@
     13.83333333,
     -88.91666666
    ],
-   "wikidata": "Q792"
+   "wikidata": "Q792",
+   "de": {
+    "capitals": [
+     "San Salvador"
+    ],
+    "government": "Präsidentielles Regierungssystem, repräsentative Demokratie",
+    "summary": {
+     "text": "El Salvador ist ein Staat in Mittelamerika. Er grenzt im Nordwesten an Guatemala, im Nordosten an Honduras und im Süden an den Pazifischen Ozean. El Salvador ist das kleinste Land der Region Zentralamerika, weist zugleich deren höchste Bevölkerungsdichte auf und liegt in einem Erdbebengebiet.",
+     "url": "https://de.wikipedia.org/wiki/El_Salvador",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Spanisch"
+    ],
+    "currencies": [
+     "US-Dollar"
+    ]
+   }
   },
   {
    "id": "GQ",
@@ -2544,7 +3446,26 @@
     2,
     10
    ],
-   "wikidata": "Q983"
+   "wikidata": "Q983",
+   "de": {
+    "capitals": [
+     "Malabo"
+    ],
+    "government": "Präsidialrepublik",
+    "summary": {
+     "text": "Die Republik Äquatorialguinea, allgemein als Äquatorialguinea bezeichnet, ist ein Staat in Zentralafrika. Der Festlandteil des Staates grenzt im Norden an Kamerun, im Süden und Osten an Gabun und im Westen an den Golf von Guinea.",
+     "url": "https://de.wikipedia.org/wiki/%C3%84quatorialguinea",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Französisch",
+     "Portugiesisch",
+     "Spanisch"
+    ],
+    "currencies": [
+     "CFA-Franc (BEAC)"
+    ]
+   }
   },
   {
    "id": "ER",
@@ -2596,7 +3517,26 @@
     15,
     39
    ],
-   "wikidata": "Q986"
+   "wikidata": "Q986",
+   "de": {
+    "capitals": [
+     "Asmara"
+    ],
+    "government": "Präsidialrepublik (Einparteienstaat)",
+    "summary": {
+     "text": "Eritrea ist ein Staat im nordöstlichen Afrika. Er grenzt im Nordwesten an den Sudan, im Süden an Äthiopien, im Südosten an Dschibuti und im Nordosten an das Rote Meer. Ein Viertel der knapp vier Millionen Einwohner zählenden Bevölkerung Eritreas konzentriert sich auf die Hauptstadtregion von Asmara, die weiteren Städte sind deutlich kleiner.",
+     "url": "https://de.wikipedia.org/wiki/Eritrea",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Arabisch",
+     "Englisch",
+     "Tigrinya"
+    ],
+    "currencies": [
+     "Eritreischer Nakfa"
+    ]
+   }
   },
   {
    "id": "EE",
@@ -2644,7 +3584,24 @@
     59,
     26
    ],
-   "wikidata": "Q191"
+   "wikidata": "Q191",
+   "de": {
+    "capitals": [
+     "Tallinn"
+    ],
+    "government": "parlamentarische Republik",
+    "summary": {
+     "text": "Estland ist ein Staat im Baltikum. Als nördlichster der drei baltischen Staaten grenzt er im Süden an Lettland, im Osten an Russland und im Norden und Westen an die Ostsee. Über den Finnischen Meerbusen hinweg bestehen enge, unter anderem sprachlich-kulturell begründete Bindungen an Finnland.",
+     "url": "https://de.wikipedia.org/wiki/Estland",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Estnisch"
+    ],
+    "currencies": [
+     "Euro"
+    ]
+   }
   },
   {
    "id": "SZ",
@@ -2702,7 +3659,27 @@
     -26.5,
     31.5
    ],
-   "wikidata": "Q1050"
+   "wikidata": "Q1050",
+   "de": {
+    "capitals": [
+     "Mbabane",
+     "Lobamba"
+    ],
+    "government": "absolute Monarchie",
+    "summary": {
+     "text": "Eswatini, bis 2018 offiziell Swasiland, traditionell auch kaNgwane, ist ein Binnenstaat im südlichen Afrika mit etwa 1,2 Millionen Einwohnern. Er grenzt an Südafrika und Mosambik. Nationalfeiertag ist der 6.",
+     "url": "https://de.wikipedia.org/wiki/Eswatini",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch",
+     "Swazi"
+    ],
+    "currencies": [
+     "Swasiländischer Lilangeni",
+     "Südafrikanischer Rand"
+    ]
+   }
   },
   {
    "id": "ET",
@@ -2750,7 +3727,24 @@
     8,
     38
    ],
-   "wikidata": "Q115"
+   "wikidata": "Q115",
+   "de": {
+    "capitals": [
+     "Addis Abeba"
+    ],
+    "government": "Bundesstaat",
+    "summary": {
+     "text": "Äthiopien ist ein Binnenstaat im Osten Afrikas. Zur Zeit des Kaiserreichs Abessinien war das Land auch als Abessinien bekannt. Das Land am Horn von Afrika grenzt an Eritrea, den Sudan, den Südsudan, Kenia, Somalia und Dschibuti.",
+     "url": "https://de.wikipedia.org/wiki/%C3%84thiopien",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Amharisch"
+    ],
+    "currencies": [
+     "Äthiopischer Birr"
+    ]
+   }
   },
   {
    "id": "FJ",
@@ -2801,7 +3795,26 @@
     -18,
     175
    ],
-   "wikidata": "Q712"
+   "wikidata": "Q712",
+   "de": {
+    "capitals": [
+     "Suva"
+    ],
+    "government": "parlamentarische Republik",
+    "summary": {
+     "text": "Fidschi, offiziell Republik Fidschi, ist ein Inselstaat im Südpazifik nördlich von Neuseeland und östlich von Australien. Fidschi ist mit knapp einer Million Einwohner der bevölkerungsreichste Staat Ozeaniens nach Australien und Neuseeland.",
+     "url": "https://de.wikipedia.org/wiki/Fidschi",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch",
+     "Fidschi",
+     "Fidschi-Hindi"
+    ],
+    "currencies": [
+     "Fidschi-Dollar"
+    ]
+   }
   },
   {
    "id": "FI",
@@ -2851,7 +3864,25 @@
     64,
     26
    ],
-   "wikidata": "Q33"
+   "wikidata": "Q33",
+   "de": {
+    "capitals": [
+     "Helsinki"
+    ],
+    "government": "parlamentarische Republik",
+    "summary": {
+     "text": "Finnland, amtlich Republik Finnland, ist eine parlamentarische Republik in Nordeuropa, seit 1995 Mitglied der Europäischen Union und seit 2023 Mitglied der NATO. Finnland grenzt an Schweden, Norwegen, Russland und die Ostsee.",
+     "url": "https://de.wikipedia.org/wiki/Finnland",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Finnisch",
+     "Schwedisch"
+    ],
+    "currencies": [
+     "Euro"
+    ]
+   }
   },
   {
    "id": "FR",
@@ -2898,7 +3929,24 @@
     46,
     2
    ],
-   "wikidata": "Q142"
+   "wikidata": "Q142",
+   "de": {
+    "capitals": [
+     "Paris"
+    ],
+    "government": "Semipräsidentielles Regierungssystem",
+    "summary": {
+     "text": "Frankreich, amtlich la République française, ist ein interkontinentaler Einheitsstaat in Westeuropa mit Überseegebieten. Sein Staatsgebiet befindet sich auf allen Kontinenten mit Ausnahme von Asien.",
+     "url": "https://de.wikipedia.org/wiki/Frankreich",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Französisch"
+    ],
+    "currencies": [
+     "Euro"
+    ]
+   }
   },
   {
    "id": "GA",
@@ -2945,7 +3993,24 @@
     -1,
     11.75
    ],
-   "wikidata": "Q1000"
+   "wikidata": "Q1000",
+   "de": {
+    "capitals": [
+     "Libreville"
+    ],
+    "government": "Präsidentielles Regierungssystem",
+    "summary": {
+     "text": "Gabun ist ein Staat in Zentralafrika. Im Norden grenzt er an Kamerun und Äquatorialguinea sowie im Süden und Osten an die Republik Kongo. Seine Westküste liegt am Golf von Guinea. Durch das Land verläuft der Äquator.",
+     "url": "https://de.wikipedia.org/wiki/Gabun",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Französisch"
+    ],
+    "currencies": [
+     "CFA-Franc (BEAC)"
+    ]
+   }
   },
   {
    "id": "GM",
@@ -2991,7 +4056,24 @@
     13.46666666,
     -16.56666666
    ],
-   "wikidata": "Q1005"
+   "wikidata": "Q1005",
+   "de": {
+    "capitals": [
+     "Banjul"
+    ],
+    "government": "Republik",
+    "summary": {
+     "text": "Gambia ist eine Republik in Westafrika, die an den Ufern des Flusses Gambia liegt. Mit Ausnahme eines kurzen Küstenabschnittes an der Mündung des Flusses in den Atlantischen Ozean wird Gambia vollständig vom Staat Senegal umschlossen.",
+     "url": "https://de.wikipedia.org/wiki/Gambia",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch"
+    ],
+    "currencies": [
+     "Gambia-Dalasi"
+    ]
+   }
   },
   {
    "id": "GE",
@@ -3037,7 +4119,24 @@
     42,
     43.5
    ],
-   "wikidata": "Q230"
+   "wikidata": "Q230",
+   "de": {
+    "capitals": [
+     "Tiflis"
+    ],
+    "government": "parlamentarische Republik, Präsidentielles Regierungssystem",
+    "summary": {
+     "text": "Georgien ist ein eurasischer Staat im Südkaukasus, östlich des Schwarzen Meeres und südlich des Großen Kaukasus gelegen. Im Norden wird er von Russland, im Süden von der Türkei und Armenien, im Osten von Aserbaidschan begrenzt.",
+     "url": "https://de.wikipedia.org/wiki/Georgien",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Georgisch"
+    ],
+    "currencies": [
+     "Georgischer Lari"
+    ]
+   }
   },
   {
    "id": "DE",
@@ -3084,7 +4183,24 @@
     51,
     9
    ],
-   "wikidata": "Q183"
+   "wikidata": "Q183",
+   "de": {
+    "capitals": [
+     "Berlin"
+    ],
+    "government": "parlamentarische Bundesrepublik",
+    "summary": {
+     "text": "Deutschland ist ein Bundesstaat in Mitteleuropa. Es besteht aus 16 Ländern und ist als freiheitlich-demokratischer und sozialer Rechtsstaat verfasst. Die 1949 gegründete Bundesrepublik Deutschland stellt die jüngste Ausprägung des 1871 erstmals gegründeten deutschen Nationalstaats dar.",
+     "url": "https://de.wikipedia.org/wiki/Deutschland",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Deutsch"
+    ],
+    "currencies": [
+     "Euro"
+    ]
+   }
   },
   {
    "id": "GH",
@@ -3130,7 +4246,24 @@
     8,
     -2
    ],
-   "wikidata": "Q117"
+   "wikidata": "Q117",
+   "de": {
+    "capitals": [
+     "Accra"
+    ],
+    "government": "Demokratie",
+    "summary": {
+     "text": "Ghana ist ein Staat in Westafrika, der an die Elfenbeinküste, Burkina Faso, Togo sowie im Süden an den Golf von Guinea als Teil des Atlantischen Ozeans grenzt. Mit dem Namen Ghana sollte historisch eine Verbindung mit dem Reich von Ghana, dem ersten namentlich nachweisbaren Großreich in Westafrika, hergestellt werden.",
+     "url": "https://de.wikipedia.org/wiki/Ghana",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch"
+    ],
+    "currencies": [
+     "Ghanaischer Cedi"
+    ]
+   }
   },
   {
    "id": "GR",
@@ -3178,7 +4311,24 @@
     39,
     22
    ],
-   "wikidata": "Q41"
+   "wikidata": "Q41",
+   "de": {
+    "capitals": [
+     "Athen"
+    ],
+    "government": "parlamentarische Republik",
+    "summary": {
+     "text": "Griechenland ist ein Staat in Südosteuropa und ein Mittelmeeranrainerstaat. Das griechische Staatsgebiet grenzt an Albanien, Nordmazedonien, Bulgarien und die Türkei. Griechenland ist eine parlamentarische Republik mit präsidialen Elementen.",
+     "url": "https://de.wikipedia.org/wiki/Griechenland",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Griechisch"
+    ],
+    "currencies": [
+     "Euro"
+    ]
+   }
   },
   {
    "id": "GL",
@@ -3224,7 +4374,24 @@
     72,
     -40
    ],
-   "wikidata": "Q223"
+   "wikidata": "Q223",
+   "de": {
+    "capitals": [
+     "Nuuk"
+    ],
+    "government": "parlamentarische Monarchie",
+    "summary": {
+     "text": "Grönland ist ein politisch selbstverwalteter Bestandteil des Königreichs Dänemark. Der überwiegende Teil der Landesfläche besteht aus der größten Insel der Erde, gelegen im Nordatlantik bzw. Arktischen Ozean.",
+     "url": "https://de.wikipedia.org/wiki/Gr%C3%B6nland",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Grönländisch"
+    ],
+    "currencies": [
+     "Dänische Krone"
+    ]
+   }
   },
   {
    "id": "GD",
@@ -3270,7 +4437,24 @@
     12.11666666,
     -61.66666666
    ],
-   "wikidata": "Q769"
+   "wikidata": "Q769",
+   "de": {
+    "capitals": [
+     "St. George’s"
+    ],
+    "government": "konstitutionelle Monarchie",
+    "summary": {
+     "text": "Grenada ist ein Inselstaat und der Name einer hierzu gehörigen Insel der Kleinen Antillen, die geographisch zu den Inseln über dem Winde in der Karibischen See gehört. Der Inselstaat ist Mitglied des Commonwealth of Nations.",
+     "url": "https://de.wikipedia.org/wiki/Grenada",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch"
+    ],
+    "currencies": [
+     "Ostkaribischer Dollar"
+    ]
+   }
   },
   {
    "id": "GT",
@@ -3318,7 +4502,24 @@
     15.5,
     -90.25
    ],
-   "wikidata": "Q774"
+   "wikidata": "Q774",
+   "de": {
+    "capitals": [
+     "Guatemala-Stadt"
+    ],
+    "government": "Präsidentielles Regierungssystem, repräsentative Demokratie",
+    "summary": {
+     "text": "Guatemala ist mit etwa 18,5 Millionen Einwohnern der bevölkerungsreichste Staat Zentralamerikas.",
+     "url": "https://de.wikipedia.org/wiki/Guatemala",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Spanisch"
+    ],
+    "currencies": [
+     "Guatemaltekischer Quetzal"
+    ]
+   }
   },
   {
    "id": "GN",
@@ -3365,7 +4566,24 @@
     11,
     -10
    ],
-   "wikidata": "Q1006"
+   "wikidata": "Q1006",
+   "de": {
+    "capitals": [
+     "Conakry"
+    ],
+    "government": "Republik",
+    "summary": {
+     "text": "Guinea ist ein Staat in Westafrika, der an Guinea-Bissau, Senegal, Mali, die Elfenbeinküste, Liberia, Sierra Leone und den Atlantik grenzt. Die Hauptstadt von Guinea ist Conakry.",
+     "url": "https://de.wikipedia.org/wiki/Guinea",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Französisch"
+    ],
+    "currencies": [
+     "Guinea-Franc"
+    ]
+   }
   },
   {
    "id": "GW",
@@ -3413,7 +4631,25 @@
     12,
     -15
    ],
-   "wikidata": "Q1007"
+   "wikidata": "Q1007",
+   "de": {
+    "capitals": [
+     "Bissau"
+    ],
+    "government": "semipräsidentielle Republik",
+    "summary": {
+     "text": "Guinea-Bissau ist ein Staat in Westafrika. Er liegt an der afrikanischen Westküste zum Atlantik zwischen Senegal und Guinea. Seine mehr als 2 Millionen Einwohner gehören verschiedenen Ethnien an, die fünf größten sind die Fulbe, Balanta, Mandinka, Pepel und Manjago.",
+     "url": "https://de.wikipedia.org/wiki/Guinea-Bissau",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Portugiesisch",
+     "Upper Guinea Creole"
+    ],
+    "currencies": [
+     "CFA-Franc (BCEAO)"
+    ]
+   }
   },
   {
    "id": "GY",
@@ -3459,7 +4695,24 @@
     5,
     -59
    ],
-   "wikidata": "Q734"
+   "wikidata": "Q734",
+   "de": {
+    "capitals": [
+     "Georgetown"
+    ],
+    "government": "parlamentarische Republik",
+    "summary": {
+     "text": "Guyana – amtlich Kooperative Republik Guyana – ist ein Staat an der Atlantikküste Südamerikas. Er grenzt im Süden und Westen an Brasilien, im Nordwesten an Venezuela und im Osten an Suriname.",
+     "url": "https://de.wikipedia.org/wiki/Guyana",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch"
+    ],
+    "currencies": [
+     "Guyana-Dollar"
+    ]
+   }
   },
   {
    "id": "HT",
@@ -3508,7 +4761,25 @@
     19,
     -72.41666666
    ],
-   "wikidata": "Q790"
+   "wikidata": "Q790",
+   "de": {
+    "capitals": [
+     "Port-au-Prince"
+    ],
+    "government": "semipräsidentielle Republik",
+    "summary": {
+     "text": "Haiti, amtlich Republik Haiti, ist ein auf der Insel Hispaniola in den Großen Antillen gelegener Inselstaat. Er umfasst den westlichen Teil der Karibikinsel, deren Ostteil die Dominikanische Republik einnimmt.",
+     "url": "https://de.wikipedia.org/wiki/Haiti",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Französisch",
+     "Haiti-Kreolisch"
+    ],
+    "currencies": [
+     "Haitianische Gourde"
+    ]
+   }
   },
   {
    "id": "HN",
@@ -3555,7 +4826,24 @@
     15,
     -86.5
    ],
-   "wikidata": "Q783"
+   "wikidata": "Q783",
+   "de": {
+    "capitals": [
+     "Tegucigalpa"
+    ],
+    "government": "Republik",
+    "summary": {
+     "text": "Honduras ist ein Staat in Zentralamerika. Honduras grenzt an Nicaragua, El Salvador und Guatemala. Der Staatsname leitet sich von dem spanischen Wort hondura ab, das Tiefe bedeutet.",
+     "url": "https://de.wikipedia.org/wiki/Honduras",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Spanisch"
+    ],
+    "currencies": [
+     "Honduras-Lempira"
+    ]
+   }
   },
   {
    "id": "HU",
@@ -3599,7 +4887,24 @@
     47,
     20
    ],
-   "wikidata": "Q28"
+   "wikidata": "Q28",
+   "de": {
+    "capitals": [
+     "Budapest"
+    ],
+    "government": "parlamentarische Republik",
+    "summary": {
+     "text": "Ungarn ist ein Binnenstaat in Mitteleuropa. Das überwiegend im Pannonischen Becken gelegene und von der Donau durchflossene Land grenzt an die Slowakei und die Ukraine im Norden, Rumänien im Osten, Serbien und Kroatien im Süden sowie Slowenien und Österreich im Westen.",
+     "url": "https://de.wikipedia.org/wiki/Ungarn",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Ungarisch"
+    ],
+    "currencies": [
+     "Ungarischer Forint"
+    ]
+   }
   },
   {
    "id": "IS",
@@ -3647,7 +4952,24 @@
     65,
     -18
    ],
-   "wikidata": "Q189"
+   "wikidata": "Q189",
+   "de": {
+    "capitals": [
+     "Reykjavík"
+    ],
+    "government": "parlamentarische Republik",
+    "summary": {
+     "text": "Island ist ein Inselstaat im äußersten Nordwesten Europas. 125 Quadratkilometern ist Island – nach dem Vereinigten Königreich – der flächenmäßig zweitgrößte Inselstaat Europas. Die Hauptinsel ist die größte Vulkaninsel der Erde und befindet sich knapp südlich des nördlichen Polarkreises.",
+     "url": "https://de.wikipedia.org/wiki/Island",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Isländisch"
+    ],
+    "currencies": [
+     "Isländische Krone"
+    ]
+   }
   },
   {
    "id": "IN",
@@ -3700,7 +5022,26 @@
     20,
     77
    ],
-   "wikidata": "Q668"
+   "wikidata": "Q668",
+   "de": {
+    "capitals": [
+     "Neu-Delhi"
+    ],
+    "government": "demokratische Republik, konstitutionelle Republik",
+    "summary": {
+     "text": "Indien, amtlich Republik Indien, ist ein Staat in Südasien.",
+     "url": "https://de.wikipedia.org/wiki/Indien",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch",
+     "Hindi",
+     "Tamil"
+    ],
+    "currencies": [
+     "Indische Rupie"
+    ]
+   }
   },
   {
    "id": "ID",
@@ -3747,7 +5088,24 @@
     -5,
     120
    ],
-   "wikidata": "Q252"
+   "wikidata": "Q252",
+   "de": {
+    "capitals": [
+     "Jakarta"
+    ],
+    "government": "Präsidentielles Regierungssystem, Republik",
+    "summary": {
+     "text": "Indonesien ist ein Staat in Südostasien und Ozeanien, gelegen zwischen dem Indischen und dem Pazifischen Ozean. 000 Inseln, darunter Sumatra, Java, Sulawesi sowie Teile von Borneo und Neuguinea. Indonesien ist der weltweit größte Inselstaat.",
+     "url": "https://de.wikipedia.org/wiki/Indonesien",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Indonesisch"
+    ],
+    "currencies": [
+     "Indonesische Rupiah"
+    ]
+   }
   },
   {
    "id": "IR",
@@ -3797,7 +5155,24 @@
     32,
     53
    ],
-   "wikidata": "Q794"
+   "wikidata": "Q794",
+   "de": {
+    "capitals": [
+     "Teheran"
+    ],
+    "government": "islamische Theokratie, Islamische Republik",
+    "summary": {
+     "text": "Iran ist ein Staat in Vorderasien. Er wird im Norden vom Kaspischen Meer und im Süden durch den Persischen Golf begrenzt. Im Westen grenzt er an den Irak, im Nordwesten an die Türkei, Armenien und Aserbaidschan.",
+     "url": "https://de.wikipedia.org/wiki/Iran",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Persisch"
+    ],
+    "currencies": [
+     "Iranischer Rial"
+    ]
+   }
   },
   {
    "id": "IQ",
@@ -3846,7 +5221,26 @@
     33,
     44
    ],
-   "wikidata": "Q796"
+   "wikidata": "Q796",
+   "de": {
+    "capitals": [
+     "Bagdad"
+    ],
+    "government": "Bundesstaat",
+    "summary": {
+     "text": "Die Republik Irak, kurz Irak, ist ein Staat in Vorderasien.",
+     "url": "https://de.wikipedia.org/wiki/Irak",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Arabisch",
+     "Aramäisch",
+     "Zentralkurdisch"
+    ],
+    "currencies": [
+     "Irakischer Dinar"
+    ]
+   }
   },
   {
    "id": "IE",
@@ -3895,7 +5289,25 @@
     53,
     -8
    ],
-   "wikidata": "Q27"
+   "wikidata": "Q27",
+   "de": {
+    "capitals": [
+     "Dublin"
+    ],
+    "government": "parlamentarische Republik",
+    "summary": {
+     "text": "Irland, auch als Republik Irland bekannt, ist ein Inselstaat in Westeuropa. Die offizielle Bezeichnung des Landes lautet Irland. Der Staat umfasst etwa fünf Sechstel der gleichnamigen Insel sowie eine Vielzahl kleinerer Inseln, welche ihr – überwiegend im Westen des Landes – vorgelagert sind.",
+     "url": "https://de.wikipedia.org/wiki/Irland",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch",
+     "Irisch"
+    ],
+    "currencies": [
+     "Euro"
+    ]
+   }
   },
   {
    "id": "IL",
@@ -3943,7 +5355,25 @@
     31.47,
     35.13
    ],
-   "wikidata": "Q801"
+   "wikidata": "Q801",
+   "de": {
+    "capitals": [
+     "Jerusalem"
+    ],
+    "government": "parlamentarische Republik",
+    "summary": {
+     "text": "Israel, amtlich Staat Israel, ist ein Staat in Vorderasien an der Ostküste des Mittelmeers. Israel ist der einzige Staat der Erde mit mehrheitlich jüdischer Bevölkerung und versteht sich gemäß seinem Nationalstaatsgesetz als „Nationalstaat des jüdischen Volkes“.",
+     "url": "https://de.wikipedia.org/wiki/Israel",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Arabisch",
+     "Hebräisch"
+    ],
+    "currencies": [
+     "Israelischer Neuer Schekel"
+    ]
+   }
   },
   {
    "id": "IT",
@@ -3990,7 +5420,24 @@
     42.83333333,
     12.83333333
    ],
-   "wikidata": "Q38"
+   "wikidata": "Q38",
+   "de": {
+    "capitals": [
+     "Rom"
+    ],
+    "government": "parlamentarische Republik",
+    "summary": {
+     "text": "Italien, amtlich Italienische Republik, ist ein Staat in Südeuropa. Mit knapp 59 Millionen Einwohnern ist es das viertbevölkerungsreichste vollständig zu Europa zählende Land. Die Hauptstadt und bevölkerungsreichste Stadt ist Rom und das Wirtschafts- und Finanzzentrum ist Mailand.",
+     "url": "https://de.wikipedia.org/wiki/Italien",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Italienisch"
+    ],
+    "currencies": [
+     "Euro"
+    ]
+   }
   },
   {
    "id": "CI",
@@ -4041,7 +5488,24 @@
     8,
     -5
    ],
-   "wikidata": "Q1008"
+   "wikidata": "Q1008",
+   "de": {
+    "capitals": [
+     "Yamoussoukro"
+    ],
+    "government": "Republik",
+    "summary": {
+     "text": "Die Elfenbeinküste oder auch Côte d’Ivoire ist ein Staat in Westafrika. Er grenzt an Liberia, Guinea, Mali, Burkina Faso und Ghana und im Süden an den Atlantischen Ozean.",
+     "url": "https://de.wikipedia.org/wiki/Elfenbeink%C3%BCste",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Französisch"
+    ],
+    "currencies": [
+     "CFA-Franc (BCEAO)"
+    ]
+   }
   },
   {
    "id": "JM",
@@ -4086,7 +5550,25 @@
     18.25,
     -77.5
    ],
-   "wikidata": "Q766"
+   "wikidata": "Q766",
+   "de": {
+    "capitals": [
+     "Kingston"
+    ],
+    "government": "parlamentarische Monarchie",
+    "summary": {
+     "text": "Jamaika/ ist ein Inselstaat in der Karibik. Das Land war bis zur Unabhängigkeit im Jahr 1962 eine britische Kolonie und ist Mitglied des Commonwealth of Nations. Die Hauptstadt Kingston ist auch die größte Stadt des Landes.",
+     "url": "https://de.wikipedia.org/wiki/Jamaika",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch",
+     "Jamaikanisch-Kreolisch"
+    ],
+    "currencies": [
+     "Jamaika-Dollar"
+    ]
+   }
   },
   {
    "id": "JP",
@@ -4133,7 +5615,24 @@
     36,
     138
    ],
-   "wikidata": "Q17"
+   "wikidata": "Q17",
+   "de": {
+    "capitals": [
+     "Tokio"
+    ],
+    "government": "konstitutionelle Monarchie",
+    "summary": {
+     "text": "125 Inseln umfassender ostasiatischer Staat, angrenzend an den Pazifik, der indirekt im Norden und Nordwesten an Russland, im Westen an Nord- und Südkorea und im Südwesten an Taiwan und China grenzt.",
+     "url": "https://de.wikipedia.org/wiki/Japan",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Japanisch"
+    ],
+    "currencies": [
+     "Japanischer Yen"
+    ]
+   }
   },
   {
    "id": "JO",
@@ -4180,7 +5679,24 @@
     31,
     36
    ],
-   "wikidata": "Q810"
+   "wikidata": "Q810",
+   "de": {
+    "capitals": [
+     "Amman"
+    ],
+    "government": "konstitutionelle Monarchie",
+    "summary": {
+     "text": "Jordanien, amtlich Haschemitisches Königreich Jordanien, ist ein Staat in Vorderasien. Es grenzt an Israel, Palästina, Syrien, Irak, Saudi-Arabien und an das Rote Meer am Golf von Akaba. Jordanien zählt zu den Maschrek-Staaten.",
+     "url": "https://de.wikipedia.org/wiki/Jordanien",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Arabisch"
+    ],
+    "currencies": [
+     "Jordanischer Dinar"
+    ]
+   }
   },
   {
    "id": "KZ",
@@ -4233,7 +5749,25 @@
     48,
     68
    ],
-   "wikidata": "Q232"
+   "wikidata": "Q232",
+   "de": {
+    "capitals": [
+     "Astana"
+    ],
+    "government": "Präsidentielles Regierungssystem",
+    "summary": {
+     "text": "Kasachstan ist ein Staat in Zentralasien und Osteuropa. Es grenzt im Norden mit mehr als der Hälfte seiner Grenze an Russland, im Osten an China, im Süden an Turkmenistan, Usbekistan und Kirgisistan, sowie im Südwesten über eine Seegrenze im Kaspischen Meer an Aserbaidschan.",
+     "url": "https://de.wikipedia.org/wiki/Kasachstan",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Kasachisch",
+     "Russisch"
+    ],
+    "currencies": [
+     "Kasachischer Tenge"
+    ]
+   }
   },
   {
    "id": "KE",
@@ -4281,7 +5815,25 @@
     1,
     38
    ],
-   "wikidata": "Q114"
+   "wikidata": "Q114",
+   "de": {
+    "capitals": [
+     "Nairobi"
+    ],
+    "government": "Präsidialrepublik",
+    "summary": {
+     "text": "Kenia ist ein Staat in Ostafrika. Die Hauptstadt und größte Stadt des Landes ist Nairobi, die zweite Millionenstadt ist Mombasa. Nach Nigeria und Südafrika besitzt Kenia 2020 die drittgrößte Wirtschaft in Subsahara-Afrika und die größte in Südost- und Zentralafrika.",
+     "url": "https://de.wikipedia.org/wiki/Kenia",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch",
+     "Suaheli"
+    ],
+    "currencies": [
+     "Kenia-Schilling"
+    ]
+   }
   },
   {
    "id": "KI",
@@ -4337,7 +5889,26 @@
     1.41666666,
     173
    ],
-   "wikidata": "Q710"
+   "wikidata": "Q710",
+   "de": {
+    "capitals": [
+     "Süd-Tarawa"
+    ],
+    "government": "parlamentarische Republik",
+    "summary": {
+     "text": "Kiribati ist ein Inselstaat im Pazifik. Das Staatsgebiet erstreckt sich über eine Vielzahl von Inseln Mikronesiens und Polynesiens, die über ein weites Gebiet beiderseits des Äquators verstreut liegen.",
+     "url": "https://de.wikipedia.org/wiki/Kiribati",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch",
+     "Kiribatisch"
+    ],
+    "currencies": [
+     "Australischer Dollar",
+     "Kiribati-Dollar"
+    ]
+   }
   },
   {
    "id": "XK",
@@ -4389,7 +5960,25 @@
     42.666667,
     21.166667
    ],
-   "wikidata": "Q1246"
+   "wikidata": "Q1246",
+   "de": {
+    "capitals": [
+     "Pristina"
+    ],
+    "government": "parlamentarische Republik",
+    "summary": {
+     "text": "Die Republik Kosovo, kurz der/das Kosovo, ist eine Republik in Südosteuropa auf dem westlichen Teil der Balkanhalbinsel. Sie hat etwa 1,8 Millionen Einwohner, die Kosovaren genannt werden, und gilt als ein De-facto-Staat oder weiterhin stabilisiertes De-facto-Regime.",
+     "url": "https://de.wikipedia.org/wiki/Kosovo",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Albanisch",
+     "Serbisch"
+    ],
+    "currencies": [
+     "Euro"
+    ]
+   }
   },
   {
    "id": "KW",
@@ -4438,7 +6027,24 @@
     29.5,
     45.75
    ],
-   "wikidata": "Q817"
+   "wikidata": "Q817",
+   "de": {
+    "capitals": [
+     "Kuweit-Stadt"
+    ],
+    "government": "konstitutionelle Monarchie",
+    "summary": {
+     "text": "Der Staat Kuwait oder Staat Kuwait, deutsch auch Kuweit, ist ein Emirat in Vorderasien auf der Arabischen Halbinsel. Er grenzt im Norden und Westen an den Irak, im Süden an Saudi-Arabien und im Osten an den Persischen Golf.",
+     "url": "https://de.wikipedia.org/wiki/Kuwait",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Arabisch"
+    ],
+    "currencies": [
+     "Kuwait-Dinar"
+    ]
+   }
   },
   {
    "id": "KG",
@@ -4488,7 +6094,25 @@
     41,
     75
    ],
-   "wikidata": "Q813"
+   "wikidata": "Q813",
+   "de": {
+    "capitals": [
+     "Bischkek"
+    ],
+    "government": "parlamentarische Republik",
+    "summary": {
+     "text": "Kirgisistan, auch Kirgistan, veraltet Kirgisien; amtlich Kirgisische Republik, ist ein Binnenstaat in Zentralasien mit rund 7 Millionen Einwohnern, die mehrheitlich muslimische Kirgisen sind.",
+     "url": "https://de.wikipedia.org/wiki/Kirgisistan",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Kirgisisch",
+     "Russisch"
+    ],
+    "currencies": [
+     "Kirgisischer Som"
+    ]
+   }
   },
   {
    "id": "LA",
@@ -4536,7 +6160,24 @@
     18,
     105
    ],
-   "wikidata": "Q819"
+   "wikidata": "Q819",
+   "de": {
+    "capitals": [
+     "Vientiane"
+    ],
+    "government": "Kommunistische Diktatur, Volksrepublik",
+    "summary": {
+     "text": "Laos ist der einzige Binnenstaat in Südostasien. 800 km²; Hauptstadt und größte Stadt ist Vientiane.",
+     "url": "https://de.wikipedia.org/wiki/Laos",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Laotisch"
+    ],
+    "currencies": [
+     "Laotischer Kip"
+    ]
+   }
   },
   {
    "id": "LV",
@@ -4583,7 +6224,24 @@
     57,
     25
    ],
-   "wikidata": "Q211"
+   "wikidata": "Q211",
+   "de": {
+    "capitals": [
+     "Riga"
+    ],
+    "government": "parlamentarische Republik, Republik",
+    "summary": {
+     "text": "Lettland ist ein Staat im Baltikum. Als mittlerer der drei baltischen Staaten grenzt er im Süden an Litauen, im Südosten an Belarus, im Osten an Russland, im Norden an Estland und im Westen an die Ostsee.",
+     "url": "https://de.wikipedia.org/wiki/Lettland",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Lettisch"
+    ],
+    "currencies": [
+     "Euro"
+    ]
+   }
   },
   {
    "id": "LB",
@@ -4631,7 +6289,25 @@
     33.83333333,
     35.83333333
    ],
-   "wikidata": "Q822"
+   "wikidata": "Q822",
+   "de": {
+    "capitals": [
+     "Beirut"
+    ],
+    "government": "parlamentarische Republik",
+    "summary": {
+     "text": "Libanon ist ein Staat in Vorderasien am Mittelmeer. Er grenzt im Norden und Osten an Syrien und im Süden entlang der Blauen Linie an Israel. Im Westen wird er vom Mittelmeer begrenzt. Der Libanon wird zum Maschrek und zur Levante gerechnet.",
+     "url": "https://de.wikipedia.org/wiki/Libanon",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Arabisch",
+     "Französisch"
+    ],
+    "currencies": [
+     "Libanesisches Pfund"
+    ]
+   }
   },
   {
    "id": "LS",
@@ -4684,7 +6360,26 @@
     -29.5,
     28.5
    ],
-   "wikidata": "Q1013"
+   "wikidata": "Q1013",
+   "de": {
+    "capitals": [
+     "Maseru"
+    ],
+    "government": "konstitutionelle Monarchie",
+    "summary": {
+     "text": "Das Königreich Lesotho, 1868 bis 1966 Basutoland, ist ein Binnenstaat im südlichen Afrika. Lesotho ist vollständig von der Republik Südafrika umschlossen. Die Hauptstadt ist Maseru. Die Staatsform ist eine parlamentarische Monarchie.",
+     "url": "https://de.wikipedia.org/wiki/Lesotho",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch",
+     "Süd-Sotho"
+    ],
+    "currencies": [
+     "Loti",
+     "Südafrikanischer Rand"
+    ]
+   }
   },
   {
    "id": "LR",
@@ -4730,7 +6425,24 @@
     6.5,
     -9.5
    ],
-   "wikidata": "Q1014"
+   "wikidata": "Q1014",
+   "de": {
+    "capitals": [
+     "Monrovia"
+    ],
+    "government": "Herrenvolk-Demokratie, konstitutionelle Republik",
+    "summary": {
+     "text": "Die Republik Liberia ist ein Staat an der westafrikanischen Atlantikküste. Er grenzt an Sierra Leone, Guinea und die Elfenbeinküste.",
+     "url": "https://de.wikipedia.org/wiki/Liberia",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch"
+    ],
+    "currencies": [
+     "Liberianischer Dollar"
+    ]
+   }
   },
   {
    "id": "LY",
@@ -4777,7 +6489,24 @@
     25,
     17
    ],
-   "wikidata": "Q1016"
+   "wikidata": "Q1016",
+   "de": {
+    "capitals": [
+     "Tripolis"
+    ],
+    "government": "Republik",
+    "summary": {
+     "text": "541 km² großer Maghrebstaat in Nordafrika mit rund sieben Millionen Einwohnern. Er grenzt im Norden ans Mittelmeer, im Osten an Ägypten und Sudan, im Süden an Niger und Tschad und im Westen an Tunesien und Algerien.",
+     "url": "https://de.wikipedia.org/wiki/Libyen",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Arabisch"
+    ],
+    "currencies": [
+     "Libyscher Dinar"
+    ]
+   }
   },
   {
    "id": "LI",
@@ -4824,7 +6553,24 @@
     47.26666666,
     9.53333333
    ],
-   "wikidata": "Q347"
+   "wikidata": "Q347",
+   "de": {
+    "capitals": [
+     "Vaduz"
+    ],
+    "government": "konstitutionelle Monarchie",
+    "summary": {
+     "text": "Liechtenstein ist ein Binnenstaat im Alpenraum Mitteleuropas und der sechstkleinste Staat der Erde. Laut seiner Verfassung ist es ein Fürstentum, das als konstitutionelle Erbmonarchie auf demokratisch-parlamentarischer Grundlage organisiert ist.",
+     "url": "https://de.wikipedia.org/wiki/Liechtenstein",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Deutsch"
+    ],
+    "currencies": [
+     "Schweizer Franken"
+    ]
+   }
   },
   {
    "id": "LT",
@@ -4871,7 +6617,24 @@
     56,
     24
    ],
-   "wikidata": "Q37"
+   "wikidata": "Q37",
+   "de": {
+    "capitals": [
+     "Vilnius"
+    ],
+    "government": "parlamentarische Republik, Semipräsidentielles Regierungssystem",
+    "summary": {
+     "text": "Litauen ist der südlichste der drei baltischen Staaten. Er grenzt im Westen an die Ostsee und hat gemeinsame Grenzen mit Lettland, Belarus, Polen und Russland. Litauen ist sowohl von der Fläche als auch von der Einwohnerzahl das größte Land des Baltikums.",
+     "url": "https://de.wikipedia.org/wiki/Litauen",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Litauisch"
+    ],
+    "currencies": [
+     "Euro"
+    ]
+   }
   },
   {
    "id": "LU",
@@ -4924,7 +6687,26 @@
     49.75,
     6.16666666
    ],
-   "wikidata": "Q32"
+   "wikidata": "Q32",
+   "de": {
+    "capitals": [
+     "Luxemburg"
+    ],
+    "government": "konstitutionelle Monarchie",
+    "summary": {
+     "text": "Das Großherzogtum Luxemburg ist ein demokratischer Staat in Form einer konstitutionellen Monarchie im Westen Mitteleuropas. 595 Einwohner zählenden Landes. Das Großherzogtum gehört zum mitteldeutschen Sprachraum.",
+     "url": "https://de.wikipedia.org/wiki/Luxemburg",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Deutsch",
+     "Französisch",
+     "Luxemburgisch"
+    ],
+    "currencies": [
+     "Euro"
+    ]
+   }
   },
   {
    "id": "MG",
@@ -4973,7 +6755,25 @@
     -20,
     47
    ],
-   "wikidata": "Q1019"
+   "wikidata": "Q1019",
+   "de": {
+    "capitals": [
+     "Antananarivo"
+    ],
+    "government": "Republik",
+    "summary": {
+     "text": "Madagaskar ist ein Inselstaat in Ostafrika mit mehr als 32 Millionen Einwohnern. Die Insel liegt etwa 420 Kilometer vor der Ostküste Mosambiks im Indischen Ozean. 295 Quadratkilometern nach Indonesien der flächenmäßig zweitgrößte Inselstaat der Welt sowie die viertgrößte Insel.",
+     "url": "https://de.wikipedia.org/wiki/Madagaskar",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Französisch",
+     "Malagasy"
+    ],
+    "currencies": [
+     "Madagaskar-Ariary"
+    ]
+   }
   },
   {
    "id": "MW",
@@ -5020,7 +6820,25 @@
     -13.5,
     34
    ],
-   "wikidata": "Q1020"
+   "wikidata": "Q1020",
+   "de": {
+    "capitals": [
+     "Lilongwe"
+    ],
+    "government": "Präsidialrepublik",
+    "summary": {
+     "text": "Malawi ist ein Binnenstaat in Südostafrika, der am 6. Juli 1964 seine Unabhängigkeit vom Vereinigten Königreich erlangte. Malawi hatte im Jahr 2020 etwa 20,9 Millionen Einwohner; die Hauptstadt ist Lilongwe.",
+     "url": "https://de.wikipedia.org/wiki/Malawi",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch",
+     "Nyanja"
+    ],
+    "currencies": [
+     "Malawi-Kwacha"
+    ]
+   }
   },
   {
    "id": "MY",
@@ -5067,7 +6885,25 @@
     2.5,
     112.5
    ],
-   "wikidata": "Q833"
+   "wikidata": "Q833",
+   "de": {
+    "capitals": [
+     "Kuala Lumpur"
+    ],
+    "government": "Wahlmonarchie, parlamentarische Monarchie",
+    "summary": {
+     "text": "Malaysia, seltener Malaysien, ist eine konstitutionelle Wahlmonarchie mit 34 Millionen Einwohnern, bestehend aus 13 Bundesstaaten in Südostasien auf der Malaiischen Halbinsel oder Westmalaysia mit der Hauptstadt Malaysias Kuala Lumpur und Ostmalaysia auf einem Teil der Insel Borneo.",
+     "url": "https://de.wikipedia.org/wiki/Malaysia",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch",
+     "Malaiisch"
+    ],
+    "currencies": [
+     "Malaysischer Ringgit"
+    ]
+   }
   },
   {
    "id": "MV",
@@ -5115,7 +6951,24 @@
     3.25,
     73
    ],
-   "wikidata": "Q826"
+   "wikidata": "Q826",
+   "de": {
+    "capitals": [
+     "Malé"
+    ],
+    "government": "Präsidialrepublik",
+    "summary": {
+     "text": "Die Malediven sind ein Inselstaat im Indischen Ozean südwestlich von Sri Lanka. Der Archipel besteht aus mehreren Atollen und etwa 1200 Inseln, von denen 220 von Einheimischen bewohnt und weitere 144 für touristische Zwecke genutzt werden.",
+     "url": "https://de.wikipedia.org/wiki/Malediven",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Dhivehi"
+    ],
+    "currencies": [
+     "Malediven-Rufiyaa"
+    ]
+   }
   },
   {
    "id": "ML",
@@ -5162,7 +7015,24 @@
     17,
     -4
    ],
-   "wikidata": "Q912"
+   "wikidata": "Q912",
+   "de": {
+    "capitals": [
+     "Bamako"
+    ],
+    "government": "Präsidialrepublik",
+    "summary": {
+     "text": "Mali ist ein Binnenstaat in Westafrika. In dem rund 1,24 Millionen km² großen Staat leben etwa 22 Millionen Menschen, mehr als 4 Millionen davon in der Hauptstadt Bamako. Der größte Teil der Bevölkerung lebt im Südteil des Landes, der von den beiden Strömen Niger und Senegal durchflossen wird.",
+     "url": "https://de.wikipedia.org/wiki/Mali",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Französisch"
+    ],
+    "currencies": [
+     "CFA-Franc (BCEAO)"
+    ]
+   }
   },
   {
    "id": "MT",
@@ -5210,7 +7080,25 @@
     35.83333333,
     14.58333333
    ],
-   "wikidata": "Q233"
+   "wikidata": "Q233",
+   "de": {
+    "capitals": [
+     "Valletta"
+    ],
+    "government": "parlamentarische Demokratie",
+    "summary": {
+     "text": "Malta ist ein südeuropäischer Inselstaat im Mittelmeer zwischen Tunesien und Italien.",
+     "url": "https://de.wikipedia.org/wiki/Malta",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch",
+     "Maltesisch"
+    ],
+    "currencies": [
+     "Euro"
+    ]
+   }
   },
   {
    "id": "MH",
@@ -5260,7 +7148,25 @@
     9,
     168
    ],
-   "wikidata": "Q709"
+   "wikidata": "Q709",
+   "de": {
+    "capitals": [
+     "Majuro"
+    ],
+    "government": "parlamentarische Republik",
+    "summary": {
+     "text": "Die Republik Marshallinseln ist ein Inselstaat im mittleren Ozeanien. Er umfasst die gleichnamige Inselgruppe, die zu Mikronesien gehört. 000 Einwohnern auf einer Fläche von nur 181 Quadratkilometern gehören die Marshallinseln zu den kleinsten Staaten der Erde.",
+     "url": "https://de.wikipedia.org/wiki/Marshallinseln",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch",
+     "Marschallesisch"
+    ],
+    "currencies": [
+     "US-Dollar"
+    ]
+   }
   },
   {
    "id": "MR",
@@ -5307,7 +7213,24 @@
     20,
     -12
    ],
-   "wikidata": "Q1025"
+   "wikidata": "Q1025",
+   "de": {
+    "capitals": [
+     "Nouakchott"
+    ],
+    "government": "Präsidentielles Regierungssystem",
+    "summary": {
+     "text": "Mauretanien ist ein Staat im nordwestlichen Afrika am Atlantik. Die Präsidialrepublik grenzt an die Staaten Algerien im Nordosten, Mali im Osten und Südosten, Senegal im Südwesten sowie im Norden und Nordwesten an den Landesstreifen der Westsahara, der nach dem Abzug der Kolonialmacht Spanien 1975 größtenteils von Marokko annektiert wurde.",
+     "url": "https://de.wikipedia.org/wiki/Mauretanien",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Arabisch"
+    ],
+    "currencies": [
+     "Mauretanischer Ouguiya"
+    ]
+   }
   },
   {
    "id": "MU",
@@ -5356,7 +7279,26 @@
     -20.28333333,
     57.55
    ],
-   "wikidata": "Q1027"
+   "wikidata": "Q1027",
+   "de": {
+    "capitals": [
+     "Port Louis"
+    ],
+    "government": "parlamentarische Republik",
+    "summary": {
+     "text": "Mauritius ist ein Inselstaat im Südwesten des Indischen Ozeans ungefähr 870 Kilometer östlich von Madagaskar. Neben der Hauptinsel Mauritius mit der Hauptstadt Port Louis zählen Rodrigues, die Cargados-Carajos-Inseln sowie die Agalega-Inseln zum Staatsgebiet.",
+     "url": "https://de.wikipedia.org/wiki/Mauritius",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch",
+     "Französisch",
+     "Morisyen"
+    ],
+    "currencies": [
+     "Mauritius-Rupie"
+    ]
+   }
   },
   {
    "id": "MX",
@@ -5406,7 +7348,24 @@
     23,
     -102
    ],
-   "wikidata": "Q96"
+   "wikidata": "Q96",
+   "de": {
+    "capitals": [
+     "Mexiko-Stadt"
+    ],
+    "government": "demokratische Republik, konstitutionelle Republik",
+    "summary": {
+     "text": "Mexiko ist eine Bundesrepublik in Nordamerika. Sie umfasst 31 Bundesstaaten und die Bundeshauptstadt Mexiko-Stadt. Im Norden grenzt Mexiko an die Vereinigten Staaten von Amerika, im Süden und Westen an den Pazifischen Ozean, im Südosten an Guatemala, Belize und an das Karibische Meer, im Osten an den Golf von Mexiko.",
+     "url": "https://de.wikipedia.org/wiki/Mexiko",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Spanisch"
+    ],
+    "currencies": [
+     "Mexikanischer Peso"
+    ]
+   }
   },
   {
    "id": "FM",
@@ -5453,7 +7412,24 @@
     6.91666666,
     158.25
    ],
-   "wikidata": "Q702"
+   "wikidata": "Q702",
+   "de": {
+    "capitals": [
+     "Palikir"
+    ],
+    "government": "Bundesstaat",
+    "summary": {
+     "text": "Die Föderierten Staaten von Mikronesien sind ein Inselstaat im westlichen Teil des Pazifischen Ozeans. Das Staatsgebiet deckt dabei nur einen Teil des Inselgebiets Mikronesien ab.",
+     "url": "https://de.wikipedia.org/wiki/F%C3%B6derierte_Staaten_von_Mikronesien",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch"
+    ],
+    "currencies": [
+     "US-Dollar"
+    ]
+   }
   },
   {
    "id": "MD",
@@ -5501,7 +7477,24 @@
     47,
     29
    ],
-   "wikidata": "Q217"
+   "wikidata": "Q217",
+   "de": {
+    "capitals": [
+     "Kischinau"
+    ],
+    "government": "parlamentarische Republik",
+    "summary": {
+     "text": "Die Republik Moldau ist ein Binnenstaat in Ost- bzw. Südosteuropa. Er grenzt im Westen an Rumänien. Im Norden, Osten und Süden wird die Republik Moldau vollständig von der Ukraine umschlossen, denn zwischen Moldau und dem Schwarzen Meer liegt die ukrainische Region Budschak, die von Bessarabien abgetrennt wurde.",
+     "url": "https://de.wikipedia.org/wiki/Republik_Moldau",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Rumänisch"
+    ],
+    "currencies": [
+     "Moldau-Leu"
+    ]
+   }
   },
   {
    "id": "MC",
@@ -5548,7 +7541,24 @@
     43.73333333,
     7.4
    ],
-   "wikidata": "Q235"
+   "wikidata": "Q235",
+   "de": {
+    "capitals": [
+     "Monaco"
+    ],
+    "government": "Erbmonarchie, konstitutionelle Monarchie",
+    "summary": {
+     "text": "Monaco ist ein am Mittelmeer liegender Stadtstaat in Südeuropa, dessen Staatsoberhaupt seit April 2005 Fürst Albert II. aus dem Geschlecht der Grimaldi ist. Die Staatsform des Fürstentums ist als konstitutionelle Monarchie verfasst; Staatsreligion ist der Katholizismus.",
+     "url": "https://de.wikipedia.org/wiki/Monaco",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Französisch"
+    ],
+    "currencies": [
+     "Euro"
+    ]
+   }
   },
   {
    "id": "MN",
@@ -5595,7 +7605,24 @@
     46,
     105
    ],
-   "wikidata": "Q711"
+   "wikidata": "Q711",
+   "de": {
+    "capitals": [
+     "Ulan Bator"
+    ],
+    "government": "parlamentarisches Regierungssystem",
+    "summary": {
+     "text": "Die Mongolei ist ein Binnenstaat in Ostasien, zwischen Russland und China. Territorial über viermal so groß wie Deutschland, ist das Land mit rund drei Millionen Einwohnern der am dünnsten besiedelte Staat der Erde.",
+     "url": "https://de.wikipedia.org/wiki/Mongolei",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Mongolisch"
+    ],
+    "currencies": [
+     "Mongolischer Tögrög"
+    ]
+   }
   },
   {
    "id": "ME",
@@ -5641,7 +7668,24 @@
     42.5,
     19.3
    ],
-   "wikidata": "Q236"
+   "wikidata": "Q236",
+   "de": {
+    "capitals": [
+     "Podgorica"
+    ],
+    "government": "Republik",
+    "summary": {
+     "text": "Montenegro ist eine Republik an der südöstlichen Adriaküste in Südosteuropa. Das montenegrinische Staatsgebiet grenzt im äußersten Westen an Kroatien, im Nordwesten an Bosnien und Herzegowina, im Nordosten an Serbien, im Osten an den Kosovo und im Südosten an Albanien.",
+     "url": "https://de.wikipedia.org/wiki/Montenegro",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Montenegrinisch"
+    ],
+    "currencies": [
+     "Euro"
+    ]
+   }
   },
   {
    "id": "MA",
@@ -5689,7 +7733,25 @@
     32,
     -5
    ],
-   "wikidata": "Q1028"
+   "wikidata": "Q1028",
+   "de": {
+    "capitals": [
+     "Rabat"
+    ],
+    "government": "konstitutionelle Monarchie",
+    "summary": {
+     "text": "Marokko, offiziell Königreich Marokko, ist ein Staat im Nordwesten Afrikas. Er ist durch die Straße von Gibraltar vom europäischen Kontinent getrennt. Als westlichstes der fünf Maghrebländer grenzt es im Norden an das Mittelmeer, im Westen an den Atlantischen Ozean und im Osten an Algerien.",
+     "url": "https://de.wikipedia.org/wiki/Marokko",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Arabisch",
+     "Berbersprachen"
+    ],
+    "currencies": [
+     "Marokkanischer Dirham"
+    ]
+   }
   },
   {
    "id": "MZ",
@@ -5736,7 +7798,24 @@
     -18.25,
     35
    ],
-   "wikidata": "Q1029"
+   "wikidata": "Q1029",
+   "de": {
+    "capitals": [
+     "Maputo"
+    ],
+    "government": "semipräsidentielle Republik",
+    "summary": {
+     "text": "Mosambik ist ein Staat in Südostafrika.",
+     "url": "https://de.wikipedia.org/wiki/Mosambik",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Portugiesisch"
+    ],
+    "currencies": [
+     "Mosambikanischer Metical"
+    ]
+   }
   },
   {
    "id": "MM",
@@ -5787,7 +7866,24 @@
     22,
     98
    ],
-   "wikidata": "Q836"
+   "wikidata": "Q836",
+   "de": {
+    "capitals": [
+     "Naypyidaw"
+    ],
+    "government": "Republik",
+    "summary": {
+     "text": "Myanmar, Vollform Republik der Union Myanmar, auch Burma oder Birma, ist ein Staat in Südostasien, der an Thailand, Laos, die Volksrepublik China, den Nordosten Indiens, Bangladesch und den Golf von Bengalen grenzt.",
+     "url": "https://de.wikipedia.org/wiki/Myanmar",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Birmanisch"
+    ],
+    "currencies": [
+     "Myanmarischer Kyat"
+    ]
+   }
   },
   {
    "id": "NA",
@@ -5847,7 +7943,33 @@
     -22,
     17
    ],
-   "wikidata": "Q1030"
+   "wikidata": "Q1030",
+   "de": {
+    "capitals": [
+     "Windhoek"
+    ],
+    "government": "semipräsidentielle Republik",
+    "summary": {
+     "text": "Namibia ist ein Staat im südlichen Afrika und grenzt an Angola, Sambia, Botswana, Südafrika und den Atlantischen Ozean. Namibia ist aufgrund des großen Flächenanteils der namensgebenden Wüste Namib das nach der Mongolei und Australien am drittdünnsten besiedelte Land der Welt.",
+     "url": "https://de.wikipedia.org/wiki/Namibia",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Afrikaans",
+     "Deutsch",
+     "Englisch",
+     "Herero",
+     "Khoekhoe",
+     "Kwangali",
+     "Lozi",
+     "Ndonga",
+     "Tswana"
+    ],
+    "currencies": [
+     "Namibia-Dollar",
+     "Südafrikanischer Rand"
+    ]
+   }
   },
   {
    "id": "NR",
@@ -5899,7 +8021,25 @@
     -0.53333333,
     166.91666666
    ],
-   "wikidata": "Q697"
+   "wikidata": "Q697",
+   "de": {
+    "capitals": [
+     "Yaren"
+    ],
+    "government": "parlamentarische Republik",
+    "summary": {
+     "text": "680 Einwohnern. Nauru ist nach Fläche der drittkleinste und nach Einwohnerzahl der dritt- oder viertkleinste anerkannte Staat sowie die kleinste Republik der Erde. Das politische System der Republik basiert auf dem britischen Westminster-System.",
+     "url": "https://de.wikipedia.org/wiki/Nauru",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch",
+     "Nauruisch"
+    ],
+    "currencies": [
+     "Australischer Dollar"
+    ]
+   }
   },
   {
    "id": "NP",
@@ -5946,7 +8086,24 @@
     28,
     84
    ],
-   "wikidata": "Q837"
+   "wikidata": "Q837",
+   "de": {
+    "capitals": [
+     "Kathmandu"
+    ],
+    "government": "Volksrepublik",
+    "summary": {
+     "text": "Nepal ist ein Binnenstaat in Südasien, zwischen China und Indien. Nepal ist weltweit vor allem für seinen Anteil am Himalaya bekannt, besteht zu großen Teilen aber auch aus Flachland mit tropischem Feuchtwald.",
+     "url": "https://de.wikipedia.org/wiki/Nepal",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Nepalesisch"
+    ],
+    "currencies": [
+     "Nepalesische Rupie"
+    ]
+   }
   },
   {
    "id": "NL",
@@ -5998,7 +8155,24 @@
     52.5,
     5.75
    ],
-   "wikidata": "Q29999"
+   "wikidata": "Q29999",
+   "de": {
+    "capitals": [
+     "Amsterdam"
+    ],
+    "government": "konstitutionelle Monarchie",
+    "summary": {
+     "text": "Das Königreich der Niederlande, niederländisch Koninkrijk der Nederlanden, englisch Kingdom of the Netherlands, friesisch Keninkryk fan de Nederlannen, Papiamentu Reino Hulandes, ist ein Staat, der aus den Niederlanden und mehreren Inseln in der Karibik besteht.",
+     "url": "https://de.wikipedia.org/wiki/K%C3%B6nigreich_der_Niederlande",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Niederländisch"
+    ],
+    "currencies": [
+     "Euro"
+    ]
+   }
   },
   {
    "id": "NZ",
@@ -6046,7 +8220,26 @@
     -41,
     174
    ],
-   "wikidata": "Q664"
+   "wikidata": "Q664",
+   "de": {
+    "capitals": [
+     "Wellington"
+    ],
+    "government": "parlamentarische Monarchie",
+    "summary": {
+     "text": "Neuseeland ist ein geographisch isolierter Inselstaat im südlichen Pazifik. Er besteht aus einer Nord- und einer Südinsel sowie zahlreichen kleineren Inseln.",
+     "url": "https://de.wikipedia.org/wiki/Neuseeland",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch",
+     "Māori",
+     "Neuseeländische Gebärdensprache"
+    ],
+    "currencies": [
+     "Neuseeland-Dollar"
+    ]
+   }
   },
   {
    "id": "NI",
@@ -6093,7 +8286,24 @@
     13,
     -85
    ],
-   "wikidata": "Q811"
+   "wikidata": "Q811",
+   "de": {
+    "capitals": [
+     "Managua"
+    ],
+    "government": "Republik",
+    "summary": {
+     "text": "Nicaragua ist ein Staat in Zentralamerika. Er grenzt im Norden an Honduras und im Süden an Costa Rica sowie im Westen an den Pazifik und im Osten an die Karibik.",
+     "url": "https://de.wikipedia.org/wiki/Nicaragua",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Spanisch"
+    ],
+    "currencies": [
+     "Nicaragua-Córdoba"
+    ]
+   }
   },
   {
    "id": "NE",
@@ -6140,7 +8350,24 @@
     16,
     8
    ],
-   "wikidata": "Q1032"
+   "wikidata": "Q1032",
+   "de": {
+    "capitals": [
+     "Niamey"
+    ],
+    "government": "semipräsidentielle Republik",
+    "summary": {
+     "text": "Niger ist ein Binnenstaat in Westafrika. Der namensgebende Fluss Niger durchfließt den relativ dicht besiedelten Südwesten des Wüsten- und Savannenstaates.",
+     "url": "https://de.wikipedia.org/wiki/Niger",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Französisch"
+    ],
+    "currencies": [
+     "CFA-Franc (BCEAO)"
+    ]
+   }
   },
   {
    "id": "NG",
@@ -6188,7 +8415,24 @@
     10,
     8
    ],
-   "wikidata": "Q1033"
+   "wikidata": "Q1033",
+   "de": {
+    "capitals": [
+     "Abuja"
+    ],
+    "government": "Bundesstaat",
+    "summary": {
+     "text": "Nigeria ist ein Bundesstaat in Westafrika. Es ist mit etwa 230 Millionen Einwohnern mit Abstand das bevölkerungsreichste Land Afrikas und weltweit das Land mit der sechstgrößten Bevölkerung. Im Zeitraum von 1989 bis 2019 hat sich die Bevölkerungszahl des Landes verdoppelt; weiterhin steigt diese stark.",
+     "url": "https://de.wikipedia.org/wiki/Nigeria",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch"
+    ],
+    "currencies": [
+     "Nigerianischer Naira"
+    ]
+   }
   },
   {
    "id": "KP",
@@ -6239,7 +8483,24 @@
     40,
     127
    ],
-   "wikidata": "Q423"
+   "wikidata": "Q423",
+   "de": {
+    "capitals": [
+     "Pjöngjang"
+    ],
+    "government": "Kommunistische Diktatur, sozialistischer Staat",
+    "summary": {
+     "text": "Die Demokratische Volksrepublik Korea, bekannt als Nordkorea, ist ein Staat in Ostasien, der den nördlichen Teil der Koreanischen Halbinsel umfasst, im Süden entlang der Demilitarisierten Zone an Südkorea und im Norden entlang den Flüssen Amnok und Duman an China und Russland grenzt.",
+     "url": "https://de.wikipedia.org/wiki/Nordkorea",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Koreanisch"
+    ],
+    "currencies": [
+     "Nordkoreanischer Won"
+    ]
+   }
   },
   {
    "id": "MK",
@@ -6289,7 +8550,24 @@
     41.83333333,
     22
    ],
-   "wikidata": "Q221"
+   "wikidata": "Q221",
+   "de": {
+    "capitals": [
+     "Skopje"
+    ],
+    "government": "parlamentarische Republik",
+    "summary": {
+     "text": "Nordmazedonien ist ein Binnenstaat in Südosteuropa. Er befindet sich zu einem Teil im Nordwesten der historischen Region Makedonien.",
+     "url": "https://de.wikipedia.org/wiki/Nordmazedonien",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Mazedonisch"
+    ],
+    "currencies": [
+     "Mazedonischer Denar"
+    ]
+   }
   },
   {
    "id": "NO",
@@ -6341,7 +8619,26 @@
     62,
     10
    ],
-   "wikidata": "Q20"
+   "wikidata": "Q20",
+   "de": {
+    "capitals": [
+     "Oslo"
+    ],
+    "government": "repräsentative Demokratie, parlamentarisches Regierungssystem",
+    "summary": {
+     "text": "Norwegen, amtlich Königreich Norwegen bzw. Kongeriket Norge/Noreg, ist ein Staat in Nordeuropa. Das in Skandinavien liegende Königreich Norwegen umfasst neben dem Hauptland die Inselgruppe Spitzbergen sowie die Insel Jan Mayen.",
+     "url": "https://de.wikipedia.org/wiki/Norwegen",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Norwegisch (Nynorsk)",
+     "Norwegisch (Bokmål)",
+     "Samisch"
+    ],
+    "currencies": [
+     "Norwegische Krone"
+    ]
+   }
   },
   {
    "id": "OM",
@@ -6388,7 +8685,24 @@
     21,
     57
    ],
-   "wikidata": "Q842"
+   "wikidata": "Q842",
+   "de": {
+    "capitals": [
+     "Maskat"
+    ],
+    "government": "absolute Monarchie",
+    "summary": {
+     "text": "Oman ist ein Staat in Vorderasien im Südosten der Arabischen Halbinsel. Die rund fünf Millionen Einwohner leben vorwiegend in Städten. Fast die Hälfte der Bevölkerung sind Immigranten, vorwiegend aus Indien.",
+     "url": "https://de.wikipedia.org/wiki/Oman",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Arabisch"
+    ],
+    "currencies": [
+     "Omanischer Rial"
+    ]
+   }
   },
   {
    "id": "PK",
@@ -6437,7 +8751,25 @@
     30,
     70
    ],
-   "wikidata": "Q843"
+   "wikidata": "Q843",
+   "de": {
+    "capitals": [
+     "Islamabad"
+    ],
+    "government": "parlamentarische Republik",
+    "summary": {
+     "text": "Pakistan ist ein Staat in Südasien. Er grenzt im Südwesten an Iran, im Westen an Afghanistan, im Norden an die Volksrepublik China sowie im Osten an Indien. Im Süden hat Pakistan Anteil an der Küste des Arabischen Meeres, eines Nebenmeeres des Indischen Ozeans.",
+     "url": "https://de.wikipedia.org/wiki/Pakistan",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch",
+     "Urdu"
+    ],
+    "currencies": [
+     "Pakistanische Rupie"
+    ]
+   }
   },
   {
    "id": "PW",
@@ -6487,7 +8819,25 @@
     7.5,
     134.5
    ],
-   "wikidata": "Q695"
+   "wikidata": "Q695",
+   "de": {
+    "capitals": [
+     "Ngerulmud"
+    ],
+    "government": "Präsidialrepublik",
+    "summary": {
+     "text": "Palau ist ein Inselstaat im Pazifischen Ozean. 600 Einwohner bevölkern elf der insgesamt 356 Inseln des Staates. Hauptstadt ist Ngerulmud auf der Insel Babeldaob; Amtssprachen sind Palauisch und Englisch.",
+     "url": "https://de.wikipedia.org/wiki/Palau",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch",
+     "Palau"
+    ],
+    "currencies": [
+     "US-Dollar"
+    ]
+   }
   },
   {
    "id": "PS",
@@ -6549,7 +8899,27 @@
     31.9,
     35.2
    ],
-   "wikidata": "Q219060"
+   "wikidata": "Q219060",
+   "de": {
+    "capitals": [
+     "Ramallah",
+     "Ostjerusalem"
+    ],
+    "government": "parlamentarische Republik, Semipräsidentielles Regierungssystem",
+    "summary": {
+     "text": "Der Staat Palästina ist ein De-facto-Staat in Vorderasien. Er beansprucht die Gebiete des Westjordanlandes mit Ostjerusalem und den Gazastreifen.",
+     "url": "https://de.wikipedia.org/wiki/Pal%C3%A4stina_(Staat)",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Arabisch"
+    ],
+    "currencies": [
+     "Ägyptisches Pfund",
+     "Israelischer Neuer Schekel",
+     "Jordanischer Dinar"
+    ]
+   }
   },
   {
    "id": "PA",
@@ -6603,7 +8973,25 @@
     9,
     -80
    ],
-   "wikidata": "Q804"
+   "wikidata": "Q804",
+   "de": {
+    "capitals": [
+     "Panama-Stadt"
+    ],
+    "government": "Präsidentielles Regierungssystem",
+    "summary": {
+     "text": "Panama ist ein Staat in Mittelamerika, der an Costa Rica im Westen und Kolumbien im Osten grenzt. Der Panamakanal, der das Land durchzieht, verbindet die Karibik mit dem Pazifischen Ozean. Der Kanal, eine der wichtigsten Wasserstraßen der Welt, ist für den Staat Panama die mit Abstand wichtigste Einnahmequelle.",
+     "url": "https://de.wikipedia.org/wiki/Panama",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Spanisch"
+    ],
+    "currencies": [
+     "Panamaischer Balboa",
+     "US-Dollar"
+    ]
+   }
   },
   {
    "id": "PG",
@@ -6652,7 +9040,26 @@
     -6,
     147
    ],
-   "wikidata": "Q691"
+   "wikidata": "Q691",
+   "de": {
+    "capitals": [
+     "Port Moresby"
+    ],
+    "government": "parlamentarische Monarchie",
+    "summary": {
+     "text": "Papua-Neuguinea ist nach Indonesien und Madagaskar der flächenmäßig drittgrößte Inselstaat der Welt. Er liegt im Pazifik, wird zum australischen Kontinent gerechnet und umfasst den Osten der Insel Neuguinea sowie mehrere vorgelagerte Inseln und Inselgruppen.",
+     "url": "https://de.wikipedia.org/wiki/Papua-Neuguinea",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch",
+     "Hiri-Motu",
+     "Neumelanesisch"
+    ],
+    "currencies": [
+     "Papua-neuguineischer Kina"
+    ]
+   }
   },
   {
    "id": "PY",
@@ -6701,7 +9108,25 @@
     -23,
     -58
    ],
-   "wikidata": "Q733"
+   "wikidata": "Q733",
+   "de": {
+    "capitals": [
+     "Asunción"
+    ],
+    "government": "Präsidialrepublik",
+    "summary": {
+     "text": "Paraguay ist ein Binnenstaat in Südamerika, der im Osten an Brasilien, im Süden und Westen an Argentinien und im Norden und Westen an Bolivien grenzt. Die südliche und südöstliche Landesgrenze wird vom Fluss Paraná gebildet, die südwestliche sowie nordöstliche vom Río Paraguay, der das Land durchquert.",
+     "url": "https://de.wikipedia.org/wiki/Paraguay",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Guaraní",
+     "Spanisch"
+    ],
+    "currencies": [
+     "Paraguayischer Guaraní"
+    ]
+   }
   },
   {
    "id": "PE",
@@ -6750,7 +9175,26 @@
     -10,
     -76
    ],
-   "wikidata": "Q419"
+   "wikidata": "Q419",
+   "de": {
+    "capitals": [
+     "Lima"
+    ],
+    "government": "Präsidentielles Regierungssystem",
+    "summary": {
+     "text": "Peru ist ein Staat im westlichen Südamerika und grenzt im Norden an Ecuador und Kolumbien, im Osten an Brasilien, im Südosten an Bolivien, im Süden an Chile und im Westen an den Pazifik. Die Etymologie des Landesnamens wird in der etymologischen Liste der Ländernamen erläutert.",
+     "url": "https://de.wikipedia.org/wiki/Peru",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Aymara",
+     "Quechua",
+     "Spanisch"
+    ],
+    "currencies": [
+     "Peruanischer Sol"
+    ]
+   }
   },
   {
    "id": "PH",
@@ -6798,7 +9242,25 @@
     13,
     122
    ],
-   "wikidata": "Q928"
+   "wikidata": "Q928",
+   "de": {
+    "capitals": [
+     "Manila"
+    ],
+    "government": "Republik",
+    "summary": {
+     "text": "Die Philippinen sind ein Staat und Archipel mit 7641 Inseln im westlichen Pazifischen Ozean und gehören zu Südostasien. Sie bilden den fünftgrößten Inselstaat der Welt nach Fläche. Mit rund 110 Millionen Einwohnern sind die Philippinen der vierzehntgrößte Staat der Welt.",
+     "url": "https://de.wikipedia.org/wiki/Philippinen",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch",
+     "Filipino"
+    ],
+    "currencies": [
+     "Philippinischer Peso"
+    ]
+   }
   },
   {
    "id": "PL",
@@ -6845,7 +9307,24 @@
     52,
     20
    ],
-   "wikidata": "Q36"
+   "wikidata": "Q36",
+   "de": {
+    "capitals": [
+     "Warschau"
+    ],
+    "government": "parlamentarisches Regierungssystem, Semipräsidentielles Regierungssystem",
+    "summary": {
+     "text": "Polen ist eine parlamentarische Republik in Mitteleuropa. Hauptstadt des Landes ist Warschau, größter Ballungsraum die Metropolregion um Kattowitz. 000 Einwohnern sind Krakau, Łódź, Breslau, Posen und Danzig.",
+     "url": "https://de.wikipedia.org/wiki/Polen",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Polnisch"
+    ],
+    "currencies": [
+     "Polnischer Złoty"
+    ]
+   }
   },
   {
    "id": "PT",
@@ -6893,7 +9372,24 @@
     39.5,
     -8
    ],
-   "wikidata": "Q45"
+   "wikidata": "Q45",
+   "de": {
+    "capitals": [
+     "Lissabon"
+    ],
+    "government": "Republik",
+    "summary": {
+     "text": "Portugal ist ein europäischer Staat im Westen der Iberischen Halbinsel. In Portugal befindet sich der westlichste Punkt Kontinentaleuropas. Das Land wird im Süden und Westen vom Atlantischen Ozean, im Osten und Norden von Spanien begrenzt.",
+     "url": "https://de.wikipedia.org/wiki/Portugal",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Portugiesisch"
+    ],
+    "currencies": [
+     "Euro"
+    ]
+   }
   },
   {
    "id": "QA",
@@ -6940,7 +9436,24 @@
     25.5,
     51.25
    ],
-   "wikidata": "Q846"
+   "wikidata": "Q846",
+   "de": {
+    "capitals": [
+     "Doha"
+    ],
+    "government": "konstitutionelle Monarchie",
+    "summary": {
+     "text": "Katar ist ein Emirat in Vorderasien und liegt an der Ostküste der Arabischen Halbinsel am Persischen Golf.",
+     "url": "https://de.wikipedia.org/wiki/Katar",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Arabisch"
+    ],
+    "currencies": [
+     "Katar-Riyal"
+    ]
+   }
   },
   {
    "id": "CG",
@@ -6990,7 +9503,26 @@
     -1,
     15
    ],
-   "wikidata": "Q971"
+   "wikidata": "Q971",
+   "de": {
+    "capitals": [
+     "Brazzaville"
+    ],
+    "government": "parlamentarische Republik",
+    "summary": {
+     "text": "Die Republik Kongo ist eine Republik in Zentralafrika. Ihre Hauptstadt und größter Ballungsraum vor der Hafenstadt Pointe-Noire ist Brazzaville; das Land ist auch als Kongo-Brazzaville bekannt.",
+     "url": "https://de.wikipedia.org/wiki/Republik_Kongo",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Französisch",
+     "Kongolesisch",
+     "Lingala"
+    ],
+    "currencies": [
+     "CFA-Franc (BEAC)"
+    ]
+   }
   },
   {
    "id": "RO",
@@ -7038,7 +9570,24 @@
     46,
     25
    ],
-   "wikidata": "Q218"
+   "wikidata": "Q218",
+   "de": {
+    "capitals": [
+     "Bukarest"
+    ],
+    "government": "Semipräsidentielles Regierungssystem",
+    "summary": {
+     "text": "Rumänien ist eine semipräsidentielle Republik in Osteuropa, Südosteuropa und teilweise in Ostmitteleuropa. Das Land liegt am Schwarzen Meer und erstreckt sich in westlicher Richtung über den Karpatenbogen bis zur Pannonischen Tiefebene.",
+     "url": "https://de.wikipedia.org/wiki/Rum%C3%A4nien",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Rumänisch"
+    ],
+    "currencies": [
+     "Rumänischer Leu"
+    ]
+   }
   },
   {
    "id": "RU",
@@ -7085,7 +9634,24 @@
     60,
     100
    ],
-   "wikidata": "Q159"
+   "wikidata": "Q159",
+   "de": {
+    "capitals": [
+     "Moskau"
+    ],
+    "government": "semipräsidentielle Bundesrepublik",
+    "summary": {
+     "text": "Russland, amtlich Russische Föderation, ist ein Bundesstaat in Osteuropa und Nordasien, mit der Exklave Kaliningrad in Mitteleuropa. Der Fläche nach ist Russland mit etwa 17 Millionen Quadratkilometern der größte Staat der Welt und umfasst etwa ein Neuntel der Landmasse der Erde.",
+     "url": "https://de.wikipedia.org/wiki/Russland",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Russisch"
+    ],
+    "currencies": [
+     "Russischer Rubel"
+    ]
+   }
   },
   {
    "id": "RW",
@@ -7135,7 +9701,26 @@
     -2,
     30
    ],
-   "wikidata": "Q1037"
+   "wikidata": "Q1037",
+   "de": {
+    "capitals": [
+     "Kigali"
+    ],
+    "government": "Semipräsidentielles Regierungssystem",
+    "summary": {
+     "text": "Ruanda oder Rwanda ist ein dicht bevölkerter Binnenstaat in Ostafrika bzw. Zentralafrika. Er grenzt an Burundi, die Demokratische Republik Kongo, Uganda und Tansania. Wegen seiner hügeligen Landschaft wird Ruanda auch „Land der tausend Hügel“ genannt.",
+     "url": "https://de.wikipedia.org/wiki/Ruanda",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch",
+     "Französisch",
+     "Kinyarwanda"
+    ],
+    "currencies": [
+     "Ruanda-Franc"
+    ]
+   }
   },
   {
    "id": "KN",
@@ -7181,7 +9766,24 @@
     17.33333333,
     -62.75
    ],
-   "wikidata": "Q763"
+   "wikidata": "Q763",
+   "de": {
+    "capitals": [
+     "Basseterre"
+    ],
+    "government": "föderale Monarchie, konstitutionelle Monarchie",
+    "summary": {
+     "text": "St. Kitts und Nevis ist ein föderaler Inselstaat auf den Kleinen Antillen in der östlichen Karibik. Hauptstadt und größte Stadt des Staates ist Basseterre, Amtssprache ist Englisch.",
+     "url": "https://de.wikipedia.org/wiki/St._Kitts_und_Nevis",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch"
+    ],
+    "currencies": [
+     "Ostkaribischer Dollar"
+    ]
+   }
   },
   {
    "id": "LC",
@@ -7225,7 +9827,24 @@
     13.88333333,
     -60.96666666
    ],
-   "wikidata": "Q760"
+   "wikidata": "Q760",
+   "de": {
+    "capitals": [
+     "Castries"
+    ],
+    "government": "konstitutionelle Monarchie",
+    "summary": {
+     "text": "St. Lucia ist ein Inselstaat im Bereich der Westindischen Inseln in der Karibik und Mitglied im Commonwealth of Nations.",
+     "url": "https://de.wikipedia.org/wiki/St._Lucia",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch"
+    ],
+    "currencies": [
+     "Ostkaribischer Dollar"
+    ]
+   }
   },
   {
    "id": "VC",
@@ -7269,7 +9888,24 @@
     13.25,
     -61.2
    ],
-   "wikidata": "Q757"
+   "wikidata": "Q757",
+   "de": {
+    "capitals": [
+     "Kingstown"
+    ],
+    "government": "konstitutionelle Monarchie",
+    "summary": {
+     "text": "St. Vincent und die Grenadinen, amtlich englisch Saint Vincent and the Grenadines, ist ein unabhängiger Inselstaat in der Karibik im Bereich der Westindischen Inseln. Er ist Mitglied im Commonwealth of Nations und in der Bolivarianischen Allianz für Amerika.",
+     "url": "https://de.wikipedia.org/wiki/St._Vincent_und_die_Grenadinen",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch"
+    ],
+    "currencies": [
+     "Ostkaribischer Dollar"
+    ]
+   }
   },
   {
    "id": "WS",
@@ -7317,7 +9953,25 @@
     -13.58333333,
     -172.33333333
    ],
-   "wikidata": "Q683"
+   "wikidata": "Q683",
+   "de": {
+    "capitals": [
+     "Apia"
+    ],
+    "government": "parlamentarische Republik",
+    "summary": {
+     "text": "Der Unabhängige Staat Samoa, kurz Samoa, ist ein Inselstaat in Polynesien, der den westlichen Teil der Samoainseln umfasst und deswegen – bis 1997 offiziell – auch Westsamoa genannt wurde. Der Staat erlangte 1962 als ehemaliges Treuhandgebiet der Vereinten Nationen seine Unabhängigkeit von Neuseeland.",
+     "url": "https://de.wikipedia.org/wiki/Samoa",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch",
+     "Samoanisch"
+    ],
+    "currencies": [
+     "Samoanischer Tala"
+    ]
+   }
   },
   {
    "id": "SM",
@@ -7367,7 +10021,24 @@
     43.76666666,
     12.41666666
    ],
-   "wikidata": "Q238"
+   "wikidata": "Q238",
+   "de": {
+    "capitals": [
+     "San Marino"
+    ],
+    "government": "Doppelherrschaft, parlamentarische Republik",
+    "summary": {
+     "text": "San Marino gilt als die älteste bestehende Republik der Welt mit einer Geschichte, die der Überlieferung nach bis auf das Jahr 301 mit der Gründung durch den heiligen Marinus zurückgeht.",
+     "url": "https://de.wikipedia.org/wiki/San_Marino",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Italienisch"
+    ],
+    "currencies": [
+     "Euro"
+    ]
+   }
   },
   {
    "id": "ST",
@@ -7415,7 +10086,24 @@
     1,
     7
    ],
-   "wikidata": "Q1039"
+   "wikidata": "Q1039",
+   "de": {
+    "capitals": [
+     "São Tomé"
+    ],
+    "government": "semipräsidentielle Republik",
+    "summary": {
+     "text": "São Tomé und Príncipe, portugiesisch São Tomé e Príncipe, ist ein Inselstaat im Golf von Guinea, etwa 200 km vor der Küste Afrikas westlich vor Äquatorialguinea und Gabun und etwa 500 km südlich der nigerianischen Küste.",
+     "url": "https://de.wikipedia.org/wiki/S%C3%A3o_Tom%C3%A9_und_Pr%C3%ADncipe",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Portugiesisch"
+    ],
+    "currencies": [
+     "São-toméischer Dobra"
+    ]
+   }
   },
   {
    "id": "SA",
@@ -7463,7 +10151,24 @@
     25,
     45
    ],
-   "wikidata": "Q851"
+   "wikidata": "Q851",
+   "de": {
+    "capitals": [
+     "Riad"
+    ],
+    "government": "islamische Theokratie, absolute Monarchie",
+    "summary": {
+     "text": "Saudi-Arabien ist eine absolute Monarchie in Vorderasien. Es liegt auf der Arabischen Halbinsel und grenzt an deren Anrainerstaaten, an das Rote Meer und den Persischen Golf. Das Land besteht in seinen heutigen Grenzen seit 1932.",
+     "url": "https://de.wikipedia.org/wiki/Saudi-Arabien",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Arabisch"
+    ],
+    "currencies": [
+     "Saudi-Rial"
+    ]
+   }
   },
   {
    "id": "SN",
@@ -7510,7 +10215,24 @@
     14,
     -14
    ],
-   "wikidata": "Q1041"
+   "wikidata": "Q1041",
+   "de": {
+    "capitals": [
+     "Dakar"
+    ],
+    "government": "Präsidentielles Regierungssystem",
+    "summary": {
+     "text": "Senegal, ist ein Staat des frankophonen Afrikas und liegt an der westlichen Spitze Kontinentalafrikas.",
+     "url": "https://de.wikipedia.org/wiki/Senegal",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Französisch"
+    ],
+    "currencies": [
+     "CFA-Franc (BCEAO)"
+    ]
+   }
   },
   {
    "id": "RS",
@@ -7560,7 +10282,24 @@
     44,
     21
    ],
-   "wikidata": "Q403"
+   "wikidata": "Q403",
+   "de": {
+    "capitals": [
+     "Belgrad"
+    ],
+    "government": "parlamentarische Republik",
+    "summary": {
+     "text": "Serbien ist ein Binnenstaat in Südost- und Mitteleuropa. Serbien liegt im Zentrum der Balkanhalbinsel und grenzt im Norden an Ungarn, im Osten an Rumänien und Bulgarien, im Süden an Nordmazedonien und Albanien bzw.",
+     "url": "https://de.wikipedia.org/wiki/Serbien",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Serbisch"
+    ],
+    "currencies": [
+     "Serbischer Dinar"
+    ]
+   }
   },
   {
    "id": "SC",
@@ -7610,7 +10349,26 @@
     -4.58333333,
     55.66666666
    ],
-   "wikidata": "Q1042"
+   "wikidata": "Q1042",
+   "de": {
+    "capitals": [
+     "Victoria"
+    ],
+    "government": "Präsidialrepublik",
+    "summary": {
+     "text": "Die Republik Seychellen, auch nur die Seychellen ist ein Inselstaat im Indischen Ozean. Topografisch gehört der Staat zu Afrika. Seine Hauptstadt ist Victoria, welche nach der ehemaligen britischen Königin benannt ist.",
+     "url": "https://de.wikipedia.org/wiki/Seychellen",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Seychellenkreol",
+     "Englisch",
+     "Französisch"
+    ],
+    "currencies": [
+     "Seychellen-Rupie"
+    ]
+   }
   },
   {
    "id": "SL",
@@ -7656,7 +10414,24 @@
     8.5,
     -11.5
    ],
-   "wikidata": "Q1044"
+   "wikidata": "Q1044",
+   "de": {
+    "capitals": [
+     "Freetown"
+    ],
+    "government": "Präsidentielles Regierungssystem",
+    "summary": {
+     "text": "Sierra Leone, offiziell Republik Sierra Leone, ist ein Staat in Westafrika, der im Norden und Osten an Guinea, im Südosten an Liberia und im Westen an den Zentralatlantik grenzt. Die Hauptstadt und größte Stadt des Landes ist Freetown.",
+     "url": "https://de.wikipedia.org/wiki/Sierra_Leone",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch"
+    ],
+    "currencies": [
+     "Sierra-leonischer Leone (1964–2022)"
+    ]
+   }
   },
   {
    "id": "SG",
@@ -7708,7 +10483,27 @@
     1.36666666,
     103.8
    ],
-   "wikidata": "Q334"
+   "wikidata": "Q334",
+   "de": {
+    "capitals": [
+     "Singapur"
+    ],
+    "government": "parlamentarische Republik",
+    "summary": {
+     "text": "Singapur ist ein Insel- und Stadtstaat in Südostasien. Er liegt vor der Südspitze der Malaiischen Halbinsel und wird von dieser durch die Straße von Johor getrennt. Mit einer Fläche von 728,6 Quadratkilometern hat Singapur das kleinste Staatsgebiet Südostasiens.",
+     "url": "https://de.wikipedia.org/wiki/Singapur",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch",
+     "Malaiisch",
+     "Tamil",
+     "Chinesisch"
+    ],
+    "currencies": [
+     "Singapur-Dollar"
+    ]
+   }
   },
   {
    "id": "SK",
@@ -7755,7 +10550,24 @@
     48.66666666,
     19.5
    ],
-   "wikidata": "Q214"
+   "wikidata": "Q214",
+   "de": {
+    "capitals": [
+     "Bratislava"
+    ],
+    "government": "parlamentarische Republik",
+    "summary": {
+     "text": "Die Slowakei ist ein Binnenstaat in Mitteleuropa, der an Österreich, Tschechien, Polen, die Ukraine und Ungarn grenzt. Die Hauptstadt und gleichzeitig größte Stadt des Landes ist Bratislava, weitere wichtige Städte sind Košice, Prešov, Žilina, Banská Bystrica, Nitra, Trnava und Trenčín.",
+     "url": "https://de.wikipedia.org/wiki/Slowakei",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Slowakisch"
+    ],
+    "currencies": [
+     "Euro"
+    ]
+   }
   },
   {
    "id": "SI",
@@ -7802,7 +10614,24 @@
     46.11666666,
     14.81666666
    ],
-   "wikidata": "Q215"
+   "wikidata": "Q215",
+   "de": {
+    "capitals": [
+     "Ljubljana"
+    ],
+    "government": "demokratische Republik",
+    "summary": {
+     "text": "Slowenien ist ein Staat in Mitteleuropa mit rund zwei Millionen Einwohnern, der im Westen an Italien und das Mittelmeer, im Norden an Österreich, im Osten an Ungarn und im Süden an Kroatien grenzt. Hauptstadt und zugleich größte Stadt des Landes ist das zentral gelegene Ljubljana.",
+     "url": "https://de.wikipedia.org/wiki/Slowenien",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Slowenisch"
+    ],
+    "currencies": [
+     "Euro"
+    ]
+   }
   },
   {
    "id": "SB",
@@ -7846,7 +10675,24 @@
     -8,
     159
    ],
-   "wikidata": "Q685"
+   "wikidata": "Q685",
+   "de": {
+    "capitals": [
+     "Honiara"
+    ],
+    "government": "parlamentarische Monarchie",
+    "summary": {
+     "text": "Die Salomonen bzw. Salomoninseln sind ein Inselstaat in der Südsee. 000 Einwohnern der bevölkerungsreichste Staat Ozeaniens nach Australien, Neuseeland und Fidschi.",
+     "url": "https://de.wikipedia.org/wiki/Salomonen",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch"
+    ],
+    "currencies": [
+     "Salomonen-Dollar"
+    ]
+   }
   },
   {
    "id": "SO",
@@ -7898,7 +10744,25 @@
     10,
     49
    ],
-   "wikidata": "Q1045"
+   "wikidata": "Q1045",
+   "de": {
+    "capitals": [
+     "Mogadischu"
+    ],
+    "government": "Bundesstaat",
+    "summary": {
+     "text": "Somalia bezeichnet einen föderalen Staat am Horn von Afrika im äußersten Osten Afrikas. Das beanspruchte Staatsgebiet grenzt an den Indischen Ozean im Osten, den Golf von Aden im Norden, Dschibuti und Äthiopien im Westen und Kenia im Süden.",
+     "url": "https://de.wikipedia.org/wiki/Somalia",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Arabisch",
+     "Somali"
+    ],
+    "currencies": [
+     "Somalia-Schilling"
+    ]
+   }
   },
   {
    "id": "ZA",
@@ -7960,7 +10824,36 @@
     -29,
     24
    ],
-   "wikidata": "Q258"
+   "wikidata": "Q258",
+   "de": {
+    "capitals": [
+     "Pretoria",
+     "Bloemfontein",
+     "Kapstadt"
+    ],
+    "government": "parlamentarische Republik, repräsentative Demokratie",
+    "summary": {
+     "text": "Die Republik Südafrika ist ein Staat im südlichen Afrika. Er ist der am weitesten entwickelte Wirtschaftsraum des afrikanischen Kontinents.",
+     "url": "https://de.wikipedia.org/wiki/S%C3%BCdafrika",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Afrikaans",
+     "Englisch",
+     "Süd-Ndebele",
+     "Nord-Sotho",
+     "Süd-Sotho",
+     "Swazi",
+     "Tswana",
+     "Tsonga",
+     "Venda",
+     "Xhosa",
+     "Zulu"
+    ],
+    "currencies": [
+     "Südafrikanischer Rand"
+    ]
+   }
   },
   {
    "id": "KR",
@@ -8008,7 +10901,24 @@
     37,
     127.5
    ],
-   "wikidata": "Q884"
+   "wikidata": "Q884",
+   "de": {
+    "capitals": [
+     "Seoul"
+    ],
+    "government": "Präsidentielles Regierungssystem, Republik",
+    "summary": {
+     "text": "Die Republik Korea, auf deutsch meist Südkorea genannt, ist ein demokratischer Staat in Ostasien. Sie nimmt seit der Teilung Koreas 1945 den südlichen Teil der Koreanischen Halbinsel ein.",
+     "url": "https://de.wikipedia.org/wiki/S%C3%BCdkorea",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Koreanisch"
+    ],
+    "currencies": [
+     "Südkoreanischer Won"
+    ]
+   }
   },
   {
    "id": "SS",
@@ -8054,7 +10964,24 @@
     7,
     30
    ],
-   "wikidata": "Q958"
+   "wikidata": "Q958",
+   "de": {
+    "capitals": [
+     "Juba"
+    ],
+    "government": "Bundesstaat",
+    "summary": {
+     "text": "Der Südsudan ist ein Binnenstaat in Ostafrika. Er grenzt im Norden an den Sudan, im Osten an Äthiopien, im Südosten an Kenia, im Süden an Uganda, im Südwesten an die Demokratische Republik Kongo und im Westen an die Zentralafrikanische Republik.",
+     "url": "https://de.wikipedia.org/wiki/S%C3%BCdsudan",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch"
+    ],
+    "currencies": [
+     "Südsudanesisches Pfund"
+    ]
+   }
   },
   {
    "id": "ES",
@@ -8101,7 +11028,24 @@
     40,
     -4
    ],
-   "wikidata": "Q29"
+   "wikidata": "Q29",
+   "de": {
+    "capitals": [
+     "Madrid"
+    ],
+    "government": "parlamentarische Monarchie",
+    "summary": {
+     "text": "Spanien ist ein Staat auf der Iberischen Halbinsel im Südwesten Europas, mit den Balearischen Inseln im Mittelmeer, den Kanarischen Inseln im Atlantik und zwei Exklaven in Nordafrika.",
+     "url": "https://de.wikipedia.org/wiki/Spanien",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Spanisch"
+    ],
+    "currencies": [
+     "Euro"
+    ]
+   }
   },
   {
    "id": "LK",
@@ -8150,7 +11094,26 @@
     7,
     81
    ],
-   "wikidata": "Q854"
+   "wikidata": "Q854",
+   "de": {
+    "capitals": [
+     "Sri Jayawardenepura Kotte",
+     "Colombo"
+    ],
+    "government": "Republik",
+    "summary": {
+     "text": "Sri Lanka, von 1796 bis 1972 Ceylon, ist ein Inselstaat im Indischen Ozean, 237 km östlich der Südspitze des Indischen Subkontinents, und hatte 2021 etwa 22 Millionen Einwohner. Die kürzeste Entfernung zwischen Indien und Sri Lanka beträgt 54,8 km.",
+     "url": "https://de.wikipedia.org/wiki/Sri_Lanka",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Singhalesisch",
+     "Tamil"
+    ],
+    "currencies": [
+     "Sri-Lanka-Rupie"
+    ]
+   }
   },
   {
    "id": "SD",
@@ -8198,7 +11161,25 @@
     15,
     30
    ],
-   "wikidata": "Q1049"
+   "wikidata": "Q1049",
+   "de": {
+    "capitals": [
+     "Chartum"
+    ],
+    "government": "Bundesstaat",
+    "summary": {
+     "text": "Die Republik Sudan ist ein Staat in Nordost-Afrika mit Zugang zum Roten Meer. Er grenzt im Norden an Ägypten, im Osten an Eritrea, im Südosten an Äthiopien, im Süden an den Südsudan, im Südwesten an die Zentralafrikanische Republik, im Westen an den Tschad und im Nordwesten an Libyen.",
+     "url": "https://de.wikipedia.org/wiki/Sudan",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Arabisch",
+     "Englisch"
+    ],
+    "currencies": [
+     "Sudanesisches Pfund"
+    ]
+   }
   },
   {
    "id": "SR",
@@ -8247,7 +11228,24 @@
     4,
     -56
    ],
-   "wikidata": "Q730"
+   "wikidata": "Q730",
+   "de": {
+    "capitals": [
+     "Paramaribo"
+    ],
+    "government": "Republik",
+    "summary": {
+     "text": "Suriname, deutsch auch Surinam, Sranantongo Sranan, bis 1975 auch Niederländisch-Guayana, ist ein Staat im Nordosten von Südamerika.",
+     "url": "https://de.wikipedia.org/wiki/Suriname",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Niederländisch"
+    ],
+    "currencies": [
+     "Suriname-Dollar"
+    ]
+   }
   },
   {
    "id": "SE",
@@ -8294,7 +11292,24 @@
     62,
     15
    ],
-   "wikidata": "Q34"
+   "wikidata": "Q34",
+   "de": {
+    "capitals": [
+     "Stockholm"
+    ],
+    "government": "repräsentative Demokratie, konstitutionelle Monarchie",
+    "summary": {
+     "text": "Das Königreich Schweden ist eine parlamentarische Monarchie in Skandinavien. Das Staatsgebiet umfasst den östlichen Teil der Skandinavischen Halbinsel und die Inseln Gotland und Öland. Schweden ist Mitglied des Nordischen Rates, seit 1995 der Europäischen Union und seit 2024 der NATO.",
+     "url": "https://de.wikipedia.org/wiki/Schweden",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Schwedisch"
+    ],
+    "currencies": [
+     "Schwedische Krone"
+    ]
+   }
   },
   {
    "id": "CH",
@@ -8349,7 +11364,27 @@
     47,
     8
    ],
-   "wikidata": "Q39"
+   "wikidata": "Q39",
+   "de": {
+    "capitals": [
+     "Bern"
+    ],
+    "government": "Direktorialsystem",
+    "summary": {
+     "text": "Die Schweiz, amtlich Schweizerische Eidgenossenschaft, ist ein föderalistischer, demokratischer Staat in Mitteleuropa. Er grenzt im Norden an Deutschland, im Osten an Österreich und Liechtenstein, im Süden an Italien und im Westen an Frankreich.",
+     "url": "https://de.wikipedia.org/wiki/Schweiz",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Französisch",
+     "Schweizerdeutsch",
+     "Italienisch",
+     "Rätoromanisch"
+    ],
+    "currencies": [
+     "Schweizer Franken"
+    ]
+   }
   },
   {
    "id": "SY",
@@ -8396,7 +11431,24 @@
     35,
     38
    ],
-   "wikidata": "Q858"
+   "wikidata": "Q858",
+   "de": {
+    "capitals": [
+     "Damaskus"
+    ],
+    "government": "Übergangsregierung",
+    "summary": {
+     "text": "Syrien ist ein Staat in Vorderasien und Teil des Maschrek. Syrien grenzt im Süden an Israel und Jordanien, im Westen an den Libanon und das Mittelmeer, im Norden an die Türkei und im Osten an den Irak.",
+     "url": "https://de.wikipedia.org/wiki/Syrien",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Arabisch"
+    ],
+    "currencies": [
+     "Syrisches Pfund"
+    ]
+   }
   },
   {
    "id": "TW",
@@ -8447,7 +11499,24 @@
     23.5,
     121
    ],
-   "wikidata": "Q865"
+   "wikidata": "Q865",
+   "de": {
+    "capitals": [
+     "Taipeh"
+    ],
+    "government": "demokratische Republik, konstitutionelle Republik",
+    "summary": {
+     "text": "Die Republik China, weithin bekannt als Taiwan, in Deutschland amtlich Taiwan, in Österreich und der Schweiz Taiwan , ist ein im Zuge der Ein-China-Politik nur von wenigen Staaten diplomatisch anerkannter Inselstaat in Ostasien.",
+     "url": "https://de.wikipedia.org/wiki/Republik_China_(Taiwan)",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Chinesisch"
+    ],
+    "currencies": [
+     "Neuer Taiwan-Dollar"
+    ]
+   }
   },
   {
    "id": "TJ",
@@ -8497,7 +11566,25 @@
     39,
     71
    ],
-   "wikidata": "Q863"
+   "wikidata": "Q863",
+   "de": {
+    "capitals": [
+     "Duschanbe"
+    ],
+    "government": "Präsidentielles Regierungssystem",
+    "summary": {
+     "text": "Tadschikistann] ist ein Binnenstaat in Zentralasien mit 10,8 Millionen Einwohnern. 100 km², also etwa doppelt so viel wie die Fläche Bayerns. Mehr als zwei Drittel des Landes sind Hochgebirge, nach durchschnittlicher Höhe ist Tadschikistan das höchste Land der Welt.",
+     "url": "https://de.wikipedia.org/wiki/Tadschikistan",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Russisch",
+     "Tadschikisch"
+    ],
+    "currencies": [
+     "Tadschikistan-Somoni"
+    ]
+   }
   },
   {
    "id": "TZ",
@@ -8548,7 +11635,25 @@
     -6,
     35
    ],
-   "wikidata": "Q924"
+   "wikidata": "Q924",
+   "de": {
+    "capitals": [
+     "Dodoma"
+    ],
+    "government": "Präsidialrepublik",
+    "summary": {
+     "text": "Tansania ist ein Staat in Ostafrika. Er liegt am Indischen Ozean und grenzt an Kenia und Uganda im Norden, Ruanda, Burundi und die DR Kongo im Westen und Sambia, Malawi und Mosambik im Süden. Tansania hat etwa die zweieinhalbfache Fläche Deutschlands.",
+     "url": "https://de.wikipedia.org/wiki/Tansania",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch",
+     "Suaheli"
+    ],
+    "currencies": [
+     "Tansania-Schilling"
+    ]
+   }
   },
   {
    "id": "TH",
@@ -8600,7 +11705,24 @@
     15,
     100
    ],
-   "wikidata": "Q869"
+   "wikidata": "Q869",
+   "de": {
+    "capitals": [
+     "Bangkok"
+    ],
+    "government": "parlamentarische Monarchie, konstitutionelle Monarchie",
+    "summary": {
+     "text": "Thailand, offiziell Königreich Thailand, ist ein Staat in Südostasien. Er grenzt an Myanmar, Laos, Kambodscha, Malaysia, das Andamanische Meer und den Golf von Thailand. Die Hauptstadt und mit Abstand größte Stadt des Landes ist Bangkok.",
+     "url": "https://de.wikipedia.org/wiki/Thailand",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Thailändisch"
+    ],
+    "currencies": [
+     "Thailändischer Baht"
+    ]
+   }
   },
   {
    "id": "TL",
@@ -8653,7 +11775,25 @@
     -8.83333333,
     125.91666666
    ],
-   "wikidata": "Q574"
+   "wikidata": "Q574",
+   "de": {
+    "capitals": [
+     "Dili"
+    ],
+    "government": "Semipräsidentielles Regierungssystem, Republik",
+    "summary": {
+     "text": "Osttimor, amtlich Demokratische Republik Timor-Leste, ist ein demokratischer Inselstaat in Südostasien und war der erste Staat, der im 21. Jahrhundert unabhängig wurde. Die einzige Landgrenze trennt Osttimor vom indonesischen Westteil der Insel Timor, der zur Provinz Ost-Nusa Tenggara gehört.",
+     "url": "https://de.wikipedia.org/wiki/Osttimor",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Portugiesisch",
+     "Tetum"
+    ],
+    "currencies": [
+     "US-Dollar"
+    ]
+   }
   },
   {
    "id": "TG",
@@ -8701,7 +11841,24 @@
     8,
     1.16666666
    ],
-   "wikidata": "Q945"
+   "wikidata": "Q945",
+   "de": {
+    "capitals": [
+     "Lomé"
+    ],
+    "government": "parlamentarische Republik",
+    "summary": {
+     "text": "Togo ist ein Staat in Westafrika, am Golf von Guinea gelegen, und grenzt an Ghana im Westen, Benin im Osten und Burkina Faso im Norden. Hauptstadt und Regierungssitz ist Lomé.",
+     "url": "https://de.wikipedia.org/wiki/Togo",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Französisch"
+    ],
+    "currencies": [
+     "CFA-Franc (BCEAO)"
+    ]
+   }
   },
   {
    "id": "TO",
@@ -8748,7 +11905,25 @@
     -20,
     -175
    ],
-   "wikidata": "Q678"
+   "wikidata": "Q678",
+   "de": {
+    "capitals": [
+     "Nuku'alofa"
+    ],
+    "government": "konstitutionelle Monarchie",
+    "summary": {
+     "text": "Das Königreich Tonga ist ein Inselstaat im Südpazifik. Er zählt zur geographischen Region Polynesien. Ein früherer Name des Archipels war auch Freundschaftsinseln. Die Einwohner Tongas werden Tongaer genannt.",
+     "url": "https://de.wikipedia.org/wiki/Tonga",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch",
+     "Tongaisch"
+    ],
+    "currencies": [
+     "Tongaischer Paʻanga"
+    ]
+   }
   },
   {
    "id": "TT",
@@ -8794,7 +11969,24 @@
     11,
     -61
    ],
-   "wikidata": "Q754"
+   "wikidata": "Q754",
+   "de": {
+    "capitals": [
+     "Port of Spain"
+    ],
+    "government": "parlamentarische Republik",
+    "summary": {
+     "text": "Trinidad und Tobago ist ein karibischer Inselstaat, der im Wesentlichen die Inseln Trinidad und Tobago umfasst. Die Inseln sind die südlichsten der Kleinen Antillen und liegen vor der Küste Venezuelas.",
+     "url": "https://de.wikipedia.org/wiki/Trinidad_und_Tobago",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch"
+    ],
+    "currencies": [
+     "Trinidad-und-Tobago-Dollar"
+    ]
+   }
   },
   {
    "id": "TN",
@@ -8842,7 +12034,24 @@
     34,
     9
    ],
-   "wikidata": "Q948"
+   "wikidata": "Q948",
+   "de": {
+    "capitals": [
+     "Tunis"
+    ],
+    "government": "parlamentarische Republik, Präsidentielles Regierungssystem",
+    "summary": {
+     "text": "Tunesien ist ein Staat in Nordafrika. Er besteht aus 24 Gouvernements. Tunesien hat knapp 12 Millionen Einwohner und zählt mit 78 Einwohnern pro km² zu den weniger dicht besiedelten Staaten.",
+     "url": "https://de.wikipedia.org/wiki/Tunesien",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Arabisch"
+    ],
+    "currencies": [
+     "Tunesischer Dinar"
+    ]
+   }
   },
   {
    "id": "TR",
@@ -8892,7 +12101,24 @@
     39,
     35
    ],
-   "wikidata": "Q43"
+   "wikidata": "Q43",
+   "de": {
+    "capitals": [
+     "Ankara"
+    ],
+    "government": "Präsidentielles Regierungssystem",
+    "summary": {
+     "text": "Die Türkei ist ein Einheitsstaat im vorderasiatischen Anatolien und südosteuropäischen Ostthrakien.",
+     "url": "https://de.wikipedia.org/wiki/T%C3%BCrkei",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Türkisch"
+    ],
+    "currencies": [
+     "Türkische Lira"
+    ]
+   }
   },
   {
    "id": "TM",
@@ -8937,7 +12163,25 @@
     40,
     60
    ],
-   "wikidata": "Q874"
+   "wikidata": "Q874",
+   "de": {
+    "capitals": [
+     "Aschgabat"
+    ],
+    "government": "Präsidentielles Regierungssystem, Republik",
+    "summary": {
+     "text": "Turkmenistan ist ein Staat in Zentralasien. Turkmenistan liegt am Kaspischen Meer und grenzt an Kasachstan im Nordwesten, Usbekistan im Nordosten, Afghanistan im Südosten, Iran im Süden und über eine Seegrenze durch das Kaspische Meer an Aserbaidschan im Westen.",
+     "url": "https://de.wikipedia.org/wiki/Turkmenistan",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Russisch",
+     "Turkmenisch"
+    ],
+    "currencies": [
+     "Turkmenistan-Manat"
+    ]
+   }
   },
   {
    "id": "TV",
@@ -8989,7 +12233,26 @@
     -8,
     178
    ],
-   "wikidata": "Q672"
+   "wikidata": "Q672",
+   "de": {
+    "capitals": [
+     "Funafuti"
+    ],
+    "government": "konstitutionelle Monarchie",
+    "summary": {
+     "text": "Tuvalu ist ein Inselstaat im Pazifischen Ozean. Er ist als parlamentarische Monarchie mit Charles III. als König organisiert und Mitglied des Commonwealth of Nations. Hauptstadt ist das Atoll Funafuti und Regierungssitz das auf diesem Atoll gelegene Dorf Vaiaku.",
+     "url": "https://de.wikipedia.org/wiki/Tuvalu",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch",
+     "Tuvaluisch"
+    ],
+    "currencies": [
+     "Australischer Dollar",
+     "Tuvalu-Dollar"
+    ]
+   }
   },
   {
    "id": "UG",
@@ -9037,7 +12300,25 @@
     1,
     32
    ],
-   "wikidata": "Q1036"
+   "wikidata": "Q1036",
+   "de": {
+    "capitals": [
+     "Kampala"
+    ],
+    "government": "Präsidentielles Regierungssystem",
+    "summary": {
+     "text": "Uganda, amtlich Republik Uganda, ist ein seit 1962 unabhängiger Binnenstaat in Ostafrika. Hauptstadt und größte Stadt Ugandas ist Kampala. Mit einem nominellen Bruttosozialprodukt von 908 US$ pro Kopf/Jahr ist Uganda eines der ärmsten Länder der Welt.",
+     "url": "https://de.wikipedia.org/wiki/Uganda",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch",
+     "Suaheli"
+    ],
+    "currencies": [
+     "Uganda-Schilling"
+    ]
+   }
   },
   {
    "id": "UA",
@@ -9085,7 +12366,24 @@
     49,
     32
    ],
-   "wikidata": "Q212"
+   "wikidata": "Q212",
+   "de": {
+    "capitals": [
+     "Kiew"
+    ],
+    "government": "Semipräsidentielles Regierungssystem",
+    "summary": {
+     "text": "Die Ukraine ist ein Staat in Osteuropa mit knapp 39 Millionen Einwohnern. 628 Quadratkilometern ist sie nach Russland der zweitgrößte Staat Europas und der größte, dessen Gebiet zur Gänze innerhalb des Kontinents liegt.",
+     "url": "https://de.wikipedia.org/wiki/Ukraine",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Ukrainisch"
+    ],
+    "currencies": [
+     "Ukrainische Hrywnja"
+    ]
+   }
   },
   {
    "id": "AE",
@@ -9132,7 +12430,24 @@
     24,
     54
    ],
-   "wikidata": "Q878"
+   "wikidata": "Q878",
+   "de": {
+    "capitals": [
+     "Abu Dhabi"
+    ],
+    "government": "föderale Monarchie, absolute Monarchie",
+    "summary": {
+     "text": "Die Vereinigten Arabischen Emirate, kurz VAE und häufig „die Emirate“, sind eine Föderation von sieben Emiraten im Osten der Arabischen Halbinsel in Südwestasien. An der Küste des Persischen Golfs gelegen und mit Zugang zum Golf von Oman grenzt das Land an Saudi-Arabien und Oman.",
+     "url": "https://de.wikipedia.org/wiki/Vereinigte_Arabische_Emirate",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Arabisch"
+    ],
+    "currencies": [
+     "VAE-Dirham"
+    ]
+   }
   },
   {
    "id": "GB",
@@ -9180,7 +12495,24 @@
     54,
     -2
    ],
-   "wikidata": "Q145"
+   "wikidata": "Q145",
+   "de": {
+    "capitals": [
+     "London"
+    ],
+    "government": "konstitutionelle Monarchie",
+    "summary": {
+     "text": "Das Vereinigte Königreich Großbritannien und Nordirland, kurz Vereinigtes Königreich, ist ein auf den Britischen Inseln vor der Nordwestküste Kontinentaleuropas gelegener Staat, der den größten Inselstaat Europas bildet.",
+     "url": "https://de.wikipedia.org/wiki/Vereinigtes_K%C3%B6nigreich",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch"
+    ],
+    "currencies": [
+     "Britisches Pfund"
+    ]
+   }
   },
   {
    "id": "US",
@@ -9231,7 +12563,24 @@
     38,
     -97
    ],
-   "wikidata": "Q30"
+   "wikidata": "Q30",
+   "de": {
+    "capitals": [
+     "Washington, D.C."
+    ],
+    "government": "demokratische Republik, konstitutionelle Republik",
+    "summary": {
+     "text": "Die Vereinigten Staaten von Amerika, kurz Vereinigte Staaten oder Amerika genannt, sind ihrer Verfassung zufolge eine demokratische, föderal aufgebaute Republik in Nordamerika mit einigen Inseln in Ozeanien.",
+     "url": "https://de.wikipedia.org/wiki/Vereinigte_Staaten",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch"
+    ],
+    "currencies": [
+     "US-Dollar"
+    ]
+   }
   },
   {
    "id": "UY",
@@ -9278,7 +12627,24 @@
     -33,
     -56
    ],
-   "wikidata": "Q77"
+   "wikidata": "Q77",
+   "de": {
+    "capitals": [
+     "Montevideo"
+    ],
+    "government": "Partizipatorische Demokratie, Präsidentielles Regierungssystem",
+    "summary": {
+     "text": "Uruguay ist ein Staat im Südkegel Südamerikas. Es ist das kleinste spanischsprachige Land in Südamerika. Uruguay grenzt im Norden an Brasilien, im Osten an den Atlantischen Ozean, im Süden an den Río de la Plata und im Westen an Argentinien.",
+     "url": "https://de.wikipedia.org/wiki/Uruguay",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Spanisch"
+    ],
+    "currencies": [
+     "Uruguayischer Peso"
+    ]
+   }
   },
   {
    "id": "UZ",
@@ -9327,7 +12693,25 @@
     41,
     64
    ],
-   "wikidata": "Q265"
+   "wikidata": "Q265",
+   "de": {
+    "capitals": [
+     "Taschkent"
+    ],
+    "government": "Präsidentielles Regierungssystem",
+    "summary": {
+     "text": "978 km² großer Binnenstaat in Zentralasien mit 37 Millionen Einwohnern. Er grenzt im Norden an Kasachstan, im Nordosten an Kirgisistan, im Südosten an Tadschikistan, im Süden an Afghanistan und im Südwesten an Turkmenistan.",
+     "url": "https://de.wikipedia.org/wiki/Usbekistan",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Russisch",
+     "Usbekisch"
+    ],
+    "currencies": [
+     "Usbekistan-Sum"
+    ]
+   }
   },
   {
    "id": "VU",
@@ -9377,7 +12761,26 @@
     -16,
     167
    ],
-   "wikidata": "Q686"
+   "wikidata": "Q686",
+   "de": {
+    "capitals": [
+     "Port Vila"
+    ],
+    "government": "parlamentarische Republik",
+    "summary": {
+     "text": "Vanuatu ist ein souveräner Inselstaat im Südpazifik.",
+     "url": "https://de.wikipedia.org/wiki/Vanuatu",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Bislama",
+     "Englisch",
+     "Französisch"
+    ],
+    "currencies": [
+     "Vanuatu-Vatu"
+    ]
+   }
   },
   {
    "id": "VA",
@@ -9430,7 +12833,25 @@
     41.9,
     12.45
    ],
-   "wikidata": "Q237"
+   "wikidata": "Q237",
+   "de": {
+    "capitals": [
+     "Vatikanstadt"
+    ],
+    "government": "Papsttum, Theokratie",
+    "summary": {
+     "text": "Die Vatikanstadt ist sowohl nach Fläche als auch nach Bevölkerungszahl der kleinste allgemein anerkannte Staat der Erde und der einzige mit Latein als Amtssprache. Der Stadtstaat liegt innerhalb der italienischen Hauptstadt Rom und ist damit als Enklave vollständig von Italien sowie als einziger Staat der Erde vollständig von einer Stadt umgeben.",
+     "url": "https://de.wikipedia.org/wiki/Vatikanstadt",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Italienisch",
+     "Latein"
+    ],
+    "currencies": [
+     "Euro"
+    ]
+   }
   },
   {
    "id": "VE",
@@ -9478,7 +12899,24 @@
     8,
     -66
    ],
-   "wikidata": "Q717"
+   "wikidata": "Q717",
+   "de": {
+    "capitals": [
+     "Caracas"
+    ],
+    "government": "Präsidentielles Regierungssystem",
+    "summary": {
+     "text": "Venezuela ist ein Staat im Norden von Südamerika. Er grenzt im Süden an Brasilien, im Westen an Kolumbien, im Osten an Guyana und im Norden an die Karibik. Im Land leben etwa 28,5 Millionen Menschen, davon rund 5 Millionen in der Metropolregion der Hauptstadt Caracas.",
+     "url": "https://de.wikipedia.org/wiki/Venezuela",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Spanisch"
+    ],
+    "currencies": [
+     "Venezolanischer Bolívar"
+    ]
+   }
   },
   {
    "id": "VN",
@@ -9526,7 +12964,24 @@
     16.16666666,
     107.83333333
    ],
-   "wikidata": "Q881"
+   "wikidata": "Q881",
+   "de": {
+    "capitals": [
+     "Hanoi"
+    ],
+    "government": "Einparteiensystem, Republik",
+    "summary": {
+     "text": "Vietnam ist ein langgestreckter Küstenstaat in Südostasien. Er grenzt an China, Laos, Kambodscha, den Golf von Thailand und das Südchinesische Meer. Die Landeshauptstadt ist Hanoi und die größte Stadt nach Einwohnern ist Ho-Chi-Minh-Stadt.",
+     "url": "https://de.wikipedia.org/wiki/Vietnam",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Vietnamesisch"
+    ],
+    "currencies": [
+     "Vietnamesischer Dong"
+    ]
+   }
   },
   {
    "id": "YE",
@@ -9577,7 +13032,24 @@
     15,
     48
    ],
-   "wikidata": "Q805"
+   "wikidata": "Q805",
+   "de": {
+    "capitals": [
+     "Sanaa"
+    ],
+    "government": "Präsidentielles Regierungssystem, Republik",
+    "summary": {
+     "text": "Der Jemen bzw. Yemen ist ein Staat in Vorderasien, im Süden der Arabischen Halbinsel. Jemen grenzt im Norden an Saudi-Arabien, im Osten an Oman, im Süden an den Golf von Aden und das Arabische Meer, im Westen an das Rote Meer.",
+     "url": "https://de.wikipedia.org/wiki/Jemen",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Arabisch"
+    ],
+    "currencies": [
+     "Jemen-Rial"
+    ]
+   }
   },
   {
    "id": "ZM",
@@ -9623,7 +13095,24 @@
     -15,
     30
    ],
-   "wikidata": "Q953"
+   "wikidata": "Q953",
+   "de": {
+    "capitals": [
+     "Lusaka"
+    ],
+    "government": "repräsentative Demokratie, Präsidentielles Regierungssystem",
+    "summary": {
+     "text": "Die Republik Sambia ist ein Binnenstaat im südlichen Afrika. Er grenzt an Angola, die Demokratische Republik Kongo, Tansania, Malawi, Mosambik, Simbabwe, Botswana und Namibia. Der Name leitet sich vom Fluss Sambesi ab.",
+     "url": "https://de.wikipedia.org/wiki/Sambia",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Englisch"
+    ],
+    "currencies": [
+     "Kwacha"
+    ]
+   }
   },
   {
    "id": "ZW",
@@ -9723,7 +13212,46 @@
     -20,
     30
    ],
-   "wikidata": "Q954"
+   "wikidata": "Q954",
+   "de": {
+    "capitals": [
+     "Harare"
+    ],
+    "government": "Präsidialrepublik",
+    "summary": {
+     "text": "Simbabwe ist ein Binnenstaat im Südlichen Afrika, der als ehemalige britische Kronkolonie Südrhodesien sowie als Sezessionsterritorium kurzzeitig Rhodesien und Simbabwe-Rhodesien hieß.",
+     "url": "https://de.wikipedia.org/wiki/Simbabwe",
+     "source": "Wikipedia (de)"
+    },
+    "languages": [
+     "Chibarwe",
+     "Englisch",
+     "Kalanga",
+     "Khoisan-Sprachen",
+     "Ndau",
+     "Nord-Ndebele",
+     "Nyanja",
+     "Shona",
+     "Süd-Sotho",
+     "Tonga",
+     "Tswana",
+     "Tsonga",
+     "Venda",
+     "Xhosa",
+     "Simbabwische Gebärdensprache"
+    ],
+    "currencies": [
+     "Botswanischer Pula",
+     "Renminbi Yuan",
+     "Euro",
+     "Britisches Pfund",
+     "Indische Rupie",
+     "Japanischer Yen",
+     "US-Dollar",
+     "Südafrikanischer Rand",
+     "Zimbabwean bonds"
+    ]
+   }
   }
  ]
 }

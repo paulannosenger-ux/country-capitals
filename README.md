@@ -5,7 +5,7 @@ Learn all 198 countries of the world and their capitals, Anki-style. Start from 
 - Clean, minimal design (light and dark) in the spirit of Apple / consulting-firm websites: big typography, lots of white space, one green accent
 - Works offline once loaded (PWA), installable on your phone
 - No login, no backend: progress is stored in your browser
-- English UI, German country names shown next to the English ones
+- English or German: switch on the start page (or EN/DE in the top bar). In German, country names, capitals, government, languages, currencies and the Wikipedia summary are German; answers are accepted in both languages ("Wien" and "Vienna")
 
 > ⚠️ **Your progress lives only in your browser (localStorage).** Clearing browser data, using a private window, or switching browser/device deletes or hides it. Use **⚙ Settings → Export progress** now and then, and **Import progress** to move to another device.
 
@@ -93,7 +93,7 @@ npm run data:validate   # print the validation report
 
 ### Manual fixes: `data/overrides.json`
 
-Every manual decision lives here, with a note or source, and is re-applied after each refresh: continents, name changes, multiple capitals, accepted alternative spellings (capitals and, in `nameAliases`, country names for the map quiz), and per-field fixes (e.g. Austria → German, Micronesia → USD, Cyprus government).
+Every manual decision lives here (also `capitalsDe` and `governmentDe` for the German texts), with a note or source, and is re-applied after each refresh: continents, name changes, multiple capitals, accepted alternative spellings (capitals and, in `nameAliases`, country names for the map quiz), and per-field fixes (e.g. Austria → German, Micronesia → USD, Cyprus government).
 
 ### Adding a country or territory
 

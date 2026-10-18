@@ -1,6 +1,7 @@
 // Settings: daily limits, backup (export/import) and reset.
 import { useRef, useState } from 'react'
 import { store, useProgress } from '../progress/progress'
+import { useT } from '../i18n'
 
 function NumberField({ label, value, min, max, onChange }: { label: string; value: number; min: number; max: number; onChange: (n: number) => void }) {
   return (
@@ -14,6 +15,7 @@ function NumberField({ label, value, min, max, onChange }: { label: string; valu
 
 export default function Settings({ onBack }: { onBack: () => void }) {
   useProgress()
+  const t = useT()
   const fileRef = useRef<HTMLInputElement>(null)
   const [message, setMessage] = useState<{ ok: boolean; text: string } | null>(null)
   const { settings } = store
@@ -25,15 +27,15 @@ export default function Settings({ onBack }: { onBack: () => void }) {
     a.download = `country-capitals-progress-${new Date().toISOString().slice(0, 10)}.json`
     a.click()
     URL.revokeObjectURL(a.href)
-    setMessage({ ok: true, text: 'Backup downloaded. Keep the file somewhere safe.' })
+    setMessage({ ok: true, text: t.backupDownloaded })
   }
 
   async function importProgress(file: File | undefined) {
     if (!file) return
-    if (!confirm('Importing replaces ALL current progress on this device with the file. Continue?')) return
+    if (!confirm(t.confirmImport)) return
     try {
       store.importJson(await file.text())
-      setMessage({ ok: true, text: 'Progress imported.' })
+      setMessage({ ok: true, text: t.imported })
     } catch (e) {
       setMessage({ ok: false, text: (e as Error).message })
     }
@@ -41,42 +43,39 @@ export default function Settings({ onBack }: { onBack: () => void }) {
   }
 
   function resetProgress() {
-    if (!confirm('Delete ALL progress on this device? This cannot be undone (export a backup first!).')) return
+    if (!confirm(t.confirmReset)) return
     store.reset()
-    setMessage({ ok: true, text: 'All progress was reset.' })
+    setMessage({ ok: true, text: t.wasReset })
   }
 
   return (
     <section className="settings">
       <div className="page-head">
-        <button className="pill" onClick={onBack}>← Back</button>
-        <h1 className="page-title">Settings</h1>
+        <button className="pill" onClick={onBack}>{t.back}</button>
+        <h1 className="page-title">{t.settings}</h1>
       </div>
 
       <div className="panel card-surface">
-        <h3>Daily limits</h3>
-        <p className="muted">250 or more = no limit: a whole continent is played through in one go.</p>
-        <NumberField label="New cards per day" value={settings.newPerDay} min={0} max={500} onChange={(n) => store.updateSettings({ newPerDay: n })} />
-        <NumberField label="Maximum reviews per day" value={settings.reviewsPerDay} min={0} max={1000} onChange={(n) => store.updateSettings({ reviewsPerDay: n })} />
+        <h3>{t.dailyLimits}</h3>
+        <p className="muted">{t.dailyLimitsHint}</p>
+        <NumberField label={t.newPerDay} value={settings.newPerDay} min={0} max={500} onChange={(n) => store.updateSettings({ newPerDay: n })} />
+        <NumberField label={t.reviewsPerDay} value={settings.reviewsPerDay} min={0} max={1000} onChange={(n) => store.updateSettings({ reviewsPerDay: n })} />
       </div>
 
       <div className="panel card-surface">
-        <h3>Backup</h3>
-        <p>
-          Your progress is stored <b>only in this browser</b>. Clearing browser data deletes it, so export a backup now and then.
-          Use export/import to move progress between phone and laptop.
-        </p>
+        <h3>{t.backup}</h3>
+        <p>{t.backupText1}<b>{t.backupOnly}</b>{t.backupText2}</p>
         <div className="row">
-          <button className="btn" onClick={exportProgress}>Export progress</button>
-          <button className="btn ghost" onClick={() => fileRef.current?.click()}>Import progress…</button>
+          <button className="btn" onClick={exportProgress}>{t.exportProgress}</button>
+          <button className="btn ghost" onClick={() => fileRef.current?.click()}>{t.importProgress}</button>
           <input ref={fileRef} type="file" accept="application/json,.json" hidden onChange={(e) => importProgress(e.target.files?.[0])} />
         </div>
         {message && <p className={'msg ' + (message.ok ? 'ok' : 'err')} role="status">{message.text}</p>}
       </div>
 
       <div className="panel card-surface">
-        <h3>Reset</h3>
-        <button className="btn danger" onClick={resetProgress}>Reset all progress</button>
+        <h3>{t.reset}</h3>
+        <button className="btn danger" onClick={resetProgress}>{t.resetAll}</button>
       </div>
     </section>
   )

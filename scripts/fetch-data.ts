@@ -144,7 +144,8 @@ for (const r of wbRaw[1] ?? []) if (r.value && r.countryiso3code) wbByIso3.set(r
 // ---------- 3. Wikipedia summaries ----------
 /** Keep 2-3 sentences (max ~350 chars) and drop parentheses (pronunciations etc.). */
 function shorten(text: string): string {
-  const clean = text.replace(/\s*\([^()]*(\([^()]*\)[^()]*)*\)/g, '').replace(/\s+/g, ' ').trim()
+  // drop (pronunciations etc.) and [IPA]
+  const clean = text.replace(/\s*\([^()]*(\([^()]*\)[^()]*)*\)/g, '').replace(/\s*\[[^\]]*\]/g, '').replace(/\s+/g, ' ').trim()
   const sentences = clean.match(/[^.!?]+[.!?]+(\s|$)/g) ?? [clean]
   let out = ''
   for (const s of sentences) {
@@ -206,6 +207,78 @@ async function infoboxGovernment(iso: string, article?: string): Promise<string 
   let text = (parts[0] ?? '').replace(/\s+(under|with|led by|ruled by|comprising)\s.*$/i, '').replace(/\s*\(.*$/, '').trim()
   if (!text || text.length > 90) return null
   return text.charAt(0).toLowerCase() + text.slice(1)
+}
+
+// ---------- 3b. German: capitals, government, Wikipedia summary, languages, currencies ----------
+// One Wikidata query for all countries (by Wikidata id, so Kosovo is included).
+const sparqlDe = `
+SELECT ?c ?capEn ?capDe ?govDe ?article WHERE {
+  VALUES ?c { ${[...wdByIso.values()].map((i) => 'wd:' + i.qid).join(' ')} }
+  OPTIONAL { ?c wdt:P36 ?cap . ?cap rdfs:label ?capEn . FILTER(lang(?capEn) = 'en')
+             OPTIONAL { ?cap rdfs:label ?capDe . FILTER(lang(?capDe) = 'de') } }
+  OPTIONAL { ?c wdt:P122 ?gov . ?gov rdfs:label ?govDe . FILTER(lang(?govDe) = 'de') }
+  OPTIONAL { ?article schema:about ?c ; schema:isPartOf <https://de.wikipedia.org/> . }
+}`
+const wdDe = await cached('wikidata-de.json', 'https://query.wikidata.org/sparql?format=json&query=' + encodeURIComponent(sparqlDe), {
+  headers: { Accept: 'application/sparql-results+json' },
+})
+interface DeInfo { capitals: Map<string, string>; gov: Set<string>; article?: string }
+const deByQid = new Map<string, DeInfo>()
+for (const row of wdDe.results.bindings) {
+  const qid = row.c.value.split('/').pop()
+  const info = deByQid.get(qid) ?? { capitals: new Map(), gov: new Set<string>() }
+  if (row.capEn) info.capitals.set(row.capEn.value, row.capDe?.value ?? row.capEn.value)
+  if (row.govDe) info.gov.add(row.govDe.value)
+  if (row.article) info.article = row.article.value
+  deByQid.set(qid, info)
+}
+const plain = (t: string) => t.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z]/g, '')
+
+/** German names of the capitals, in the same order as the English ones (English if Wikidata has nothing). */
+function capitalsDe(iso: string, capitals: string[], qid?: string): string[] {
+  const manual = overrides.capitalsDe?.[iso]
+  if (manual) return manual.value
+  const known = qid ? deByQid.get(qid)?.capitals : undefined
+  return capitals.map((en) => {
+    for (const [wdEn, de] of known ?? []) if (plain(wdEn) === plain(en)) return de
+    return en
+  })
+}
+
+const VAGUE_DE = new Set(['einheitsstaat', 'bundesstaat', 'souveräner staat', 'staat', 'föderation'])
+function governmentDe(iso: string, qid?: string): string | null {
+  if (overrides.governmentDe?.[iso]) return overrides.governmentDe[iso]
+  const all = [...(qid ? deByQid.get(qid)?.gov ?? [] : [])]
+  const specific = all.filter((g) => !VAGUE_DE.has(g.toLowerCase()))
+  const list = (specific.length ? specific : all).slice(0, 2)
+  return list.length ? list.join(', ') : null
+}
+
+async function wikiSummaryDe(iso: string, qid?: string) {
+  const article = qid ? deByQid.get(qid)?.article : undefined
+  if (!article) return null
+  const j = await cached(`wikide-${iso}.json`, `https://de.wikipedia.org/api/rest_v1/page/summary/${article.split('/').pop()}`)
+  if (!j?.extract) return null
+  return { text: shorten(j.extract), url: j.content_urls?.desktop?.page ?? article, source: 'Wikipedia (de)' }
+}
+
+// Languages and currencies: German names from the built-in Unicode data (Intl), English as fallback.
+const langCodeByName = new Map<string, string>()
+for (const c of base) for (const [code, name] of Object.entries<string>(c.languages ?? {})) langCodeByName.set(name, code)
+const LANG_DE: Record<string, string> = {
+  cnr: 'Montenegrinisch', ber: 'Berbersprachen', smi: 'Samisch', khi: 'Khoisan-Sprachen', zdj: 'Komorisch', toi: 'Tonga',
+  hgm: 'Khoekhoe', mey: 'Hassania', nzs: 'Neuseeländische Gebärdensprache', zib: 'Simbabwische Gebärdensprache', bjz: 'Belize-Kreolisch',
+}
+const intlLang = new Intl.DisplayNames(['de'], { type: 'language', fallback: 'none' })
+const intlCur = new Intl.DisplayNames(['de'], { type: 'currency', fallback: 'none' })
+function languageDe(name: string): string {
+  const code = langCodeByName.get(name)
+  if (!code) return name
+  try { return LANG_DE[code] ?? intlLang.of(code) ?? name } catch { return name }
+}
+const CUR_DE: Record<string, string> = { TVD: 'Tuvalu-Dollar', KID: 'Kiribati-Dollar', CKD: 'Cookinseln-Dollar' }
+function currencyDe(code: string, name: string): string {
+  try { return CUR_DE[code] ?? intlCur.of(code) ?? name } catch { return name }
 }
 
 // ---------- 4. continent mapping ----------
@@ -271,6 +344,15 @@ for (const { raw: c, status } of selected) {
   // generic per-field overrides: { "XK": { "population": { "value": ..., "source": "..." } } }
   for (const [field, o] of Object.entries<any>(overrides.fields?.[iso] ?? {})) entry[field] = o.value
 
+  // German texts (after the overrides, so they follow overridden languages/currencies)
+  entry.de = {
+    capitals: capitalsDe(iso, entry.capitals, info?.qid),
+    government: governmentDe(iso, info?.qid),
+    summary: await wikiSummaryDe(iso, info?.qid),
+    languages: entry.languages.map(languageDe),
+    currencies: entry.currencies.map((x: any) => currencyDe(x.code, x.name)),
+  }
+
   countries.push(entry)
 }
 
@@ -284,7 +366,7 @@ writeFileSync(
       sources: {
         base: 'https://github.com/mledoze/countries',
         wikidata: 'https://www.wikidata.org (SPARQL: population P1082, government P122)',
-        summaries: 'https://en.wikipedia.org (REST page summaries, CC BY-SA)',
+        summaries: 'https://en.wikipedia.org and https://de.wikipedia.org (REST page summaries, CC BY-SA)',
         flags: 'https://github.com/lipis/flag-icons',
       },
       countries,

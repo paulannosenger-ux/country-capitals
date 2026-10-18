@@ -1,25 +1,30 @@
 // Facts about a country, shown after a correct answer (flashcards and map quiz).
 import CountUp from '../components/CountUp'
 import type { Country } from '../data/countries'
+import { useLang, useT } from '../i18n'
 
-const fmtPopulation = (n: number) => `≈ ${n >= 1e6 ? `${(n / 1e6).toFixed(n < 1e7 ? 2 : 1)} million` : Math.round(n).toLocaleString('en-US')}`
-const fmtArea = (n: number, target: number) => `${target < 100 ? n.toFixed(target % 1 ? 2 : 0) : Math.round(n).toLocaleString('en-US')} km²`
 const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
 
 export default function CountryFacts({ country: c }: { country: Country }) {
+  const t = useT()
+  const de = useLang() === 'de'
+  const government = de ? c.de.government ?? c.government : c.government
+  const languages = de ? c.de.languages : c.languages
+  const currencies = c.currencies.map((x, i) => `${de ? c.de.currencies[i] ?? x.name : x.name}${x.symbol ? ` (${x.symbol})` : ''}`)
+  const summary = de ? c.de.summary ?? c.summary : c.summary
   return (
     <>
       <dl className="facts">
-        {c.population && (<div><dt>Population</dt><dd><CountUp value={c.population.value} format={fmtPopulation} /> <small>({c.population.year})</small></dd></div>)}
-        {c.areaKm2 && (<div><dt>Area</dt><dd><CountUp value={c.areaKm2} format={(n) => fmtArea(n, c.areaKm2!)} /></dd></div>)}
-        {c.government && (<div className="wide"><dt>Government</dt><dd>{capitalize(c.government)}</dd></div>)}
-        <div><dt>Languages</dt><dd>{c.languages.join(', ')}</dd></div>
-        <div><dt>Currency</dt><dd>{c.currencies.map((x) => `${x.name}${x.symbol ? ` (${x.symbol})` : ''}`).join(', ')}</dd></div>
+        {c.population && (<div><dt>{t.population}</dt><dd><CountUp value={c.population.value} format={t.fmtPopulation} /> <small>({c.population.year})</small></dd></div>)}
+        {c.areaKm2 && (<div><dt>{t.area}</dt><dd><CountUp value={c.areaKm2} format={(n) => t.fmtArea(n, c.areaKm2!)} /></dd></div>)}
+        {government && (<div className="wide"><dt>{t.government}</dt><dd>{capitalize(government)}</dd></div>)}
+        <div><dt>{t.languages}</dt><dd>{languages.join(', ')}</dd></div>
+        <div><dt>{t.currency}</dt><dd>{currencies.join(', ')}</dd></div>
       </dl>
-      {c.summary && (
+      {summary && (
         <p className="summary">
-          {c.summary.text}{' '}
-          <a href={c.summary.url} target="_blank" rel="noreferrer">Wikipedia</a>
+          {summary.text}{' '}
+          <a href={summary.url} target="_blank" rel="noreferrer">Wikipedia</a>
         </p>
       )}
     </>

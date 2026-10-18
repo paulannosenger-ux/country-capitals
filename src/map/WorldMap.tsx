@@ -10,7 +10,8 @@ import { select } from 'd3-selection'
 import 'd3-transition'
 import { feature } from 'topojson-client'
 import atlas from 'world-atlas/countries-50m.json'
-import { countries, countryById, displayName, type Continent } from '../data/countries'
+import { countries, countryById, countryName, displayName, type Continent } from '../data/countries'
+import { useLang, useT } from '../i18n'
 import { statusOf, useProgress } from '../progress/progress'
 
 const W = 960
@@ -162,6 +163,8 @@ export default function WorldMap({ continent, focusId, onPickCountry, fill = fal
   const zoomRef = useRef<ZoomBehavior<SVGSVGElement, unknown> | null>(null)
   const current = useRef<ZoomTransform>(zoomIdentity)
   const progressVersion = useProgress() // colors change after each review
+  const lang = useLang()
+  const t = useT()
   const dragged = useRef(false) // true right after a drag/pinch, so it is not treated as a tap
   // viewBox: fixed 960x500, or (fill mode) the same height with the width of the container's aspect ratio
   const [vb, setVb] = useState({ w: W, h: H })
@@ -179,7 +182,7 @@ export default function WorldMap({ continent, focusId, onPickCountry, fill = fal
     const c = countryById.get(id)!
     return (classFor ? classFor(id) : `c-${statusOf(id)}`) + (continent && c.continent !== continent ? ' dim' : '') + (id === focusId ? ' focus' : '')
   }
-  const tip = (id: string) => (hideNames ? null : <title>{displayName(countryById.get(id)!)}</title>)
+  const tip = (id: string) => (hideNames ? null : <title>{displayName(countryById.get(id)!, lang)}</title>)
 
   /** Free area of the map in viewBox units. */
   function currentBox(): Box {
@@ -296,7 +299,7 @@ export default function WorldMap({ continent, focusId, onPickCountry, fill = fal
       }),
     // progressVersion is not read inside, but statusOf() reads the store: re-render when progress changes
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [continent, focusId, onPickCountry, progressVersion, colorKey, hideNames],
+    [continent, focusId, onPickCountry, progressVersion, colorKey, hideNames, lang],
   )
 
   const dots = useMemo(
@@ -311,7 +314,7 @@ export default function WorldMap({ continent, focusId, onPickCountry, fill = fal
         )
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [continent, focusId, onPickCountry, progressVersion, colorKey, hideNames],
+    [continent, focusId, onPickCountry, progressVersion, colorKey, hideNames, lang],
   )
 
   const wrapped = useMemo(
@@ -334,7 +337,7 @@ export default function WorldMap({ continent, focusId, onPickCountry, fill = fal
         )
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [continent, focusId, onPickCountry, progressVersion, colorKey, hideNames],
+    [continent, focusId, onPickCountry, progressVersion, colorKey, hideNames, lang],
   )
 
   const labelKey = (labelIds ?? []).join(',')
@@ -342,7 +345,8 @@ export default function WorldMap({ continent, focusId, onPickCountry, fill = fal
     () =>
       (labelIds ?? []).map((id) => {
         const sp = labelSpots.get(id)
-        const name = countryById.get(id)?.name.en
+        const c = countryById.get(id)
+        const name = c && countryName(c, lang)
         if (!sp || !name) return null
         return (
           <g key={'l' + id} className="map-label" data-x={sp.x} data-y={sp.y} data-w={sp.w} data-tw={name.length * 6.4 + 4} style={{ display: 'none' }}>
@@ -351,7 +355,7 @@ export default function WorldMap({ continent, focusId, onPickCountry, fill = fal
         )
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [labelKey],
+    [labelKey, lang],
   )
 
   const target = focusId ? displayPoint(focusId) : null
@@ -370,7 +374,7 @@ export default function WorldMap({ continent, focusId, onPickCountry, fill = fal
 
   return (
     <>
-      <svg ref={svgRef} className={'world-map' + (fill ? ' fill' : '')} viewBox={`0 0 ${vb.w} ${vb.h}`} role="img" aria-label="World map">
+      <svg ref={svgRef} className={'world-map' + (fill ? ' fill' : '')} viewBox={`0 0 ${vb.w} ${vb.h}`} role="img" aria-label={t.worldMap}>
         <defs>
           <clipPath id="wrap-clip"><rect x="0" y="0" width={WRAP_STRIP} height={H} /></clipPath>
         </defs>
@@ -393,9 +397,9 @@ export default function WorldMap({ continent, focusId, onPickCountry, fill = fal
         </g>
       </svg>
       <div className="zoom-btns">
-        <button className="map-btn" onClick={() => zoomBy(1.7)} aria-label="Zoom in">+</button>
-        <button className="map-btn" onClick={() => zoomBy(1 / 1.7)} aria-label="Zoom out">−</button>
-        <button className="map-btn" onClick={resetView} aria-label="Reset view">⤢</button>
+        <button className="map-btn" onClick={() => zoomBy(1.7)} aria-label={t.zoomIn}>+</button>
+        <button className="map-btn" onClick={() => zoomBy(1 / 1.7)} aria-label={t.zoomOut}>−</button>
+        <button className="map-btn" onClick={resetView} aria-label={t.resetView}>⤢</button>
       </div>
     </>
   )

@@ -5,6 +5,7 @@ import Stats from './pages/Stats'
 import StudyView from './study/StudyView'
 import MapQuiz from './quiz/MapQuiz'
 import { CONTINENTS, countries, countriesIn, countryById, displayName, type Continent } from './data/countries'
+import { setLang, useLang, useT, type Lang } from './i18n'
 import { countsFor, learnedCount, store, useProgress } from './progress/progress'
 import { computeStats } from './progress/stats'
 import { currentTheme, setTheme } from './theme'
@@ -20,6 +21,8 @@ export default function App() {
   const [studying, setStudying] = useState<{ scope: Continent | null; practice: boolean } | null>(null)
   const [theme, setThemeState] = useState(currentTheme)
   const version = useProgress() // re-render when progress changes
+  const t = useT()
+  const lang = useLang()
 
   // Tap on a country: on the world view it selects the country's continent;
   // inside a continent it just highlights the country.
@@ -67,37 +70,38 @@ export default function App() {
     page = (
       <>
         <section className="hero">
-          <h1>Every country.<br />Every capital.</h1>
-          <p className="lede">Learn the world one continent at a time, with spaced repetition that remembers what you don’t.</p>
+          <LanguageSwitch />
+          <h1>{t.heroLine1}<br />{t.heroLine2}</h1>
+          <p className="lede">{t.lede}</p>
           <dl className="figures">
-            <div><dd>{stats.learned}<small>/{stats.total}</small></dd><dt>Learned</dt></div>
-            <div><dd>{stats.mastered}</dd><dt>Mastered</dt></div>
-            <div><dd>{stats.streak}</dd><dt>Day streak</dt></div>
-            <div><dd className={due > 0 ? 'accent' : ''}>{due}</dd><dt>Due today</dt></div>
+            <div><dd>{stats.learned}<small>/{stats.total}</small></dd><dt>{t.learned}</dt></div>
+            <div><dd>{stats.mastered}</dd><dt>{t.mastered}</dt></div>
+            <div><dd>{stats.streak}</dd><dt>{t.dayStreak}</dt></div>
+            <div><dd className={due > 0 ? 'accent' : ''}>{due}</dd><dt>{t.dueToday}</dt></div>
           </dl>
         </section>
 
         <div className="home">
           <div className="map-card card-surface">
             <WorldMap continent={continent} focusId={focusId} onPickCountry={onPickCountry} />
-            {continent && <button className="pill back" onClick={() => chooseContinent(null)}>← World</button>}
-            {focus && <div className="target-label">{displayName(focus)}</div>}
+            {continent && <button className="pill back" onClick={() => chooseContinent(null)}>{t.world}</button>}
+            {focus && <div className="target-label">{displayName(focus, lang)}</div>}
             <div className="legend">
-              <span><i className="sw new" />New</span>
-              <span><i className="sw learning" />Learning</span>
-              <span><i className="sw mastered" />Mastered</span>
+              <span><i className="sw new" />{t.statusNew}</span>
+              <span><i className="sw learning" />{t.statusLearning}</span>
+              <span><i className="sw mastered" />{t.statusMastered}</span>
             </div>
           </div>
 
-          <section className="continents" aria-label="Continents">
+          <section className="continents" aria-label={t.continentLabel}>
             {CONTINENTS.map((c) => {
               const n = countriesIn(c).length
               const l = learnedCount(c)
               const k = countsFor(c)
               return (
                 <button key={c} className={'cont card-surface' + (c === continent ? ' active' : '')} onClick={() => chooseContinent(c)}>
-                  <span className="cont-name">{c}</span>
-                  <span className="cont-meta">{l} / {n}{k.due + k.learning > 0 && <em> · {k.due + k.learning} due</em>}</span>
+                  <span className="cont-name">{t.continent(c)}</span>
+                  <span className="cont-meta">{l} / {n}{k.due + k.learning > 0 && <em> · {t.nDue(k.due + k.learning)}</em>}</span>
                   <span className="bar"><span style={{ width: `${(l / n) * 100}%` }} /></span>
                 </button>
               )
@@ -108,32 +112,32 @@ export default function App() {
             <section className="mission card-surface">
               {continent ? (
                 <>
-                  <p className="eyebrow">Selected</p>
-                  <h2>{continent}</h2>
-                  <p className="muted">{learned} of {total} learned</p>
+                  <p className="eyebrow">{t.selected}</p>
+                  <h2>{t.continent(continent)}</h2>
+                  <p className="muted">{t.learnedOf(learned, total)}</p>
                   <span className="bar big"><span style={{ width: `${(learned / total) * 100}%` }} /></span>
                   <div className="counts">
-                    <span className="n new">{counts.new}<small>New</small></span>
-                    <span className="n learning">{counts.learning}<small>Learning</small></span>
-                    <span className="n due">{counts.due}<small>Due</small></span>
+                    <span className="n new">{counts.new}<small>{t.countNew}</small></span>
+                    <span className="n learning">{counts.learning}<small>{t.countLearning}</small></span>
+                    <span className="n due">{counts.due}<small>{t.countDue}</small></span>
                   </div>
                   <button className="btn engage" onClick={() => setStudying({ scope: continent, practice: false })}>
-                    Start studying <small>{counts.new + counts.learning + counts.due > 0 ? `${counts.new + counts.learning + counts.due} cards for today` : 'Nothing due right now'}</small>
+                    {t.startStudying} <small>{counts.new + counts.learning + counts.due > 0 ? t.cardsForToday(counts.new + counts.learning + counts.due) : t.nothingDue}</small>
                   </button>
                   <button className="btn ghost engage" onClick={() => setStudying({ scope: continent, practice: true })}>
-                    Practice all {total} <small>One full round, any time</small>
+                    {t.practiceAll(total)} <small>{t.practiceAllSub}</small>
                   </button>
                   <button className="btn ghost engage" onClick={() => setView('quiz')}>
-                    Map quiz <small>Find every country on a blank map</small>
+                    {t.mapQuiz} <small>{t.mapQuizSub}</small>
                   </button>
                 </>
               ) : (
                 <>
-                  <p className="eyebrow">Get started</p>
-                  <h2>Choose a continent</h2>
-                  <p className="muted">Tap one on the map or in the list, then start studying.</p>
+                  <p className="eyebrow">{t.getStarted}</p>
+                  <h2>{t.chooseContinent}</h2>
+                  <p className="muted">{t.chooseHint}</p>
                   <button className="btn ghost" onClick={() => setStudying({ scope: null, practice: false })}>
-                    Mixed review <small>{Math.min(countries.length, all.new + all.learning + all.due)} cards across all continents</small>
+                    {t.mixedReview} <small>{t.mixedSub(Math.min(countries.length, all.new + all.learning + all.due))}</small>
                   </button>
                 </>
               )}
@@ -148,27 +152,52 @@ export default function App() {
     <>
       <header className="nav">
         <div className="nav-inner">
-          <button className="wordmark" onClick={() => { setStudying(null); setView('home') }} aria-label="Home">
+          <button className="wordmark" onClick={() => { setStudying(null); setView('home') }} aria-label={t.home}>
             <svg className="logo" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
               <circle cx="12" cy="12" r="9.5" /><ellipse cx="12" cy="12" rx="4" ry="9.5" /><path d="M2.5 12h19" />
             </svg>
-            <span className="wm-text">Capitals</span>
+            <span className="wm-text">{t.brand}</span>
           </button>
-          <nav className="tabs" aria-label="Mode">
+          <nav className="tabs" aria-label={t.learn + " / " + t.mapQuiz}>
             <button className={'tab' + (view !== 'quiz' || studying ? ' on' : '')} onClick={() => { setStudying(null); setView('home') }}
-              aria-current={view !== 'quiz' || studying ? 'page' : undefined}>Learn</button>
+              aria-current={view !== 'quiz' || studying ? 'page' : undefined}>{t.learn}</button>
             <button className={'tab' + (view === 'quiz' && !studying ? ' on' : '')} onClick={() => { setStudying(null); setView('quiz') }}
-              aria-current={view === 'quiz' && !studying ? 'page' : undefined}>Map quiz</button>
+              aria-current={view === 'quiz' && !studying ? 'page' : undefined}>{t.mapQuiz}</button>
           </nav>
           <nav className="nav-actions">
-            <button className="nav-btn" onClick={() => { setStudying(null); setView('stats') }} aria-label="Stats">Stats</button>
-            <button className="nav-btn" onClick={() => { setStudying(null); setView('settings') }} aria-label="Settings">Settings</button>
-            <button className="nav-btn icon" aria-label="Toggle dark mode" title="Toggle dark mode"
-              onClick={() => { const t = theme === 'dark' ? 'light' : 'dark'; setTheme(t); setThemeState(t) }}>{theme === 'dark' ? '☀︎' : '☾'}</button>
+            {/* on phones the two text buttons become icons */}
+            <button className="nav-btn nb-stats" onClick={() => { setStudying(null); setView('stats') }} aria-label={t.stats} title={t.stats}>
+              <span className="nb-text">{t.stats}</span>
+              <svg className="nb-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M5 20V11M12 20V4M19 20v-6" /></svg>
+            </button>
+            <button className="nav-btn nb-settings" onClick={() => { setStudying(null); setView('settings') }} aria-label={t.settings} title={t.settings}>
+              <span className="nb-text">{t.settings}</span>
+              <svg className="nb-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3" /><path d="M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1L7 17M17 7l2.1-2.1" /></svg>
+            </button>
+            <button className="nav-btn lang-btn" onClick={() => setLang(lang === 'de' ? 'en' : 'de')}
+              aria-label={t.language + ': ' + (lang === 'de' ? 'English' : 'Deutsch')} title={lang === 'de' ? 'Switch to English' : 'Auf Deutsch umschalten'}>
+              {lang === 'de' ? 'EN' : 'DE'}
+            </button>
+            <button className="nav-btn icon" aria-label={t.toggleDark} title={t.toggleDark}
+              onClick={() => { const next = theme === 'dark' ? 'light' : 'dark'; setTheme(next); setThemeState(next) }}>{theme === 'dark' ? '☀︎' : '☾'}</button>
           </nav>
         </div>
       </header>
       <main className={studying ? 'app-study' : view === 'quiz' ? 'app-quiz' : 'app'}>{page}</main>
     </>
+  )
+}
+
+/** English / Deutsch switch at the top of the start page. */
+function LanguageSwitch() {
+  const lang = useLang()
+  const t = useT()
+  const options: [Lang, string][] = [['en', 'English'], ['de', 'Deutsch']]
+  return (
+    <div className="lang-switch" role="group" aria-label={t.language}>
+      {options.map(([l, label]) => (
+        <button key={l} className={l === lang ? 'on' : ''} aria-pressed={l === lang} onClick={() => setLang(l)}>{label}</button>
+      ))}
+    </div>
   )
 }

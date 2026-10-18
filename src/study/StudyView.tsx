@@ -4,15 +4,13 @@
 import { useEffect, useRef, useState } from 'react'
 import WorldMap from '../map/WorldMap'
 import CountryFacts from './CountryFacts'
-import { countries, countryById, flagUrl, type Continent, type Country } from '../data/countries'
+import { capitalsOf, countries, countryById, countryName, flagUrl, otherName, type Continent, type Country } from '../data/countries'
+import { useLang, useT } from '../i18n'
 import { RATINGS, countsFor, intervalLabels, store, useProgress, type Rating } from '../progress/progress'
 import { checkAnswer } from './matcher'
 import { missed, passed, shuffle } from './practice'
 
 type Phase = 'ask' | 'right' | 'wrong'
-
-const RATING_LABEL: Record<Rating, string> = { again: 'Again', hard: 'Hard', good: 'Good', easy: 'Easy' }
-
 
 interface Props {
   continent: Continent | null
@@ -26,6 +24,8 @@ const idsIn = (continent: Continent | null) => countries.filter((c) => !continen
 
 export default function StudyView({ continent, practice = false, onPractice, onExit }: Props) {
   useProgress() // re-render when the numbers change
+  const t = useT()
+  const lang = useLang()
   // Review mode: the store decides which card comes next (due reviews, learning cards, new cards within the daily limit).
   const [reviewNext, setReviewNext] = useState(() => (practice ? null : store.pickNext(continent)))
   // Practice mode: our own queue; the first id is the current card.
@@ -75,7 +75,8 @@ export default function StudyView({ continent, practice = false, onPractice, onE
         if (practice) nextPractice()
         else finishCard('again') // counts as "Again": the card comes back soon
       } else {
-        setCopyMsg(result.kind === 'typo' ? `Almost. Type it exactly: ${current.capitals[0]}` : `Not the same yet. Type: ${current.capitals[0]}`)
+        const target = capitalsOf(current, lang)[0]
+        setCopyMsg(result.kind === 'typo' ? t.almost(target) : t.notSame(target))
         setNudge((n) => n + 1)
       }
     }
@@ -154,24 +155,24 @@ export default function StudyView({ continent, practice = false, onPractice, onE
       <div className="study-map">
         {/* the country being asked is always highlighted on the map */}
         <WorldMap fill reserve={reserve} continent={continent} focusId={current?.id ?? null} onPickCountry={() => {}} />
-        <div className="stage-title">{continent ?? 'All continents'}{practice && <span className="mode-tag">Practice</span>}</div>
+        <div className="stage-title">{continent ? t.continent(continent) : t.allContinents}{practice && <span className="mode-tag">{t.practiceTag}</span>}</div>
       </div>
 
       <div className="study-main">
         <div className="study-top">
           <div className="study-head">
-            <button className="pill" onClick={onExit}>✕ Exit</button>
+            <button className="pill" onClick={onExit}>{t.exit}</button>
             {practice ? (
-              <div className="counts" aria-label="Practice round">
-                <span className="n new on">{queue.length}<small>Left</small></span>
-                <span className="n learning on">{missedIds.size}<small>Missed</small></span>
-                <span className="n due on">{total - queue.length}<small>Done</small></span>
+              <div className="counts" aria-label={t.practiceRound}>
+                <span className="n new on">{queue.length}<small>{t.left}</small></span>
+                <span className="n learning on">{missedIds.size}<small>{t.missed}</small></span>
+                <span className="n due on">{total - queue.length}<small>{t.done}</small></span>
               </div>
             ) : (
-              <div className="counts" aria-label="Cards left">
-                <span className={'n new' + (next?.kind === 'new' ? ' on' : '')}>{counts.new}<small>New</small></span>
-                <span className={'n learning' + (next?.kind === 'learning' ? ' on' : '')}>{counts.learning}<small>Learning</small></span>
-                <span className={'n due' + (next?.kind === 'review' ? ' on' : '')}>{counts.due}<small>Due</small></span>
+              <div className="counts" aria-label={t.cardsLeft}>
+                <span className={'n new' + (next?.kind === 'new' ? ' on' : '')}>{counts.new}<small>{t.countNew}</small></span>
+                <span className={'n learning' + (next?.kind === 'learning' ? ' on' : '')}>{counts.learning}<small>{t.countLearning}</small></span>
+                <span className={'n due' + (next?.kind === 'review' ? ' on' : '')}>{counts.due}<small>{t.countDue}</small></span>
               </div>
             )}
             <span className="progress-text">{secured} / {total}</span>
@@ -182,38 +183,35 @@ export default function StudyView({ continent, practice = false, onPractice, onE
         {!current && practice ? (
           <article className="card card-surface finished">
             <div className="done-badge" aria-hidden="true">✓</div>
-            <h2>Round complete</h2>
-            <p>
-              All {total} countries done · {stats.firstTry} right on the first try
-              {missedIds.size > 0 && <>, {missedIds.size} needed a second go</>}.
-            </p>
+            <h2>{t.roundComplete}</h2>
+            <p>{t.roundSummary(total, stats.firstTry, missedIds.size)}</p>
             <div className="finish-actions">
-              <button className="btn" onClick={restartPractice}>Practice again</button>
+              <button className="btn" onClick={restartPractice}>{t.practiceAgain}</button>
               <button className="btn ghost" onClick={onExit}>Back to the map</button>
             </div>
           </article>
         ) : !current ? (
           <article className="card card-surface finished">
             <div className="done-badge" aria-hidden="true">✓</div>
-            <h2>All done for now</h2>
+            <h2>{t.allDone}</h2>
             <p>
-              {stats.reviews} cards reviewed · {stats.firstTry} without “Again”.
-              {waitMin !== null && <> Next card due in {waitMin} min.</>}
-              {waitMin === null && counts.new === 0 && <> Come back tomorrow for the next reviews.</>}
+              {t.reviewedSummary(stats.reviews, stats.firstTry)}
+              {waitMin !== null && t.nextDueIn(waitMin)}
+              {waitMin === null && counts.new === 0 && t.comeBackTomorrow}
             </p>
             <div className="finish-actions">
               <button className="btn" onClick={onPractice}>
-                Practice all {total} countries <small>One full round, doesn’t change your schedule</small>
+                {t.practiceAllCountries(total)} <small>{t.practiceAllCountriesSub}</small>
               </button>
               <button className="btn ghost" onClick={onExit}>Back to the map</button>
             </div>
           </article>
         ) : (
           <article className={'card card-surface' + (phase === 'wrong' ? ' shake' : '')} key={current.id + ':' + stats.reviews}>
-            <img className="flag" src={flagUrl(current)} alt={`Flag of ${current.name.en}`} />
-            <h2>{current.name.en}</h2>
-            {current.name.de && current.name.de !== current.name.en && <p className="de">{current.name.de}</p>}
-            <p className="prompt">What is the capital?</p>
+            <img className="flag" src={flagUrl(current)} alt={t.flagOf(countryName(current, lang))} />
+            <h2>{countryName(current, lang)}</h2>
+            {otherName(current, lang) && <p className="de">{otherName(current, lang)}</p>}
+            <p className="prompt">{t.whatCapital}</p>
 
             <form onSubmit={submit} className={'answer' + (nudge === 0 ? '' : nudge % 2 ? ' nudge-a' : ' nudge-b')}>
               <input
@@ -222,27 +220,27 @@ export default function StudyView({ continent, practice = false, onPractice, onE
                 onChange={(e) => setInput(e.target.value)}
                 readOnly={phase === 'right'}
                 className={phase === 'right' ? 'ok' : phase === 'wrong' ? 'copy' : ''}
-                placeholder={phase === 'wrong' ? `Type “${current.capitals[0]}”` : 'Type the capital'}
-                aria-label="Capital"
+                placeholder={phase === 'wrong' ? t.typeThe(capitalsOf(current, lang)[0]) : t.typeCapital}
+                aria-label={t.capital}
                 autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck={false} enterKeyHint="go"
               />
-              {phase !== 'right' && <button className="btn" type="submit">{phase === 'wrong' ? 'Continue' : 'Check'}</button>}
+              {phase !== 'right' && <button className="btn" type="submit">{phase === 'wrong' ? t.continue : t.check}</button>}
             </form>
 
             {phase !== 'ask' && (
               <div className={'banner ' + (phase === 'right' ? 'good' : 'bad')} role="status">
                 {phase === 'right' ? (
                   <>
-                    <strong>✓ Correct</strong>
-                    {typo && <span> · watch the spelling</span>}
-                    <div>Capital{current.capitals.length > 1 ? 's' : ''}: <b>{current.capitals.join(' · ')}</b></div>
+                    <strong>{t.correct}</strong>
+                    {typo && <span>{t.watchSpelling}</span>}
+                    <div>{current.capitals.length > 1 ? t.capitals : t.capital}: <b>{capitalsOf(current, lang).join(' · ')}</b></div>
                   </>
                 ) : (
                   <>
-                    <strong>Not quite</strong>
-                    {wrongText && <div className="was">You typed: <s>{wrongText}</s></div>}
-                    <div>The answer is <b>{current.capitals.join(' · ')}</b></div>
-                    <div className="must">Write it out once to continue. This {practice ? 'country comes back later in this round' : 'card will come back'}.</div>
+                    <strong>{t.notQuite}</strong>
+                    {wrongText && <div className="was">{t.youTyped} <s>{wrongText}</s></div>}
+                    <div>{t.answerIs} <b>{capitalsOf(current, lang).join(' · ')}</b></div>
+                    <div className="must">{practice ? t.writeOutPractice : t.writeOutCard}</div>
                   </>
                 )}
               </div>
@@ -254,13 +252,13 @@ export default function StudyView({ continent, practice = false, onPractice, onE
               <>
                 <CountryFacts country={current} />
                 {practice ? (
-                  <button className="btn next-btn" onClick={nextPractice} autoFocus>Next <small>Enter</small></button>
+                  <button className="btn next-btn" onClick={nextPractice} autoFocus>{t.next} <small>{t.enter}</small></button>
                 ) : (
-                <div className="ratings" role="group" aria-label="How well did you know it?">
+                <div className="ratings" role="group" aria-label={t.howWell}>
                   {RATINGS.map((r, i) => (
                     <button key={r} className={'rate ' + r} onClick={() => finishCard(r)}>
-                      <span className="rl">{RATING_LABEL[r]}</span>
-                      <span className="ri">{labels![r]}</span>
+                      <span className="rl">{t.rating[r]}</span>
+                      <span className="ri">{t.interval(labels![r])}</span>
                       <kbd>{i + 1}</kbd>
                     </button>
                   ))}

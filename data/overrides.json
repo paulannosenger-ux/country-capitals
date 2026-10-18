@@ -267,5 +267,80 @@
       "Republic of China"
     ]
   },
-  "_nameAliases_note": "Extra ACCEPTED country names for the map quiz, on top of the dataset's official name and alternative spellings."
+  "_nameAliases_note": "Extra ACCEPTED country names for the map quiz, on top of the dataset's official name and alternative spellings.",
+  "governmentDe": {
+    "CF": "Präsidialrepublik",
+    "TD": "Präsidialrepublik",
+    "CR": "Präsidialrepublik",
+    "DJ": "Präsidialrepublik",
+    "DM": "parlamentarische Republik",
+    "DO": "Präsidialrepublik",
+    "GQ": "Präsidialrepublik",
+    "ER": "Präsidialrepublik (Einparteienstaat)",
+    "FJ": "parlamentarische Republik",
+    "GD": "konstitutionelle Monarchie",
+    "GW": "semipräsidentielle Republik",
+    "HT": "semipräsidentielle Republik",
+    "JM": "parlamentarische Monarchie",
+    "JO": "konstitutionelle Monarchie",
+    "KE": "Präsidialrepublik",
+    "KI": "parlamentarische Republik",
+    "MW": "Präsidialrepublik",
+    "MV": "Präsidialrepublik",
+    "ML": "Präsidialrepublik",
+    "MH": "parlamentarische Republik",
+    "MZ": "semipräsidentielle Republik",
+    "NA": "semipräsidentielle Republik",
+    "NR": "parlamentarische Republik",
+    "NE": "semipräsidentielle Republik",
+    "PW": "Präsidialrepublik",
+    "PG": "parlamentarische Monarchie",
+    "PY": "Präsidialrepublik",
+    "RU": "semipräsidentielle Bundesrepublik",
+    "WS": "parlamentarische Republik",
+    "ST": "semipräsidentielle Republik",
+    "SC": "Präsidialrepublik",
+    "SB": "parlamentarische Monarchie",
+    "TZ": "Präsidialrepublik",
+    "TG": "parlamentarische Republik",
+    "TO": "konstitutionelle Monarchie",
+    "TV": "konstitutionelle Monarchie",
+    "VU": "parlamentarische Republik",
+    "ZW": "Präsidialrepublik"
+  },
+  "_governmentDe_note": "German government type where Wikidata has no German label (P122). Translated from the English government type.",
+  "capitalsDe": {
+    "TO": {
+      "value": [
+        "Nuku'alofa"
+      ],
+      "note": "Same spelling as English (Wikidata uses the ʻokina)."
+    },
+    "TM": {
+      "value": [
+        "Aschgabat"
+      ],
+      "note": "Common German spelling (German Wikipedia: Aşgabat / Aschgabat)."
+    },
+    "LK": {
+      "value": [
+        "Sri Jayawardenepura Kotte",
+        "Colombo"
+      ],
+      "note": "Same spelling as the English data."
+    },
+    "SM": {
+      "value": [
+        "San Marino"
+      ],
+      "note": "German name of the city (Stadt San Marino)."
+    },
+    "KI": {
+      "value": [
+        "Süd-Tarawa"
+      ],
+      "note": "German name (South Tarawa)."
+    }
+  },
+  "_capitalsDe_note": "German capital names, only where the automatic Wikidata label is not suitable. Otherwise the German label of the capital on Wikidata is used."
 }

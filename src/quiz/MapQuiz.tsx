@@ -4,7 +4,8 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import WorldMap from '../map/WorldMap'
 import CountryFacts from '../study/CountryFacts'
-import { CONTINENTS, countries, countriesIn, countryById, flagUrl, type Continent } from '../data/countries'
+import { CONTINENTS, capitalsOf, countries, countriesIn, countryById, countryName, flagUrl, type Continent } from '../data/countries'
+import { useLang, useT } from '../i18n'
 import { checkAnswer, checkCountryName, type AnswerResult } from '../study/matcher'
 import { loadQuiz, pickNextOpen, roundKey, saveQuiz, summarize, type Mode, type QStatus, type QuizSave } from './quizState'
 import './quiz.css'
@@ -15,11 +16,13 @@ interface FieldState { value: string; result: AnswerResult['kind'] | null; was: 
 
 const EMPTY: FieldState = { value: '', result: null, was: '', fixed: false }
 const EMPTY_FIELDS: Record<Field, FieldState> = { name: EMPTY, capital: EMPTY }
-const LABEL: Record<Field, string> = { name: 'Country', capital: 'Capital' }
 
 const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v))
 
 export default function MapQuiz({ initialContinent }: { initialContinent: Continent | null }) {
+  const t = useT()
+  const lang = useLang()
+  const LABEL: Record<Field, string> = { name: t.country, capital: t.capital }
   const [save, setSave] = useState<QuizSave>(() => {
     const s = loadQuiz()
     return initialContinent ? { ...s, continent: initialContinent } : s
@@ -116,8 +119,8 @@ export default function MapQuiz({ initialContinent }: { initialContinent: Contin
     }
     setFields(next)
     if (!missing) return goNext()
-    const target = missing === 'name' ? sel.name.en : sel.capitals[0]
-    setCopyMsg(`Not the same yet. Type: ${target}`)
+    const target = missing === 'name' ? countryName(sel, lang) : capitalsOf(sel, lang)[0]
+    setCopyMsg(t.notSame(target))
     setNudge((n) => n + 1)
     inputs[missing].current?.focus()
   }
@@ -221,7 +224,7 @@ export default function MapQuiz({ initialContinent }: { initialContinent: Contin
     setSave((s) => ({ ...s, ...patch }))
   }
   function restart() {
-    if (!finished && sum.done + sum.missed > 0 && !window.confirm(`Start ${continent} (${mode}) from the beginning?`)) return
+    if (!finished && sum.done + sum.missed > 0 && !window.confirm(t.confirmRestart(t.continent(continent), mode === 'hard'))) return
     choose(null)
     setSave((s) => ({ ...s, rounds: { ...s.rounds, [key]: {} } }))
   }
@@ -238,37 +241,37 @@ export default function MapQuiz({ initialContinent }: { initialContinent: Contin
       <div className="q-bar" ref={barRef}>
         <div className="q-bar-row">
           <label className="q-select">
-            <span className="sr-only">Continent</span>
+            <span className="sr-only">{t.continentLabel}</span>
             <select value={continent} onChange={(e) => changeRound({ continent: e.target.value as Continent })}>
-              {CONTINENTS.map((c) => <option key={c} value={c}>{c}</option>)}
+              {CONTINENTS.map((c) => <option key={c} value={c}>{t.continent(c)}</option>)}
             </select>
           </label>
-          <div className="seg" role="group" aria-label="Difficulty">
+          <div className="seg" role="group" aria-label={t.difficulty}>
             {(['easy', 'hard'] as Mode[]).map((m) => (
               <button key={m} className={m === mode ? 'on' : ''} aria-pressed={m === mode} onClick={() => m !== mode && changeRound({ mode: m })}>
-                {m === 'easy' ? 'Easy' : 'Hard'}<small>{m === 'easy' ? 'Country' : 'Country + capital'}</small>
+                {m === 'easy' ? t.easy : t.hard}<small>{m === 'easy' ? t.country : t.countryCapital}</small>
               </button>
             ))}
           </div>
         </div>
         <div className="q-progress">
-          <span><b>{sum.done}</b> / {sum.total} named{sum.missed > 0 && <em> · {sum.missed} to retry</em>}</span>
-          <button className="q-link" onClick={restart}>Restart</button>
+          <span><b>{sum.done}</b> / {sum.total} {t.namedWord}{sum.missed > 0 && <em>{t.toRetry(sum.missed)}</em>}</span>
+          <button className="q-link" onClick={restart}>{t.restart}</button>
         </div>
         <span className="bar"><span style={{ width: `${(sum.done / sum.total) * 100}%` }} /></span>
         {!sel && !finished && (
           <div className="q-hint">
-            <span>Click a country to name it{mode === 'hard' ? ' and its capital' : ''}.</span>
-            <button className="pill" onClick={goNext}>Pick one for me</button>
+            <span>{t.clickHint(mode === 'hard')}</span>
+            <button className="pill" onClick={goNext}>{t.pickForMe}</button>
           </div>
         )}
       </div>
 
       <div className="q-legend">
-        <span><i className="sw q-open" />Open</span>
-        <span><i className="sw q-solved" />Correct</span>
-        <span><i className="sw q-helped" />With help</span>
-        <span><i className="sw q-missed" />Try again</span>
+        <span><i className="sw q-open" />{t.open}</span>
+        <span><i className="sw q-solved" />{t.correctPlain}</span>
+        <span><i className="sw q-helped" />{t.withHelp}</span>
+        <span><i className="sw q-missed" />{t.tryAgain}</span>
       </div>
 
       {sel && (
@@ -278,19 +281,19 @@ export default function MapQuiz({ initialContinent }: { initialContinent: Contin
             <circle ref={dotRef} r="4" className="q-dot" />
             <circle ref={endRef} r="3" className="q-end" />
           </svg>
-          <div ref={boxRef} className={'q-pop' + (phase === 'right' || alreadyNamed ? ' with-facts' : '') + (nudge ? (nudge % 2 ? ' nudge-a' : ' nudge-b') : '')} role="dialog" aria-label="Name this country">
+          <div ref={boxRef} className={'q-pop' + (phase === 'right' || alreadyNamed ? ' with-facts' : '') + (nudge ? (nudge % 2 ? ' nudge-a' : ' nudge-b') : '')} role="dialog" aria-label={t.nameThisCountry}>
             <div className="q-pop-head">
-              <span className="eyebrow">{alreadyNamed ? 'Already named' : phase === 'right' ? 'Correct' : mode === 'hard' ? 'Country & capital' : 'Which country is this?'}</span>
-              <button className="q-close" onClick={() => phase !== 'wrong' ? choose(null) : setNudge((n) => n + 1)} aria-label="Close">✕</button>
+              <span className="eyebrow">{alreadyNamed ? t.alreadyNamed : phase === 'right' ? t.correctPlain : mode === 'hard' ? t.countryAndCapital : t.whichCountry}</span>
+              <button className="q-close" onClick={() => phase !== 'wrong' ? choose(null) : setNudge((n) => n + 1)} aria-label={t.close}>✕</button>
             </div>
 
-            {showFlag && <img className="q-flag" src={flagUrl(sel)} alt={phase === 'ask' && !alreadyNamed ? 'Flag (tip)' : `Flag of ${sel.name.en}`} />}
+            {showFlag && <img className="q-flag" src={flagUrl(sel)} alt={phase === 'ask' && !alreadyNamed ? t.flagTip : t.flagOf(countryName(sel, lang))} />}
 
             {alreadyNamed ? (
               <div className="q-known">
-                <h3>{sel.name.en}</h3>
-                <p>Capital: <b>{sel.capitals.join(' · ')}</b></p>
-                <button className="btn" onClick={goNext} disabled={finished}>Next country</button>
+                <h3>{countryName(sel, lang)}</h3>
+                <p>{t.capital}: <b>{capitalsOf(sel, lang).join(' · ')}</b></p>
+                <button className="btn" onClick={goNext} disabled={finished}>{t.nextCountry}</button>
                 <CountryFacts country={sel} />
               </div>
             ) : (
@@ -298,7 +301,7 @@ export default function MapQuiz({ initialContinent }: { initialContinent: Contin
                 {fieldList.map((f) => {
                   const st = fields[f]
                   const retype = phase === 'wrong' && st.result === 'wrong' && !st.fixed
-                  const target = f === 'name' ? sel.name.en : sel.capitals[0]
+                  const target = f === 'name' ? countryName(sel, lang) : capitalsOf(sel, lang)[0]
                   const locked = phase === 'right' || (phase === 'wrong' && !retype)
                   return (
                     <label key={f} className="q-field">
@@ -309,7 +312,7 @@ export default function MapQuiz({ initialContinent }: { initialContinent: Contin
                         onChange={(e) => setFields((fs) => ({ ...fs, [f]: { ...fs[f], value: e.target.value } }))}
                         readOnly={locked}
                         className={locked ? 'ok' : retype ? 'copy' : ''}
-                        placeholder={retype ? `Type “${target}”` : f === 'name' ? 'Name of the country' : 'Its capital'}
+                        placeholder={retype ? t.typeThe(target) : f === 'name' ? t.nameOfCountry : t.itsCapital}
                         autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck={false} enterKeyHint="go"
                       />
                     </label>
@@ -319,34 +322,34 @@ export default function MapQuiz({ initialContinent }: { initialContinent: Contin
                 {phase === 'ask' && (
                   <div className="q-actions">
                     <button type="button" className="btn ghost q-tip" onClick={() => setTip(true)} disabled={tip}>
-                      {tip ? 'Flag shown' : 'Tip: show flag'}
+                      {tip ? t.flagShown : t.tipShowFlag}
                     </button>
-                    <button type="submit" className="btn">Check</button>
+                    <button type="submit" className="btn">{t.check}</button>
                   </div>
                 )}
-                {phase === 'wrong' && <button type="submit" className="btn q-wide">Continue</button>}
-                {phase === 'right' && <button type="submit" className="btn q-wide" autoFocus>Next country <small>Enter</small></button>}
+                {phase === 'wrong' && <button type="submit" className="btn q-wide">{t.continue}</button>}
+                {phase === 'right' && <button type="submit" className="btn q-wide" autoFocus>{t.nextCountry} <small>{t.enter}</small></button>}
               </form>
             )}
 
             {phase === 'right' && (
               <div className="banner good" role="status">
-                <strong>✓ {sel.name.en}</strong>
-                {fieldList.some((f) => fields[f].result === 'typo') && <span className="muted">Watch the spelling. </span>}
-                <div>Capital{sel.capitals.length > 1 ? 's' : ''}: <b>{sel.capitals.join(' · ')}</b></div>
+                <strong>✓ {countryName(sel, lang)}</strong>
+                {fieldList.some((f) => fields[f].result === 'typo') && <span className="muted">{t.watchSpellingQuiz}</span>}
+                <div>{sel.capitals.length > 1 ? t.capitals : t.capital}: <b>{capitalsOf(sel, lang).join(' · ')}</b></div>
               </div>
             )}
             {phase === 'right' && <CountryFacts country={sel} />}
             {phase === 'wrong' && (
               <div className="banner bad" role="status">
-                <strong>Not quite</strong>
+                <strong>{t.notQuite}</strong>
                 {fieldList.filter((f) => fields[f].result === 'wrong').map((f) => (
                   <div key={f}>
-                    {LABEL[f]}: <b>{f === 'name' ? sel.name.en : sel.capitals.join(' · ')}</b>
-                    {fields[f].was && <span className="was"> · you typed <s>{fields[f].was}</s></span>}
+                    {LABEL[f]}: <b>{f === 'name' ? countryName(sel, lang) : capitalsOf(sel, lang).join(' · ')}</b>
+                    {fields[f].was && <span className="was"> · {t.youTypedLower} <s>{fields[f].was}</s></span>}
                   </div>
                 ))}
-                <div className="must">Write it out once to continue. This country stays open and comes back.</div>
+                <div className="must">{t.writeOutQuiz}</div>
               </div>
             )}
             {phase === 'wrong' && copyMsg && <p className="copy-msg" role="alert">{copyMsg}</p>}
@@ -357,11 +360,11 @@ export default function MapQuiz({ initialContinent }: { initialContinent: Contin
       {finished && !sel && (
         <div className="q-finish card-surface">
           <div className="done-badge" aria-hidden="true">✓</div>
-          <h2>{continent} complete</h2>
-          <p>All {sum.total} countries named{mode === 'hard' ? ' with their capitals' : ''} · {sum.solved} right on the first try{sum.helped > 0 && <>, {sum.helped} with help</>}.</p>
+          <h2>{t.complete(t.continent(continent))}</h2>
+          <p>{t.quizSummary(sum.total, mode === 'hard', sum.solved, sum.helped)}</p>
           <div className="finish-actions">
-            <button className="btn" onClick={restart}>Play again</button>
-            {mode === 'easy' && <button className="btn ghost" onClick={() => changeRound({ mode: 'hard' })}>Try hard mode</button>}
+            <button className="btn" onClick={restart}>{t.playAgain}</button>
+            {mode === 'easy' && <button className="btn ghost" onClick={() => changeRound({ mode: 'hard' })}>{t.tryHard}</button>}
           </div>
         </div>
       )}
