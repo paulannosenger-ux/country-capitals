@@ -1,6 +1,6 @@
 // Small public API for the UI (map, home screen, study view) on top of the store.
 import { useSyncExternalStore } from 'react'
-import type { Continent } from '../data/countries'
+import type { Area } from '../data/countries'
 import { store, type Scope } from './store'
 
 export { RATINGS, type Rating } from './scheduler'
@@ -11,7 +11,7 @@ export type { Counts, CardKind } from './store'
 export const useProgress = () => useSyncExternalStore(store.subscribe, store.getVersion)
 
 export const statusOf = (countryId: string) => store.status(countryId)
-export const learnedCount = (continent: Continent) => store.learned(continent)
+export const learnedCount = (area: Area) => store.learned(area)
 export const countsFor = (scope: Scope) => store.counts(scope)
 /** Cards waiting today across all continents (reviews + learning). */
 export const dueToday = () => {

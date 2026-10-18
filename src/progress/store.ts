@@ -1,13 +1,13 @@
 // The progress "database": all cards, settings and the review log, plus the logic for
 // "which card comes next" and the daily limits. React components subscribe to it.
-import { countries, type Continent } from '../data/countries'
+import { countries, inArea, type Area } from '../data/countries'
 import { dayNumber, formatInterval, newCard, schedule, type Card, type Rating } from './scheduler'
 import { LocalStorageProgress, emptyData, parseAppData, type AppData, type ProgressStorage, type Settings } from './storage'
 
 const LEARN_AHEAD_MIN = 20 // learning cards due within 20 minutes may be shown early when nothing else is left
 const MASTERED_INTERVAL = 21 // days; Anki calls a card "mature" from 21 days
 
-export type Scope = Continent | null // null = all continents
+export type Scope = Area | null // a continent or a region (e.g. West Africa); null = all continents
 export type CardKind = 'new' | 'learning' | 'review'
 export interface Counts { new: number; learning: number; due: number }
 
@@ -52,7 +52,7 @@ class Store {
     return this.inScope(scope).filter((id) => this.data.cards[id]?.state === 'review').length
   }
   private inScope(scope: Scope): string[] {
-    return countries.filter((c) => !scope || c.continent === scope).map((c) => c.id)
+    return countries.filter((c) => inArea(c, scope)).map((c) => c.id)
   }
   private daily() {
     const day = dayNumber(this.now())

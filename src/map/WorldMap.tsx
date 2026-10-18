@@ -10,7 +10,7 @@ import { select } from 'd3-selection'
 import 'd3-transition'
 import { feature } from 'topojson-client'
 import atlas from 'world-atlas/countries-50m.json'
-import { countries, countryById, countryName, displayName, type Continent } from '../data/countries'
+import { countries, countryById, countryName, displayName, inArea, type Area } from '../data/countries'
 import { useLang, useT } from '../i18n'
 import { statusOf, useProgress } from '../progress/progress'
 
@@ -106,7 +106,11 @@ function displayPoint(id: string): [number, number] | null {
 }
 
 // Where to zoom for each continent: [west, south, east, north] in degrees.
-const VIEW_BOX: Record<Continent, [number, number, number, number]> = {
+const VIEW_BOX: Record<Area, [number, number, number, number]> = {
+  'North Africa': [-18, 8, 40, 38],
+  'West Africa': [-26, -4, 20, 28],
+  'East Africa': [12, -13, 57, 19],
+  'Southern Africa': [10, -36, 59, 4],
   Europe: [-25, 34, 45, 72],
   Asia: [25, -11, 180, 78],
   Africa: [-20, -36, 52, 38],
@@ -119,7 +123,7 @@ const VIEW_BOX: Record<Continent, [number, number, number, number]> = {
 interface Box { w: number; h: number; left: number; right: number; top: number; bottom: number }
 
 /** Zoom/pan so the continent (or the whole world) fills the free part of the box. */
-function transformFor(continent: Continent | null, box: Box): ZoomTransform {
+function transformFor(continent: Area | null, box: Box): ZoomTransform {
   let x0 = 0, y0 = 0, x1 = W, y1 = H
   let pad = 0.98
   if (continent) {
@@ -138,7 +142,8 @@ function transformFor(continent: Continent | null, box: Box): ZoomTransform {
 }
 
 interface Props {
-  continent: Continent | null
+  /** the continent or region to zoom to (others are dimmed); null = whole world */
+  continent: Area | null
   focusId: string | null
   onPickCountry: (id: string) => void
   /** fill = stretch to the parent's size (full-screen study view) instead of the fixed 960x500 shape */
@@ -173,14 +178,14 @@ export default function WorldMap({ continent, focusId, onPickCountry, fill = fal
   const reserveRef = useRef(reserve)
   reserveRef.current = reserve
   const reserveKey = JSON.stringify(reserve ?? {})
-  const prevContinent = useRef<Continent | null | undefined>(undefined)
+  const prevContinent = useRef<Area | null | undefined>(undefined)
   const onTargetMoveRef = useRef(onTargetMove)
   onTargetMoveRef.current = onTargetMove
 
   /** CSS classes of a country (polygon or marker). */
   const classOf = (id: string) => {
     const c = countryById.get(id)!
-    return (classFor ? classFor(id) : `c-${statusOf(id)}`) + (continent && c.continent !== continent ? ' dim' : '') + (id === focusId ? ' focus' : '')
+    return (classFor ? classFor(id) : `c-${statusOf(id)}`) + (continent && !inArea(c, continent) ? ' dim' : '') + (id === focusId ? ' focus' : '')
   }
   const tip = (id: string) => (hideNames ? null : <title>{displayName(countryById.get(id)!, lang)}</title>)
 

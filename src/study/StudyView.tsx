@@ -4,7 +4,7 @@
 import { useEffect, useRef, useState } from 'react'
 import WorldMap from '../map/WorldMap'
 import CountryFacts from './CountryFacts'
-import { capitalsOf, countries, countryById, countryName, flagUrl, otherName, type Continent, type Country } from '../data/countries'
+import { capitalsOf, countries, countryById, countryName, flagUrl, inArea, otherName, type Area, type Country } from '../data/countries'
 import { useLang, useT } from '../i18n'
 import { RATINGS, countsFor, intervalLabels, store, useProgress, type Rating } from '../progress/progress'
 import { checkAnswer } from './matcher'
@@ -13,14 +13,14 @@ import { missed, passed, shuffle } from './practice'
 type Phase = 'ask' | 'right' | 'wrong'
 
 interface Props {
-  continent: Continent | null
+  continent: Area | null // a continent or a region (e.g. West Africa)
   /** practice = go through ALL countries of the scope once (ignores what is due; doesn't change the schedule) */
   practice?: boolean
   onPractice: () => void
   onExit: () => void
 }
 
-const idsIn = (continent: Continent | null) => countries.filter((c) => !continent || c.continent === continent).map((c) => c.id)
+const idsIn = (area: Area | null) => countries.filter((c) => inArea(c, area)).map((c) => c.id)
 
 export default function StudyView({ continent, practice = false, onPractice, onExit }: Props) {
   useProgress() // re-render when the numbers change
@@ -43,7 +43,7 @@ export default function StudyView({ continent, practice = false, onPractice, onE
 
   const current = next ? countryById.get(next.id)! : null
   const counts = countsFor(continent)
-  const total = continent ? countries.filter((c) => c.continent === continent).length : countries.length
+  const total = idsIn(continent).length
   const secured = practice ? total - queue.length : store.learned(continent)
 
   // Focus the input whenever a new question appears (opens the on-screen keyboard on phones).

@@ -1,7 +1,7 @@
 // Interface language (English / German). Saved per browser; the first visit follows the phone's language.
 // All texts of the app live here: `en` is the reference, `de` must have the same keys.
 import { useSyncExternalStore } from 'react'
-import type { Continent } from './data/countries'
+import type { Area, Region } from './data/countries'
 
 export type Lang = 'en' | 'de'
 const KEY = 'country-capitals:lang'
@@ -31,12 +31,15 @@ export const useLang = () => useSyncExternalStore(subscribe, getLang)
 /** Texts in the current language. */
 export const useT = () => TEXTS[useLang()]
 
-const CONTINENT_DE: Record<Continent, string> = {
+const CONTINENT_DE: Record<Area, string> = {
+  'North Africa': 'Nordafrika', 'West Africa': 'Westafrika', 'East Africa': 'Ostafrika', 'Southern Africa': 'Südliches Afrika',
   Europe: 'Europa', Asia: 'Asien', Africa: 'Afrika', 'North America': 'Nordamerika', 'South America': 'Südamerika', Oceania: 'Ozeanien',
 }
 
 const en = {
-  continent: (c: Continent) => c as string,
+  continent: (c: Area) => c as string,
+  allOfAfrica: 'All', regionShort: { 'North Africa': 'North', 'West Africa': 'West', 'East Africa': 'East', 'Southern Africa': 'South' } as Record<Region, string>,
+  regionsHint: 'Smaller steps: learn one region at a time.', africaRegions: 'Africa – regions',
   // nav
   brand: 'Capitals', home: 'Home', learn: 'Learn', mapQuiz: 'Map quiz', stats: 'Stats', settings: 'Settings', toggleDark: 'Toggle dark mode', language: 'Language',
   // home
@@ -110,7 +113,9 @@ const en = {
 }
 
 const de: typeof en = {
-  continent: (c: Continent) => CONTINENT_DE[c],
+  continent: (c: Area) => CONTINENT_DE[c],
+  allOfAfrica: 'Alle', regionShort: { 'North Africa': 'Nord', 'West Africa': 'West', 'East Africa': 'Ost', 'Southern Africa': 'Süd' },
+  regionsHint: 'In kleineren Schritten: eine Region nach der anderen lernen.', africaRegions: 'Afrika – Regionen',
   brand: 'Hauptstädte', home: 'Start', learn: 'Lernen', mapQuiz: 'Karten-Quiz', stats: 'Statistik', settings: 'Einstellungen', toggleDark: 'Dunkelmodus umschalten', language: 'Sprache',
   heroLine1: 'Jedes Land.', heroLine2: 'Jede Hauptstadt.',
   lede: 'Lerne die Welt Kontinent für Kontinent – mit einer Wiederholungsmethode, die sich merkt, was du noch nicht weißt.',

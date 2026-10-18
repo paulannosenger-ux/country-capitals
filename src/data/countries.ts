@@ -53,3 +53,26 @@ export function flagUrl(c: Country): string {
 }
 
 export const countriesIn = (continent: Continent) => countries.filter((c) => c.continent === continent)
+
+// ---- Regions: Africa (54 countries) split into four smaller groups, so it is easier to learn ----
+// Rough split by compass direction; Central Africa is shared between West, East and South.
+export const REGIONS = ['North Africa', 'West Africa', 'East Africa', 'Southern Africa'] as const
+export type Region = (typeof REGIONS)[number]
+const REGION_IDS: Record<Region, string[]> = {
+  'North Africa': ['MA', 'DZ', 'TN', 'LY', 'EG', 'SD', 'MR', 'ML', 'NE', 'TD'],
+  'West Africa': ['SN', 'GM', 'GW', 'GN', 'SL', 'LR', 'CI', 'BF', 'GH', 'TG', 'BJ', 'NG', 'CV', 'CM', 'GQ', 'ST', 'GA'],
+  'East Africa': ['ER', 'DJ', 'SO', 'ET', 'SS', 'KE', 'UG', 'RW', 'BI', 'TZ', 'CF', 'CD', 'SC', 'KM'],
+  'Southern Africa': ['AO', 'CG', 'ZM', 'MW', 'MZ', 'ZW', 'BW', 'NA', 'ZA', 'LS', 'SZ', 'MG', 'MU'],
+}
+export const regionOf = new Map<string, Region>(REGIONS.flatMap((r) => REGION_IDS[r].map((id) => [id, r] as [string, Region])))
+/** Which continent a region belongs to. */
+export const REGION_CONTINENT: Record<Region, Continent> = { 'North Africa': 'Africa', 'West Africa': 'Africa', 'East Africa': 'Africa', 'Southern Africa': 'Africa' }
+
+/** What can be studied: a continent or a region of one. */
+export type Area = Continent | Region
+export const AREAS: Area[] = [...CONTINENTS, ...REGIONS]
+export const isRegion = (a: Area | null): a is Region => !!a && (REGIONS as readonly string[]).includes(a)
+export const inArea = (c: Country, area: Area | null) => !area || c.continent === area || regionOf.get(c.id) === area
+export const countriesInArea = (area: Area) => countries.filter((c) => inArea(c, area))
+/** The continent of an area (Africa for "West Africa"). */
+export const continentOf = (area: Area): Continent => (isRegion(area) ? REGION_CONTINENT[area] : area)

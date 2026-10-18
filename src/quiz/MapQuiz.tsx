@@ -4,7 +4,7 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import WorldMap from '../map/WorldMap'
 import CountryFacts from '../study/CountryFacts'
-import { CONTINENTS, capitalsOf, countries, countriesIn, countryById, countryName, flagUrl, type Continent } from '../data/countries'
+import { CONTINENTS, REGIONS, capitalsOf, countries, countriesInArea, countryById, countryName, flagUrl, inArea, type Area } from '../data/countries'
 import { useLang, useT } from '../i18n'
 import { checkAnswer, checkCountryName, type AnswerResult } from '../study/matcher'
 import { loadQuiz, pickNextOpen, roundKey, saveQuiz, summarize, type Mode, type QStatus, type QuizSave } from './quizState'
@@ -19,7 +19,7 @@ const EMPTY_FIELDS: Record<Field, FieldState> = { name: EMPTY, capital: EMPTY }
 
 const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v))
 
-export default function MapQuiz({ initialContinent }: { initialContinent: Continent | null }) {
+export default function MapQuiz({ initialContinent }: { initialContinent: Area | null }) {
   const t = useT()
   const lang = useLang()
   const LABEL: Record<Field, string> = { name: t.country, capital: t.capital }
@@ -31,7 +31,7 @@ export default function MapQuiz({ initialContinent }: { initialContinent: Contin
   const { continent, mode } = save
   const key = roundKey(continent, mode)
   const round = useMemo(() => save.rounds[key] ?? {}, [save.rounds, key])
-  const ids = useMemo(() => countriesIn(continent).map((c) => c.id), [continent])
+  const ids = useMemo(() => countriesInArea(continent).map((c) => c.id), [continent])
   const sum = summarize(round, ids)
   const fieldList: Field[] = mode === 'hard' ? ['name', 'capital'] : ['name']
 
@@ -69,7 +69,8 @@ export default function MapQuiz({ initialContinent }: { initialContinent: Contin
 
   const onPickCountry = useCallback(
     (id: string) => {
-      if (countryById.get(id)?.continent !== continentRef.current) return
+      const c = countryById.get(id)
+      if (!c || !inArea(c, continentRef.current)) return
       if (phaseRef.current === 'wrong') { setNudge((n) => n + 1); return } // write the answer out first
       choose(id)
     },
@@ -242,8 +243,11 @@ export default function MapQuiz({ initialContinent }: { initialContinent: Contin
         <div className="q-bar-row">
           <label className="q-select">
             <span className="sr-only">{t.continentLabel}</span>
-            <select value={continent} onChange={(e) => changeRound({ continent: e.target.value as Continent })}>
+            <select value={continent} onChange={(e) => changeRound({ continent: e.target.value as Area })}>
               {CONTINENTS.map((c) => <option key={c} value={c}>{t.continent(c)}</option>)}
+              <optgroup label={t.africaRegions}>
+                {REGIONS.map((r) => <option key={r} value={r}>{t.continent(r)}</option>)}
+              </optgroup>
             </select>
           </label>
           <div className="seg" role="group" aria-label={t.difficulty}>

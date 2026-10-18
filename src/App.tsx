@@ -4,7 +4,7 @@ import Settings from './pages/Settings'
 import Stats from './pages/Stats'
 import StudyView from './study/StudyView'
 import MapQuiz from './quiz/MapQuiz'
-import { CONTINENTS, countries, countriesIn, countryById, displayName, type Continent } from './data/countries'
+import { CONTINENTS, REGIONS, countries, countriesInArea, countryById, displayName, type Area, type Continent, type Region } from './data/countries'
 import { setLang, useLang, useT, type Lang } from './i18n'
 import { countsFor, learnedCount, store, useProgress } from './progress/progress'
 import { computeStats } from './progress/stats'
@@ -15,10 +15,13 @@ type View = 'home' | 'quiz' | 'settings' | 'stats'
 export default function App() {
   const [view, setView] = useState<View>('home')
   const [continent, setContinent] = useState<Continent | null>(null)
+  // Africa can be split into regions (North / West / East / South); null = the whole continent
+  const [region, setRegion] = useState<Region | null>(null)
+  const scope: Area | null = region ?? continent
   const [focusId, setFocusId] = useState<string | null>(null)
   // studying: null = not studying; otherwise the scope (a continent, or null = all continents mixed)
   // practice = one full round through every country of the scope, ignoring what is due
-  const [studying, setStudying] = useState<{ scope: Continent | null; practice: boolean } | null>(null)
+  const [studying, setStudying] = useState<{ scope: Area | null; practice: boolean } | null>(null)
   const [theme, setThemeState] = useState(currentTheme)
   const version = useProgress() // re-render when progress changes
   const t = useT()
@@ -37,6 +40,7 @@ export default function App() {
 
   const chooseContinent = (c: Continent | null) => {
     setContinent(c)
+    setRegion(null)
     setFocusId(null)
   }
 
@@ -55,18 +59,18 @@ export default function App() {
       />
     )
   } else if (view === 'quiz') {
-    page = <MapQuiz initialContinent={continent} />
+    page = <MapQuiz initialContinent={scope} />
   } else if (view === 'settings') {
     page = <Settings onBack={() => setView('home')} />
   } else if (view === 'stats') {
     page = <Stats onBack={() => setView('home')} />
   } else {
     const focus = focusId ? countryById.get(focusId) : null
-    const counts = countsFor(continent)
+    const counts = countsFor(scope)
     const all = countsFor(null)
     const due = all.due + all.learning
-    const total = continent ? countriesIn(continent).length : 0
-    const learned = continent ? learnedCount(continent) : 0
+    const total = scope ? countriesInArea(scope).length : 0
+    const learned = scope ? learnedCount(scope) : 0
     page = (
       <>
         <section className="hero">
@@ -83,7 +87,7 @@ export default function App() {
 
         <div className="home">
           <div className="map-card card-surface">
-            <WorldMap continent={continent} focusId={focusId} onPickCountry={onPickCountry} />
+            <WorldMap continent={scope} focusId={focusId} onPickCountry={onPickCountry} />
             {continent && <button className="pill back" onClick={() => chooseContinent(null)}>{t.world}</button>}
             {focus && <div className="target-label">{displayName(focus, lang)}</div>}
             <div className="legend">
@@ -95,7 +99,7 @@ export default function App() {
 
           <section className="continents" aria-label={t.continentLabel}>
             {CONTINENTS.map((c) => {
-              const n = countriesIn(c).length
+              const n = countriesInArea(c).length
               const l = learnedCount(c)
               const k = countsFor(c)
               return (
@@ -113,7 +117,20 @@ export default function App() {
               {continent ? (
                 <>
                   <p className="eyebrow">{t.selected}</p>
-                  <h2>{t.continent(continent)}</h2>
+                  <h2>{t.continent(scope!)}</h2>
+                  {continent === 'Africa' && (
+                    <div className="region-pick" role="group" aria-label={t.africaRegions}>
+                      <button className={region === null ? 'on' : ''} aria-pressed={region === null} onClick={() => { setRegion(null); setFocusId(null) }}>
+                        {t.allOfAfrica}<small>{countriesInArea('Africa').length}</small>
+                      </button>
+                      {REGIONS.map((r) => (
+                        <button key={r} className={region === r ? 'on' : ''} aria-pressed={region === r} onClick={() => { setRegion(r); setFocusId(null) }}>
+                          {t.regionShort[r]}<small>{learnedCount(r)}/{countriesInArea(r).length}</small>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                  {continent === 'Africa' && region === null && <p className="muted region-hint">{t.regionsHint}</p>}
                   <p className="muted">{t.learnedOf(learned, total)}</p>
                   <span className="bar big"><span style={{ width: `${(learned / total) * 100}%` }} /></span>
                   <div className="counts">
@@ -121,10 +138,10 @@ export default function App() {
                     <span className="n learning">{counts.learning}<small>{t.countLearning}</small></span>
                     <span className="n due">{counts.due}<small>{t.countDue}</small></span>
                   </div>
-                  <button className="btn engage" onClick={() => setStudying({ scope: continent, practice: false })}>
+                  <button className="btn engage" onClick={() => setStudying({ scope, practice: false })}>
                     {t.startStudying} <small>{counts.new + counts.learning + counts.due > 0 ? t.cardsForToday(counts.new + counts.learning + counts.due) : t.nothingDue}</small>
                   </button>
-                  <button className="btn ghost engage" onClick={() => setStudying({ scope: continent, practice: true })}>
+                  <button className="btn ghost engage" onClick={() => setStudying({ scope, practice: true })}>
                     {t.practiceAll(total)} <small>{t.practiceAllSub}</small>
                   </button>
                   <button className="btn ghost engage" onClick={() => setView('quiz')}>

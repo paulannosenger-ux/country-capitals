@@ -1,6 +1,6 @@
 // Map quiz progress: which countries of a round (continent + mode) are already named.
 // Saved in its own localStorage key, separate from the flashcard progress.
-import { CONTINENTS, type Continent } from '../data/countries'
+import { AREAS, type Area } from '../data/countries'
 
 export type Mode = 'easy' | 'hard' // easy = name the country, hard = country + capital
 /** solved = right on the first try · helped = right after a mistake or with the flag tip · missed = wrong, ask again */
@@ -8,14 +8,14 @@ export type QStatus = 'solved' | 'helped' | 'missed'
 export type Round = Record<string, QStatus>
 
 export interface QuizSave {
-  continent: Continent
+  continent: Area // a continent or a region (e.g. West Africa)
   mode: Mode
   rounds: Record<string, Round>
 }
 
 const KEY = 'country-capitals:quiz:v1'
 
-export const roundKey = (continent: Continent, mode: Mode) => `${continent}|${mode}`
+export const roundKey = (continent: Area, mode: Mode) => `${continent}|${mode}`
 
 export function loadQuiz(): QuizSave {
   const fallback: QuizSave = { continent: 'Europe', mode: 'easy', rounds: {} }
@@ -23,7 +23,7 @@ export function loadQuiz(): QuizSave {
     const raw = JSON.parse(localStorage.getItem(KEY) ?? 'null')
     if (!raw || typeof raw !== 'object') return fallback
     return {
-      continent: CONTINENTS.includes(raw.continent) ? raw.continent : fallback.continent,
+      continent: AREAS.includes(raw.continent) ? raw.continent : fallback.continent,
       mode: raw.mode === 'hard' ? 'hard' : 'easy',
       rounds: raw.rounds && typeof raw.rounds === 'object' ? raw.rounds : {},
     }
