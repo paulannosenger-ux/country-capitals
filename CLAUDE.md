@@ -16,4 +16,4 @@ Student project (owner is a beginner, speaks German; UI is English only). Flashc
 - After a wrong answer the learner must re-type the correct capital (exact match) before the next card; the card counts as Again.
 - Launcher always kills an old server on port 4173 and starts fresh after rebuilding.
 - Gotchas: tsconfig has `erasableSyntaxOnly` (no constructor parameter properties); `sed -i` fails on this Mac in some commands, use python for edits; remember to kill stray `vite preview` processes (port 4173) after testing.
-- Git is initialised but nothing is committed yet; not deployed to GitHub Pages yet (steps in README).
+- Deployed: repo https://github.com/paulannosenger-ux/country-capitals (public), live at https://paulannosenger-ux.github.io/country-capitals/ via the GitHub Action on every push to main. Commits use the GitHub noreply email (never the owner's gmail). Publishing/pushing to the public repo is blocked for Claude by the auto-mode classifier: give the owner the command to run in the VS Code terminal.
