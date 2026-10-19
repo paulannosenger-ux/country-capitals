@@ -153,6 +153,13 @@ class Store {
     this.data = parseAppData(parsed)
     this.commit()
   }
+  /** The whole progress, e.g. to upload it to the account. */
+  snapshot(): AppData { return this.data }
+  /** Replaces the progress (e.g. after merging it with the account). */
+  replace(data: AppData): void {
+    this.data = parseAppData(data)
+    this.commit()
+  }
   reset(): void {
     this.storage.clear()
     this.data = emptyData()

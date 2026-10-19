@@ -110,6 +110,25 @@ const en = {
   streakBest: (b: number) => `Day streak (best ${b})`, last14: 'Reviews · last 14 days', reviewsPerDayAria: 'Reviews per day',
   todayTotal: (t: number, all: number) => `${t} today · ${all} in total`, perContinent: 'Progress per continent',
   learnedSlash: (l: number, t: number) => `${l}/${t} learned`, legendMastered: 'mastered', legendLearning: 'learning', legendNew: 'new',
+  // friends / accounts
+  friends: 'Friends', loading: 'Loading…', signIn: 'Sign in', createAccount: 'Create account', signOut: 'Sign out',
+  accountWhy: 'With an account your progress is saved online (on every device) and you can compare yourself with your friends.',
+  yourName: 'Your name (friends see it)', email: 'Email', password: 'Password (at least 6 characters)',
+  forgotPassword: 'Forgot password?', enterEmailFirst: 'Type your email first.', resetMailSent: 'Email sent: follow the link to choose a new password.',
+  noAccountYet: 'No account yet?', haveAccount: 'Already have an account?',
+  authError: (code: string) => ({
+    'auth/invalid-credential': 'Email or password is wrong.', 'auth/wrong-password': 'Email or password is wrong.', 'auth/user-not-found': 'Email or password is wrong.',
+    'auth/email-already-in-use': 'There already is an account with this email. Sign in instead.',
+    'auth/weak-password': 'The password needs at least 6 characters.', 'auth/invalid-email': 'This email address looks wrong.',
+    'auth/network-request-failed': 'No internet connection.', 'auth/too-many-requests': 'Too many tries. Wait a moment and try again.',
+  } as Record<string, string>)[code] ?? `Something went wrong (${code}).`,
+  hello: (name: string) => `Hi ${name}`, syncState: { syncing: 'Saving…', saved: '✓ Progress saved in your account', offline: 'Offline: will be saved when you are back online' },
+  confirmSignOut: 'Sign out? Your progress stays in your account and is removed from this device.',
+  signOutOffline: 'You are offline, so the latest progress could not be saved yet. Try again with internet.',
+  leaderboard: 'Leaderboard', refresh: 'Refresh', leaderboardHint: 'Everyone with an account. Tap a column to sort, tap a name for details.',
+  leaderboardError: 'Could not load the leaderboard (offline?).', player: 'Player', you: 'you', streakShort: 'Streak', thisWeek: '7 days',
+  totalAnswers: (n: number) => `${n} answers in total`,
+  backupSynced: 'You are signed in: your progress is saved in your account automatically. A backup file is still a good extra.',
 }
 
 const de: typeof en = {
@@ -179,6 +198,24 @@ const de: typeof en = {
   streakBest: (b) => `Tage in Folge (Rekord ${b})`, last14: 'Wiederholungen · letzte 14 Tage', reviewsPerDayAria: 'Wiederholungen pro Tag',
   todayTotal: (t, all) => `${t} heute · ${all} insgesamt`, perContinent: 'Fortschritt pro Kontinent',
   learnedSlash: (l, t) => `${l}/${t} gelernt`, legendMastered: 'sicher', legendLearning: 'am Lernen', legendNew: 'neu',
+  friends: 'Freunde', loading: 'Lädt…', signIn: 'Anmelden', createAccount: 'Konto erstellen', signOut: 'Abmelden',
+  accountWhy: 'Mit einem Konto wird dein Fortschritt online gespeichert (auf jedem Gerät) und du kannst dich mit deinen Freunden vergleichen.',
+  yourName: 'Dein Name (sehen deine Freunde)', email: 'E-Mail', password: 'Passwort (mindestens 6 Zeichen)',
+  forgotPassword: 'Passwort vergessen?', enterEmailFirst: 'Gib zuerst deine E-Mail ein.', resetMailSent: 'E-Mail verschickt: Über den Link kannst du ein neues Passwort wählen.',
+  noAccountYet: 'Noch kein Konto?', haveAccount: 'Schon ein Konto?',
+  authError: (code) => ({
+    'auth/invalid-credential': 'E-Mail oder Passwort ist falsch.', 'auth/wrong-password': 'E-Mail oder Passwort ist falsch.', 'auth/user-not-found': 'E-Mail oder Passwort ist falsch.',
+    'auth/email-already-in-use': 'Mit dieser E-Mail gibt es schon ein Konto. Melde dich stattdessen an.',
+    'auth/weak-password': 'Das Passwort braucht mindestens 6 Zeichen.', 'auth/invalid-email': 'Diese E-Mail-Adresse sieht falsch aus.',
+    'auth/network-request-failed': 'Keine Internetverbindung.', 'auth/too-many-requests': 'Zu viele Versuche. Warte kurz und versuch es nochmal.',
+  } as Record<string, string>)[code] ?? `Etwas ist schiefgelaufen (${code}).`,
+  hello: (name) => `Hallo ${name}`, syncState: { syncing: 'Speichert…', saved: '✓ Fortschritt in deinem Konto gespeichert', offline: 'Offline: wird gespeichert, sobald du wieder online bist' },
+  confirmSignOut: 'Abmelden? Dein Fortschritt bleibt in deinem Konto und wird von diesem Gerät entfernt.',
+  signOutOffline: 'Du bist offline, darum konnte der neueste Fortschritt noch nicht gespeichert werden. Versuch es mit Internet nochmal.',
+  leaderboard: 'Rangliste', refresh: 'Aktualisieren', leaderboardHint: 'Alle mit Konto. Tippe auf eine Spalte zum Sortieren, auf einen Namen für Details.',
+  leaderboardError: 'Rangliste konnte nicht geladen werden (offline?).', player: 'Spieler', you: 'du', streakShort: 'Serie', thisWeek: '7 Tage',
+  totalAnswers: (n) => `${n} Antworten insgesamt`,
+  backupSynced: 'Du bist angemeldet: Dein Fortschritt wird automatisch in deinem Konto gespeichert. Eine Sicherungsdatei schadet trotzdem nicht.',
 }
 
 export const TEXTS: Record<Lang, typeof en> = { en, de }

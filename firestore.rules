@@ -1,0 +1,18 @@
+// Firestore security rules. Paste into Firebase console → Firestore Database → Rules → Publish.
+// players/{uid}:  the leaderboard card. Every signed-in player can read all of them, only you can write yours.
+// progress/{uid}: your full progress. Only you can read and write it.
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /players/{uid} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && request.auth.uid == uid
+        && request.resource.data.name is string && request.resource.data.name.size() <= 24;
+    }
+    match /progress/{uid} {
+      allow read, delete: if request.auth != null && request.auth.uid == uid;
+      allow create, update: if request.auth != null && request.auth.uid == uid
+        && request.resource.data.data is string;
+    }
+  }
+}

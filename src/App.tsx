@@ -2,6 +2,8 @@ import { useCallback, useMemo, useState } from 'react'
 import WorldMap from './map/WorldMap'
 import Settings from './pages/Settings'
 import Stats from './pages/Stats'
+import Friends from './pages/Friends'
+import { cloudEnabled } from './cloud/cloud'
 import StudyView from './study/StudyView'
 import MapQuiz from './quiz/MapQuiz'
 import { CONTINENTS, REGIONS, countries, countriesInArea, countryById, displayName, type Area, type Continent, type Region } from './data/countries'
@@ -10,7 +12,7 @@ import { countsFor, learnedCount, store, useProgress } from './progress/progress
 import { computeStats } from './progress/stats'
 import { currentTheme, setTheme } from './theme'
 
-type View = 'home' | 'quiz' | 'settings' | 'stats'
+type View = 'home' | 'quiz' | 'settings' | 'stats' | 'friends'
 
 export default function App() {
   const [view, setView] = useState<View>('home')
@@ -64,6 +66,8 @@ export default function App() {
     page = <Settings onBack={() => setView('home')} />
   } else if (view === 'stats') {
     page = <Stats onBack={() => setView('home')} />
+  } else if (view === 'friends') {
+    page = <Friends onBack={() => setView('home')} />
   } else {
     const focus = focusId ? countryById.get(focusId) : null
     const counts = countsFor(scope)
@@ -182,7 +186,13 @@ export default function App() {
               aria-current={view === 'quiz' && !studying ? 'page' : undefined}>{t.mapQuiz}</button>
           </nav>
           <nav className="nav-actions">
-            {/* on phones the two text buttons become icons */}
+            {/* on phones the text buttons become icons */}
+            {cloudEnabled && (
+              <button className="nav-btn nb-friends" onClick={() => { setStudying(null); setView('friends') }} aria-label={t.friends} title={t.friends}>
+                <span className="nb-text">{t.friends}</span>
+                <svg className="nb-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5" /><path d="M2.5 20c.8-3.6 3.3-5.5 6.5-5.5s5.7 1.9 6.5 5.5M16 4.8a3.5 3.5 0 0 1 0 6.4M18 14.8c1.8.8 3 2.6 3.5 5.2" /></svg>
+              </button>
+            )}
             <button className="nav-btn nb-stats" onClick={() => { setStudying(null); setView('stats') }} aria-label={t.stats} title={t.stats}>
               <span className="nb-text">{t.stats}</span>
               <svg className="nb-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M5 20V11M12 20V4M19 20v-6" /></svg>

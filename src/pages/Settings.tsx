@@ -2,6 +2,7 @@
 import { useRef, useState } from 'react'
 import { store, useProgress } from '../progress/progress'
 import { useT } from '../i18n'
+import { pushOverwrite, useAccount } from '../cloud/cloud'
 
 function NumberField({ label, value, min, max, onChange }: { label: string; value: number; min: number; max: number; onChange: (n: number) => void }) {
   return (
@@ -16,6 +17,7 @@ function NumberField({ label, value, min, max, onChange }: { label: string; valu
 export default function Settings({ onBack }: { onBack: () => void }) {
   useProgress()
   const t = useT()
+  const account = useAccount()
   const fileRef = useRef<HTMLInputElement>(null)
   const [message, setMessage] = useState<{ ok: boolean; text: string } | null>(null)
   const { settings } = store
@@ -35,6 +37,7 @@ export default function Settings({ onBack }: { onBack: () => void }) {
     if (!confirm(t.confirmImport)) return
     try {
       store.importJson(await file.text())
+      pushOverwrite()
       setMessage({ ok: true, text: t.imported })
     } catch (e) {
       setMessage({ ok: false, text: (e as Error).message })
@@ -45,6 +48,7 @@ export default function Settings({ onBack }: { onBack: () => void }) {
   function resetProgress() {
     if (!confirm(t.confirmReset)) return
     store.reset()
+    pushOverwrite()
     setMessage({ ok: true, text: t.wasReset })
   }
 
@@ -64,7 +68,9 @@ export default function Settings({ onBack }: { onBack: () => void }) {
 
       <div className="panel card-surface">
         <h3>{t.backup}</h3>
-        <p>{t.backupText1}<b>{t.backupOnly}</b>{t.backupText2}</p>
+        {account.status === 'signedIn'
+          ? <p>{t.backupSynced}</p>
+          : <p>{t.backupText1}<b>{t.backupOnly}</b>{t.backupText2}</p>}
         <div className="row">
           <button className="btn" onClick={exportProgress}>{t.exportProgress}</button>
           <button className="btn ghost" onClick={() => fileRef.current?.click()}>{t.importProgress}</button>

@@ -4,7 +4,7 @@ Learn all 198 countries of the world and their capitals, Anki-style. Start from 
 
 - Clean, minimal design (light and dark) in the spirit of Apple / consulting-firm websites: big typography, lots of white space, one green accent
 - Works offline once loaded (PWA), installable on your phone
-- No login, no backend: progress is stored in your browser
+- No backend of its own: progress is stored in your browser. Optional free accounts (Firebase) sync progress across devices and add a friends leaderboard (section 5)
 - English or German: switch on the start page (or EN/DE in the top bar). In German, country names, capitals, government, languages, currencies and the Wikipedia summary are German; answers are accepted in both languages ("Wien" and "Vienna")
 
 > ⚠️ **Your progress lives only in your browser (localStorage).** Clearing browser data, using a private window, or switching browser/device deletes or hides it. Use **⚙ Settings → Export progress** now and then, and **Import progress** to move to another device.
@@ -54,6 +54,7 @@ Tech: Vite + TypeScript + React (the card flow, map and stats share state, which
 ### Folder structure
 
 ```
+firestore.rules  database rules for the accounts (paste into the Firebase console)
 data/            countries.json (generated), overrides.json (manual fixes + sources), config.ts (country list)
 scripts/         fetch-data.ts (download + build JSON), validate-data.ts (completeness check)
 public/          flags/*.svg, icons
@@ -62,7 +63,8 @@ src/components/  CountUp (animated numbers)
 src/study/       StudyView.tsx, CountryFacts.tsx (facts block, shared with the map quiz), matcher.ts (answer checking), practice.ts (practice-all queue)
 src/quiz/        MapQuiz.tsx (map quiz tab), quizState.ts (rounds + saving), quiz.css
 src/progress/    scheduler.ts, store.ts (queue + limits), storage.ts (storage interface), stats.ts
-src/pages/       Settings.tsx, Stats.tsx
+src/pages/       Settings.tsx, Stats.tsx, Friends.tsx (sign in + leaderboard)
+src/cloud/       config.ts (Firebase project), cloud.ts (account + sync), firebase.ts (Firebase calls)
 .github/workflows/  deploy.yml, refresh-data.yml
 ```
 
@@ -144,6 +146,25 @@ You don't need this to use the app on your computer. It gives you a link you can
 
 Open the deployed link, then: **iPhone** Safari → Share → *Add to Home Screen*. **Android** Chrome → menu → *Install app*. After the first load it works offline. Progress is stored per browser/installed app, so export/import to move it.
 
-## 5. Later ideas (not built)
+## 5. Accounts + friends leaderboard (optional, free)
 
-Reverse direction (capital → country), flag-only quiz, cloud sync (implement the `ProgressStorage` interface in `src/progress/storage.ts`), more languages, a Pacific-centred Oceania view.
+The app has no server of its own. For accounts it uses **Firebase** (by Google) on the free **Spark** plan: no credit card, and for a group of friends you never get near the limits (50,000 reads and 20,000 writes per day). Until a Firebase project is filled in, the app works exactly as before, without login.
+
+**What it does:** a **Friends** button appears in the top bar. You create an account (name, email, password). Your progress is then saved in your account and is the same on every device you sign in on (progress already in the browser is merged in, nothing is lost). The leaderboard shows everyone with an account: countries learned, mastered, current streak, answers in the last 7 days; tap a name for the per-continent progress. Signing out removes the progress from that browser (it stays in the account). Map-quiz progress is not synced yet.
+
+**Set it up once (about 10 minutes):**
+
+1. Go to <https://console.firebase.google.com>, sign in with a Google account, **Create a project** (name e.g. `country-capitals`; Google Analytics: off).
+2. **Build → Authentication → Get started → Sign-in method → Email/Password → Enable → Save.**
+3. **Build → Firestore Database → Create database** → pick a location in Europe (e.g. `eur3` or `europe-west3`) → *Start in production mode*.
+4. Still in Firestore: tab **Rules** → replace everything with the contents of `firestore.rules` from this folder → **Publish**.
+5. Project overview (⚙ next to *Project Overview*) → **Project settings → Your apps → Web (`</>`)** → nickname `web` → **Register app**. It shows a `firebaseConfig = { apiKey: ..., ... }` block.
+6. Copy those values into `src/cloud/config.ts` (replace `null` with the object). They are not secret: every web app sends them to the browser; the rules from step 4 protect the data.
+7. Authentication → **Settings → Authorized domains** → *Add domain* → `paulannosenger-ux.github.io` (localhost is already there).
+8. Commit + push; after the deploy, send your friends the link.
+
+**How syncing works** (`src/cloud/`): the browser copy stays the main copy, so the app is fast and works offline. After signing in and a few seconds after answering, the browser copy is merged with the account copy (`src/progress/merge.ts`: per country the more-practised card wins, review logs are joined) and uploaded. Reset and Import in Settings overwrite the account copy. Database: `players/{uid}` = leaderboard card (readable by all signed-in players), `progress/{uid}` = full progress as JSON (only you). Anyone who has the link can create an account and appears on the leaderboard.
+
+## 6. Later ideas (not built)
+
+Reverse direction (capital → country), flag-only quiz, game variants against friends, syncing map-quiz progress, friend groups (separate leaderboards), more languages, a Pacific-centred Oceania view.

@@ -189,6 +189,36 @@
 .legend-line i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin: 0 5px 0 14px; }
 .legend-line i:first-child { margin-left: 0; }
 
+/* ---- friends: sign in + leaderboard ---- */
+.auth form { display: grid; gap: 0; margin-bottom: 4px; }
+.auth .field { flex-direction: column; align-items: stretch; gap: 6px; }
+.auth .field span { font-size: .9rem; font-weight: 550; }
+.auth .field input { width: 100%; text-align: left; }
+.auth .row { margin-top: 12px; }
+.switch-mode { margin-top: 16px !important; }
+.link { border: 0; background: none; padding: 0; cursor: pointer; color: var(--accent); font-weight: 600; }
+.account-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+.account-bar .sync { margin: 2px 0 0; font-size: .85rem; }
+.account-bar .sync.saved { color: var(--accent); } .account-bar .sync.offline { color: var(--amber); }
+.lb-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.lb { width: 100%; border-collapse: collapse; font-size: .95rem; font-variant-numeric: tabular-nums; }
+.lb th { text-align: left; font-size: .78rem; font-weight: 600; color: var(--muted); padding: 8px 6px; border-bottom: 1px solid var(--line); }
+.lb th button { border: 0; background: none; padding: 0; cursor: pointer; font: inherit; color: inherit; }
+.lb th.on { color: var(--accent); }
+.lb td { padding: 11px 6px; border-bottom: 1px solid var(--line); }
+.lb .num { text-align: right; }
+.lb td small { color: var(--muted); font-size: .8em; }
+.lb .rank { width: 2.2em; }
+.lb .who { font-weight: 550; overflow-wrap: anywhere; }
+.lb tr.clickable { cursor: pointer; }
+.lb tr.clickable:hover td { background: var(--surface-2); }
+.lb tr.me td { background: color-mix(in srgb, var(--accent) 8%, transparent); }
+.lb tr.detail td { background: var(--surface-2); padding: 14px 12px; }
+.lb-continents { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px 18px; margin-bottom: 8px; }
+.lb-continents > div { display: grid; grid-template-columns: 1fr auto; gap: 4px; font-size: .88rem; }
+.lb-continents .bar { grid-column: 1 / -1; margin-top: 0; }
+@media (max-width: 480px) { .lb { font-size: .88rem; } .lb th, .lb td { padding-left: 3px; padding-right: 3px; } }
+
 /* fill mode (full-screen study map): the ocean is the background, the globe outline disappears */
 .world-map.fill { width: 100%; height: 100%; }
 .world-map.fill .sphere { fill: none; }
