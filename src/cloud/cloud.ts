@@ -12,6 +12,8 @@ import { computeStats } from '../progress/stats'
 import { emptyData, parseAppData, type AppData } from '../progress/storage'
 import { store } from '../progress/store'
 import { firebaseConfig } from './config'
+import type { Match } from '../games/duels'
+import type { RoundResult } from '../games/modes'
 
 /** True once a Firebase project is filled in in config.ts. */
 export const cloudEnabled = firebaseConfig !== null
@@ -93,6 +95,7 @@ async function onSignedIn(u: { uid: string; name: string; email: string }) {
   setAccount({ status: 'signedIn', uid: u.uid, name: pendingName ?? u.name, email: u.email, sync: 'syncing' })
   pendingName = null
   await sync('merge')
+  void startMatches(u.uid)
   unsubStore ??= store.subscribe(() => {
     if (applyingRemote) return
     clearTimeout(timer)
@@ -204,6 +207,7 @@ export async function signOutCloud() {
   const f = await fb()
   unsubStore?.()
   unsubStore = null
+  stopMatches()
   uid = null
   await f.logout()
   store.reset()
@@ -218,3 +222,54 @@ export async function fetchPlayers() {
 }
 /** Firebase error code such as "auth/wrong-password" (or "offline"). */
 export const authErrorCode = (e: unknown) => ((e as { code?: string })?.code ?? (e as Error)?.message ?? 'unknown')
+
+// ---- duels (games/duels.ts) ----
+
+let matches: Match[] | null = null // null = not loaded yet
+let unsubMatches: (() => void) | null = null
+const matchListeners = new Set<() => void>()
+function setMatches(list: Match[] | null) {
+  matches = list ? [...list].sort((a, b) => b.createdAt - a.createdAt) : null
+  matchListeners.forEach((fn) => fn())
+}
+const subscribeMatches = (fn: () => void) => { matchListeners.add(fn); return () => { matchListeners.delete(fn) } }
+/** All my matches, newest first (live); null while loading or signed out. */
+export const useMatches = () => useSyncExternalStore(subscribeMatches, () => matches)
+
+async function startMatches(me: string) {
+  if (unsubMatches) return
+  const f = await fb()
+  if (uid !== me) return
+  unsubMatches = f.watchMatches(me, setMatches, () => setMatches([]))
+}
+function stopMatches() {
+  unsubMatches?.()
+  unsubMatches = null
+  setMatches(null)
+}
+
+function me() {
+  if (account.status !== 'signedIn') throw new Error('not signed in')
+  return account
+}
+/** Starts a duel with my finished round; `invite` = uids of friends to challenge (can be empty: share the link). */
+export async function createDuel(m: Pick<Match, 'mode' | 'area' | 'questions'>, result: RoundResult, invite: string[], inviteNames: Record<string, string>) {
+  const a = me()
+  return (await fb()).createMatch({
+    ...m,
+    createdBy: a.uid,
+    createdAt: Date.now(),
+    participants: [a.uid, ...invite.filter((id) => id !== a.uid)],
+    names: { ...inviteNames, [a.uid]: a.name },
+    results: { [a.uid]: result },
+  })
+}
+export async function submitDuel(id: string, result: RoundResult) {
+  const a = me()
+  await (await fb()).submitResult(id, a.uid, a.name, result)
+}
+export async function loadDuel(id: string) {
+  return (await fb()).loadMatch(id)
+}
+/** Link that opens the duel in the app. */
+export const duelLink = (id: string) => `${location.origin}${location.pathname}?duel=${id}`

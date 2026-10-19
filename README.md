@@ -61,6 +61,7 @@ public/          flags/*.svg, icons
 src/map/         WorldMap.tsx (zoomable map, focus ring)
 src/components/  CountUp (animated numbers)
 src/study/       StudyView.tsx, CountryFacts.tsx (facts block, shared with the map quiz), matcher.ts (answer checking), practice.ts (practice-all queue)
+src/games/       GamesView.tsx (Play tab), GamePlay.tsx (a round), GameResult.tsx (result, challenge, comparison), modes.ts (questions + points), duels.ts
 src/quiz/        MapQuiz.tsx (map quiz tab), quizState.ts (rounds + saving), quiz.css
 src/progress/    scheduler.ts, store.ts (queue + limits), storage.ts (storage interface), stats.ts
 src/pages/       Settings.tsx, Stats.tsx, Friends.tsx (sign in + leaderboard)
@@ -165,6 +166,23 @@ The app has no server of its own. For accounts it uses **Firebase** (by Google) 
 
 **How syncing works** (`src/cloud/`): the browser copy stays the main copy, so the app is fast and works offline. After signing in and a few seconds after answering, the browser copy is merged with the account copy (`src/progress/merge.ts`: per country the more-practised card wins, review logs are joined) and uploaded. Reset and Import in Settings overwrite the account copy. Database: `players/{uid}` = leaderboard card (readable by all signed-in players), `progress/{uid}` = full progress as JSON (only you). Anyone who has the link can create an account and appears on the leaderboard.
 
-## 6. Later ideas (not built)
+## 6. Play tab: game modes + duels
 
-Reverse direction (capital → country), flag-only quiz, game variants against friends, syncing map-quiz progress, friend groups (separate leaderboards), more languages, a Pacific-centred Oceania view.
+Quick rounds of **10 questions, 15 seconds each**. A right answer gives 100 points plus up to 100 for speed (max. 2,000 per round). Modes (`src/games/modes.ts`):
+
+| Mode | Question | Answer |
+|---|---|---|
+| 🏙️ Capital sprint | flag + country | type the capital |
+| 🚩 Flag flash | only the flag | type the country (Chad/Romania and Monaco/Indonesia: both count) |
+| 🔄 Reverse | the capital | type the country |
+| 📍 Pin it | country name | click it on the map; the wrong country still gives up to 99 points the closer it is (0 from 2,500 km) |
+
+Each can be played on the whole world, a continent or an African region. Your best score per mode + area is kept in the browser.
+
+**Duels** (needs an account): after a round, tick friends from the leaderboard and press *Challenge*, or *Share link* (phone share sheet / copied link `…/?duel=ID`). They play exactly the same questions whenever they like (no need to be online at the same time); the Play tab shows a red number when it's your turn. Most points win, on a tie the faster total time. Afterwards: comparison question by question, and *Rematch*. A link can be opened by several friends (group duel, up to 20). Stored in Firestore `matches/{id}`; the rules let everyone add only their own result, once.
+
+**After changing `firestore.rules`** paste them into the Firebase console again (Firestore → Rules → Publish).
+
+## 7. Later ideas (not built)
+
+Live duels (both at the same time), survival mode (until the first mistake), duel wins on the leaderboard, syncing map-quiz progress, friend groups (separate leaderboards), more languages, a Pacific-centred Oceania view.

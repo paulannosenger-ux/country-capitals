@@ -3,7 +3,9 @@ import WorldMap from './map/WorldMap'
 import Settings from './pages/Settings'
 import Stats from './pages/Stats'
 import Friends from './pages/Friends'
-import { cloudEnabled } from './cloud/cloud'
+import { cloudEnabled, useAccount, useMatches } from './cloud/cloud'
+import GamesView from './games/GamesView'
+import { matchState } from './games/duels'
 import StudyView from './study/StudyView'
 import MapQuiz from './quiz/MapQuiz'
 import { CONTINENTS, REGIONS, countries, countriesInArea, countryById, displayName, type Area, type Continent, type Region } from './data/countries'
@@ -12,10 +14,23 @@ import { countsFor, learnedCount, store, useProgress } from './progress/progress
 import { computeStats } from './progress/stats'
 import { currentTheme, setTheme } from './theme'
 
-type View = 'home' | 'quiz' | 'settings' | 'stats' | 'friends'
+type View = 'home' | 'quiz' | 'games' | 'settings' | 'stats' | 'friends'
+
+/** A shared duel link (?duel=ID) opens the Play tab with that duel. */
+function duelFromUrl(): string | null {
+  return new URLSearchParams(location.search).get('duel')
+}
 
 export default function App() {
-  const [view, setView] = useState<View>('home')
+  const [joinId, setJoinId] = useState(duelFromUrl)
+  const [view, setView] = useState<View>(() => (joinId ? 'games' : 'home'))
+  const onJoinHandled = useCallback(() => {
+    setJoinId(null)
+    history.replaceState(null, '', location.pathname) // remove ?duel=... from the address
+  }, [])
+  const account = useAccount()
+  const matches = useMatches()
+  const myTurn = account.status === 'signedIn' && matches ? matches.filter((m) => matchState(m, account.uid) === 'yourTurn').length : 0
   const [continent, setContinent] = useState<Continent | null>(null)
   // Africa can be split into regions (North / West / East / South); null = the whole continent
   const [region, setRegion] = useState<Region | null>(null)
@@ -66,6 +81,8 @@ export default function App() {
     page = <Settings onBack={() => setView('home')} />
   } else if (view === 'stats') {
     page = <Stats onBack={() => setView('home')} />
+  } else if (view === 'games') {
+    page = <GamesView joinId={joinId} onJoinHandled={onJoinHandled} onOpenFriends={() => setView('friends')} />
   } else if (view === 'friends') {
     page = <Friends onBack={() => setView('home')} />
   } else {
@@ -180,10 +197,16 @@ export default function App() {
             <span className="wm-text">{t.brand}</span>
           </button>
           <nav className="tabs" aria-label={t.learn + " / " + t.mapQuiz}>
-            <button className={'tab' + (view !== 'quiz' || studying ? ' on' : '')} onClick={() => { setStudying(null); setView('home') }}
-              aria-current={view !== 'quiz' || studying ? 'page' : undefined}>{t.learn}</button>
+            <button className={'tab' + (!['quiz', 'games'].includes(view) || studying ? ' on' : '')} onClick={() => { setStudying(null); setView('home') }}
+              aria-current={!['quiz', 'games'].includes(view) || studying ? 'page' : undefined}>{t.learn}</button>
             <button className={'tab' + (view === 'quiz' && !studying ? ' on' : '')} onClick={() => { setStudying(null); setView('quiz') }}
-              aria-current={view === 'quiz' && !studying ? 'page' : undefined}>{t.mapQuiz}</button>
+              aria-current={view === 'quiz' && !studying ? 'page' : undefined}>
+              <span className="tab-long">{t.mapQuiz}</span><span className="tab-short">{t.mapQuizShort}</span>
+            </button>
+            <button className={'tab' + (view === 'games' && !studying ? ' on' : '')} onClick={() => { setStudying(null); setView('games') }}
+              aria-current={view === 'games' && !studying ? 'page' : undefined}>
+              {t.play}{myTurn > 0 && <span className="badge" aria-label={t.duelGroup.yourTurn}>{myTurn}</span>}
+            </button>
           </nav>
           <nav className="nav-actions">
             {/* on phones the text buttons become icons */}

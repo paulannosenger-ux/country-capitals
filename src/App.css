@@ -22,6 +22,12 @@
 .lang-btn { font-size: .8rem; font-weight: 650; letter-spacing: .04em; }
 @media (max-width: 760px) { .nb-text { display: none; } .nb-icon { display: inline-block; } }
 @media (max-width: 600px) { .wordmark .wm-text { display: none; } .tab { padding: 5px 10px; } .nav-btn { padding: 8px 7px; } }
+/* three tabs + icons don't fit on small phones: the language switch is on the start page anyway */
+.tab-short { display: none; }
+@media (max-width: 480px) {
+  .lang-btn, .wordmark, .tab-long { display: none; } .tab-short { display: inline; }
+  .tab { padding: 5px 9px; font-size: .84rem; } .nav-btn { padding: 8px 6px; }
+}
 @media (max-width: 360px) { .tab { padding: 5px 7px; font-size: .82rem; } }
 
 /* English / Deutsch switch on the start page */
