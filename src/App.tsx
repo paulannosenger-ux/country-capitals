@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react'
+import { Suspense, lazy, useCallback, useMemo, useState } from 'react'
 import WorldMap from './map/WorldMap'
 import Settings from './pages/Settings'
 import Stats from './pages/Stats'
@@ -8,13 +8,15 @@ import GamesView from './games/GamesView'
 import { matchState } from './games/duels'
 import StudyView from './study/StudyView'
 import MapQuiz from './quiz/MapQuiz'
+// loaded only when the tab is opened (it brings ~360 KB of river/lake/mountain shapes)
+const NatureView = lazy(() => import('./nature/NatureView'))
 import { CONTINENTS, REGIONS, countries, countriesInArea, countryById, displayName, type Area, type Continent, type Region } from './data/countries'
 import { setLang, useLang, useT, type Lang } from './i18n'
 import { countsFor, learnedCount, setDirection, type Direction, store, useDirection, useProgress } from './progress/progress'
 import { computeStats } from './progress/stats'
 import { currentTheme, setTheme } from './theme'
 
-type View = 'home' | 'quiz' | 'games' | 'settings' | 'stats' | 'friends'
+type View = 'home' | 'quiz' | 'nature' | 'games' | 'settings' | 'stats' | 'friends'
 
 /** A shared duel link (?duel=ID) opens the Play tab with that duel. */
 function duelFromUrl(): string | null {
@@ -79,6 +81,8 @@ export default function App() {
     )
   } else if (view === 'quiz') {
     page = <MapQuiz initialContinent={scope} />
+  } else if (view === 'nature') {
+    page = <Suspense fallback={null}><NatureView initialContinent={continent} /></Suspense>
   } else if (view === 'settings') {
     page = <Settings onBack={() => setView('home')} />
   } else if (view === 'stats') {
@@ -201,12 +205,14 @@ export default function App() {
             <span className="wm-text">{t.brand}</span>
           </button>
           <nav className="tabs" aria-label={t.learn + " / " + t.mapQuiz}>
-            <button className={'tab' + (!['quiz', 'games'].includes(view) || studying ? ' on' : '')} onClick={() => { setStudying(null); setView('home') }}
-              aria-current={!['quiz', 'games'].includes(view) || studying ? 'page' : undefined}>{t.learn}</button>
+            <button className={'tab' + (!['quiz', 'nature', 'games'].includes(view) || studying ? ' on' : '')} onClick={() => { setStudying(null); setView('home') }}
+              aria-current={!['quiz', 'nature', 'games'].includes(view) || studying ? 'page' : undefined}>{t.learn}</button>
             <button className={'tab' + (view === 'quiz' && !studying ? ' on' : '')} onClick={() => { setStudying(null); setView('quiz') }}
               aria-current={view === 'quiz' && !studying ? 'page' : undefined}>
               <span className="tab-long">{t.mapQuiz}</span><span className="tab-short">{t.mapQuizShort}</span>
             </button>
+            <button className={'tab' + (view === 'nature' && !studying ? ' on' : '')} onClick={() => { setStudying(null); setView('nature') }}
+              aria-current={view === 'nature' && !studying ? 'page' : undefined}>{t.nature}</button>
             <button className={'tab' + (view === 'games' && !studying ? ' on' : '')} onClick={() => { setStudying(null); setView('games') }}
               aria-current={view === 'games' && !studying ? 'page' : undefined}>
               {t.play}{myTurn > 0 && <span className="badge" aria-label={t.duelGroup.yourTurn}>{myTurn}</span>}
@@ -237,7 +243,7 @@ export default function App() {
           </nav>
         </div>
       </header>
-      <main className={studying ? 'app-study' : view === 'quiz' ? 'app-quiz' : 'app'}>{page}</main>
+      <main className={studying || view === 'nature' ? 'app-study' : view === 'quiz' ? 'app-quiz' : 'app'}>{page}</main>
     </>
   )
 }

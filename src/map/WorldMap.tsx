@@ -30,6 +30,9 @@ const pathGen = geoPath(projection)
 const graticulePath = pathGen(geoGraticule10())!
 const spherePath = pathGen({ type: 'Sphere' } as any)!
 
+/** SVG path of any GeoJSON geometry in map coordinates (rivers, lakes, mountains on top of the map). */
+export const geoPathD = (geometry: any) => pathGen(geometry) ?? ''
+
 // Natural Earth polygons without a numeric id that belong to a country on our list.
 // (Somaliland is internationally part of Somalia, Northern Cyprus part of Cyprus.)
 const POLYGON_NAME_TO_COUNTRY: Record<string, string> = { Kosovo: 'XK', Somaliland: 'SO', 'N. Cyprus': 'CY' }
@@ -123,11 +126,14 @@ const VIEW_BOX: Record<Area, [number, number, number, number]> = {
 interface Box { w: number; h: number; left: number; right: number; top: number; bottom: number }
 
 /** Zoom/pan so the continent (or the whole world) fills the free part of the box. */
-function transformFor(continent: Area | null, box: Box): ZoomTransform {
+function transformFor(continent: Area | null, box: Box, fitBox?: [number, number, number, number] | null): ZoomTransform {
   let x0 = 0, y0 = 0, x1 = W, y1 = H
   let pad = 0.98
   if (continent) {
-    const [w, s, e, n] = VIEW_BOX[continent]
+    // fitBox only ever widens the continent's usual view
+    const v = VIEW_BOX[continent]
+    const f = fitBox ?? v
+    const [w, s, e, n] = [Math.min(v[0], f[0]), Math.min(v[1], f[1]), Math.max(v[2], f[2]), Math.max(v[3], f[3])]
     ;[x0, y0] = projection([w, n])!
     ;[x1, y1] = projection([e, s])!
     if (continent === 'Oceania') x1 += W * 0.09 // include the wrapped strip with Tonga, Samoa, ...
@@ -157,11 +163,17 @@ interface Props {
   hideNames?: boolean
   /** countries whose name is written on the map (map quiz: the ones already named) */
   labelIds?: string[]
+  /** extra shapes drawn on top of the countries (use geoPathD for their paths) */
+  overlay?: React.ReactNode
+  /** [west, south, east, north] that must also be visible besides the continent (Nature tab: the Urals are in Europe) */
+  fitBox?: [number, number, number, number] | null
+  /** [lon, lat] to mark with the target ring when no country is focused */
+  targetLonLat?: [number, number] | null
   /** called with the focused country's position in screen pixels (relative to the map) whenever it moves */
   onTargetMove?: (p: { x: number; y: number } | null) => void
 }
 
-export default function WorldMap({ continent, focusId, onPickCountry, fill = false, reserve, classFor, colorKey, hideNames = false, onTargetMove, labelIds }: Props) {
+export default function WorldMap({ continent, focusId, onPickCountry, fill = false, reserve, classFor, colorKey, hideNames = false, onTargetMove, labelIds, overlay, targetLonLat, fitBox }: Props) {
   const svgRef = useRef<SVGSVGElement>(null)
   const gRef = useRef<SVGGElement>(null)
   const markerRef = useRef<SVGGElement>(null)
@@ -177,6 +189,8 @@ export default function WorldMap({ continent, focusId, onPickCountry, fill = fal
   const vbRef = useRef(vb)
   vbRef.current = vb
   const reserveRef = useRef(reserve)
+  const fitBoxRef = useRef(fitBox)
+  fitBoxRef.current = fitBox
   reserveRef.current = reserve
   const reserveKey = JSON.stringify(reserve ?? {})
   const prevContinent = useRef<Area | null | undefined>(undefined)
@@ -279,7 +293,7 @@ export default function WorldMap({ continent, focusId, onPickCountry, fill = fal
     if (!svg || !z) return
     const k0 = Math.min(vb.w / W, vb.h / H) // zoom level at which the whole world fits
     z.scaleExtent([k0, k0 * 40]).translateExtent(fill ? [[-W * 0.6, -H * 0.6], [W * 1.6, H * 1.6]] : [[0, 0], [W, H]])
-    const target = transformFor(continent, currentBox())
+    const target = transformFor(continent, currentBox(), fitBoxRef.current)
     const animate = prevContinent.current !== undefined && prevContinent.current !== continent
     prevContinent.current = continent
     const sel = select(svg).interrupt()
@@ -364,7 +378,8 @@ export default function WorldMap({ continent, focusId, onPickCountry, fill = fal
     [labelKey, lang],
   )
 
-  const target = focusId ? displayPoint(focusId) : null
+  const lonLatPoint = targetLonLat ? projection(targetLonLat) : null
+  const target = focusId ? displayPoint(focusId) : lonLatPoint ? [lonLatPoint[0], lonLatPoint[1]] : null
 
   // After re-render (new classes, labels, reticle) make sure everything keeps its position.
   useEffect(updateMarkers, [dots, wrappedDots, labels, target])
@@ -375,7 +390,7 @@ export default function WorldMap({ continent, focusId, onPickCountry, fill = fal
   }
   function resetView() {
     if (!svgRef.current || !zoomRef.current) return
-    select(svgRef.current).transition().duration(600).call(zoomRef.current.transform, transformFor(continent, currentBox()))
+    select(svgRef.current).transition().duration(600).call(zoomRef.current.transform, transformFor(continent, currentBox(), fitBoxRef.current))
   }
 
   return (
@@ -389,13 +404,14 @@ export default function WorldMap({ continent, focusId, onPickCountry, fill = fal
           <path className="graticule" d={graticulePath} />
           {paths}
           <g transform={`translate(${W},0)`} clipPath="url(#wrap-clip)">{wrapped}</g>
+          {overlay}
         </g>
         <g ref={markerRef}>
           {dots}
           {wrappedDots}
           {labels}
           {target && (
-            <g key={'reticle-' + focusId} className="reticle" data-x={target[0]} data-y={target[1]} data-area="0">
+            <g key={'reticle-' + (focusId ?? targetLonLat?.join(','))} className="reticle" data-x={target[0]} data-y={target[1]} data-area="0">
               <circle className="halo" r="16" />
               <circle className="ring" r="16" />
             </g>

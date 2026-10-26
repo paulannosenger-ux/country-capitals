@@ -64,6 +64,7 @@ src/components/  CountUp (animated numbers)
 src/study/       StudyView.tsx, CountryFacts.tsx (facts block, shared with the map quiz), matcher.ts (answer checking), practice.ts (practice-all queue)
 src/games/       GamesView.tsx (Play tab), GamePlay.tsx (a round), GameResult.tsx (result, challenge, comparison), modes.ts (questions + points), duels.ts
 src/quiz/        MapQuiz.tsx (map quiz tab), quizState.ts (rounds + saving), quiz.css
+src/nature/      NatureView.tsx (Nature tab: rivers, waters, mountains), nature.ts (answer check + saving), nature.css
 src/progress/    scheduler.ts, store.ts (queue + limits), storage.ts (storage interface), stats.ts
 src/pages/       Settings.tsx, Stats.tsx, Friends.tsx (sign in + leaderboard)
 src/cloud/       config.ts (Firebase project), cloud.ts (account + sync), firebase.ts (Firebase calls)
@@ -184,6 +185,16 @@ Each can be played on the whole world, a continent or an African region. Your be
 
 **After changing `firestore.rules`** paste them into the Firebase console again (Firestore → Rules → Publish).
 
-## 7. Later ideas (not built)
+## 7. Nature tab: rivers, waters, mountains
+
+The most important **rivers**, **waters** (seas, lakes, the Suez and Panama canals) and **mountain ranges** of each continent, about 150 in total.
+
+- **Explore**: list of names; tap one to see it highlighted on the map with a short fact (length, height, …).
+- **Quiz**: one shape lights up, type its name (English or German, small typos are fine, "der/die/das/the" optional). A wrong answer has to be written out once and comes back a few items later in the round. "Known" (green dot) / "missed" (red) is kept in localStorage `country-capitals:nature:v1`.
+- **The list** is hand-made in `data/nature.ts` (names, aliases, fact in both languages, which Natural Earth features form the shape). Some items belong to two continents (Mediterranean: Europe + Africa; Urals, Caucasus, Caspian Sea: Europe + Asia).
+- **The shapes** come from Natural Earth (public domain, 1:50m; a few rivers from 1:10m). After changing the list run `npm run data:nature`: it writes `data/nature-geo.json` (~360 KB, loaded only when the tab is opened) and lists any name it could not find.
+- Not built yet: deserts (Sahara, Gobi, …) are in the same Natural Earth file and could be added as a fourth kind.
+
+## 8. Later ideas (not built)
 
 Live duels (both at the same time), survival mode (until the first mistake), duel wins on the leaderboard, syncing map-quiz progress, friend groups (separate leaderboards), more languages, a Pacific-centred Oceania view.
