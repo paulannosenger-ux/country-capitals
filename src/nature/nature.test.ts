@@ -37,3 +37,27 @@ describe('checkNature', () => {
     expect(check('Niger', 'nile')).toBe('wrong')
   })
 })
+
+describe('nature facts', () => {
+  it('has key figures for every item, with real country codes', async () => {
+    const { NATURE_FACTS } = await import('./nature')
+    const { countryById } = await import('../data/countries')
+    for (const n of NATURE) {
+      const f = NATURE_FACTS[n.id]
+      expect(f, n.id).toBeDefined()
+      expect(f.countries.length, n.id).toBeGreaterThan(0)
+      for (const c of f.countries) expect(countryById.has(c), `${n.id}: ${c}`).toBe(true)
+      if (n.kind === 'river') expect(f.lengthKm && f.source && f.mouth, n.id).toBeTruthy()
+    }
+  })
+})
+
+describe('pickNext', () => {
+  it('asks only open items and not the same one twice in a row', async () => {
+    const { pickNext } = await import('./nature')
+    const round = { solved: ['a'], missed: [] }
+    for (let i = 0; i < 20; i++) expect(pickNext(['a', 'b', 'c'], round, 'b')).toBe('c')
+    expect(pickNext(['a', 'b'], round, 'b')).toBe('b') // the only one left
+    expect(pickNext(['a'], round)).toBeNull()
+  })
+})

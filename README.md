@@ -189,8 +189,9 @@ Each can be played on the whole world, a continent or an African region. Your be
 
 The most important **rivers**, **waters** (seas, lakes, the Suez and Panama canals) and **mountain ranges** of each continent, about 150 in total.
 
-- **Explore**: list of names; tap one to see it highlighted on the map with a short fact (length, height, …).
-- **Quiz**: one shape lights up, type its name (English or German, small typos are fine, "der/die/das/the" optional). A wrong answer has to be written out once and comes back a few items later in the round. "Known" (green dot) / "missed" (red) is kept in localStorage `country-capitals:nature:v1`.
+- **Explore**: list of names; tap one (in the list or on the map) to see it highlighted with its key figures: length / area / greatest depth / highest peak, source and mouth, all countries it flows through or borders (with flags), and a short fact.
+- **Quiz**: one shape lights up (blue / brown), type its name (English or German, small typos are fine, "der/die/das/the" optional). **Tap any other shape on the map to answer that one instead.** Named ones turn green and get their name written on the map; the round is kept per continent + kind (localStorage `country-capitals:nature:rounds:v1`, "Restart" clears it). A wrong answer has to be written out once; the item stays open. "Known" (green dot) / "missed" (red) in the list: `country-capitals:nature:v1`.
+- **Key figures** are hand-made in `data/nature-facts.ts` (countries as ISO codes; a test checks every item has them and every code exists).
 - **The list** is hand-made in `data/nature.ts` (names, aliases, fact in both languages, which Natural Earth features form the shape). Some items belong to two continents (Mediterranean: Europe + Africa; Urals, Caucasus, Caspian Sea: Europe + Asia).
 - **The shapes** come from Natural Earth (public domain, 1:50m; a few rivers from 1:10m). After changing the list run `npm run data:nature`: it writes `data/nature-geo.json` (~360 KB, loaded only when the tab is opened) and lists any name it could not find.
 - Not built yet: deserts (Sahara, Gobi, …) are in the same Natural Earth file and could be added as a fourth kind.

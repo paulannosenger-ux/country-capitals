@@ -167,13 +167,15 @@ interface Props {
   overlay?: React.ReactNode
   /** [west, south, east, north] that must also be visible besides the continent (Nature tab: the Urals are in Europe) */
   fitBox?: [number, number, number, number] | null
+  /** names written just above any [lon, lat] (Nature tab: the rivers and mountains named so far) */
+  freeLabels?: { key: string; at: [number, number]; text: string; className?: string }[]
   /** [lon, lat] to mark with the target ring when no country is focused */
   targetLonLat?: [number, number] | null
   /** called with the focused country's position in screen pixels (relative to the map) whenever it moves */
   onTargetMove?: (p: { x: number; y: number } | null) => void
 }
 
-export default function WorldMap({ continent, focusId, onPickCountry, fill = false, reserve, classFor, colorKey, hideNames = false, onTargetMove, labelIds, overlay, targetLonLat, fitBox }: Props) {
+export default function WorldMap({ continent, focusId, onPickCountry, fill = false, reserve, classFor, colorKey, hideNames = false, onTargetMove, labelIds, overlay, targetLonLat, fitBox, freeLabels }: Props) {
   const svgRef = useRef<SVGSVGElement>(null)
   const gRef = useRef<SVGGElement>(null)
   const markerRef = useRef<SVGGElement>(null)
@@ -227,7 +229,7 @@ export default function WorldMap({ continent, focusId, onPickCountry, fill = fal
       if (el.classList.contains('map-label')) {
         // drawn in screen pixels; only shown once the country is wide enough on screen for its name
         const screenW = Number(el.dataset.w) * t.k * pxPerUnit
-        el.style.display = screenW >= Number(el.dataset.tw) * 0.8 ? '' : 'none'
+        el.style.display = el.classList.contains('free') || screenW >= Number(el.dataset.tw) * 0.8 ? '' : 'none'
         el.setAttribute('transform', `translate(${x},${y}) scale(${1 / pxPerUnit})`)
         continue
       }
@@ -381,8 +383,24 @@ export default function WorldMap({ continent, focusId, onPickCountry, fill = fal
   const lonLatPoint = targetLonLat ? projection(targetLonLat) : null
   const target = focusId ? displayPoint(focusId) : lonLatPoint ? [lonLatPoint[0], lonLatPoint[1]] : null
 
+  const freeKey = (freeLabels ?? []).map((l) => l.key + l.text + (l.className ?? '')).join('|')
+  const free = useMemo(
+    () =>
+      (freeLabels ?? []).map((l) => {
+        const p = projection(l.at)
+        if (!p) return null
+        return (
+          <g key={'f' + l.key} className={'map-label free ' + (l.className ?? '')} data-x={p[0]} data-y={p[1]}>
+            <text y={-15}>{l.text}</text>
+          </g>
+        )
+      }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [freeKey],
+  )
+
   // After re-render (new classes, labels, reticle) make sure everything keeps its position.
-  useEffect(updateMarkers, [dots, wrappedDots, labels, target])
+  useEffect(updateMarkers, [dots, wrappedDots, labels, free, target])
 
   function zoomBy(factor: number) {
     if (!svgRef.current || !zoomRef.current) return
@@ -410,6 +428,7 @@ export default function WorldMap({ continent, focusId, onPickCountry, fill = fal
           {dots}
           {wrappedDots}
           {labels}
+          {free}
           {target && (
             <g key={'reticle-' + (focusId ?? targetLonLat?.join(','))} className="reticle" data-x={target[0]} data-y={target[1]} data-area="0">
               <circle className="halo" r="16" />

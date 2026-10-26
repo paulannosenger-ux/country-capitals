@@ -1,15 +1,16 @@
 // Nature tab: the most important rivers, waters (seas, lakes) and mountain ranges of each continent.
-// Explore = list of names, tap one to see it on the map with a short fact.
-// Quiz = one shape lights up on the map, type its name (English or German). A wrong answer must be
-// written out once and comes back a few items later in the same round (like "Practice all").
+// Explore = list of names, tap one (or tap it on the map) to see it highlighted with its key figures.
+// Quiz = one shape lights up, type its name (English or German). Tap any other shape on the map to answer
+// that one instead. Named ones turn green and get their name on the map; the round is kept per continent + kind.
+// A wrong answer must be written out once; the item stays open and comes back later.
 import { useEffect, useMemo, useRef, useState } from 'react'
 import WorldMap, { geoPathD } from '../map/WorldMap'
 import { CONTINENTS, type Continent } from '../data/countries'
 import { useLang, useT } from '../i18n'
-import { missed, passed, shuffle } from '../study/practice'
 import geoRaw from '../../data/nature-geo.json'
-import { KINDS, NATURE, checkNature, itemsFor, loadNature, natureName, otherNatureName, saveNature,
-  type KindFilter, type NatureItem, type NatureStatus } from './nature'
+import NatureFactsView from './NatureFactsView'
+import { EMPTY_ROUND, KINDS, NATURE, checkNature, itemsFor, loadNature, loadRounds, natureName, otherNatureName, pickNext,
+  roundKeyOf, saveNature, saveRounds, type KindFilter, type NatureItem, type NatureRound, type NatureStatus } from './nature'
 import '../quiz/quiz.css'
 import './nature.css'
 
@@ -20,6 +21,7 @@ function pathOf(id: string) {
   if (!pathCache.has(id)) pathCache.set(id, geoPathD(GEO[id].geo))
   return pathCache.get(id)!
 }
+
 /** [west, south, east, north] around all items of a continent, so nothing is cut off at the edge */
 function boundsOf(continent: Continent): [number, number, number, number] {
   let w = 180, s = 90, e = -180, n = -90
@@ -43,15 +45,20 @@ export default function NatureView({ initialContinent }: { initialContinent: Con
   const [continent, setContinent] = useState<Continent>(initialContinent ?? 'Europe')
   const [kind, setKind] = useState<KindFilter>('all')
   const [mode, setMode] = useState<Mode>('explore')
-  const [selected, setSelected] = useState<string | null>(null) // explore: the item shown on the map
-  const [quizFocus, setQuizFocus] = useState<string | null>(null) // quiz: the item being asked
-  const [saved, setSaved] = useState(loadNature)
+  const [selected, setSelected] = useState<string | null>(null) // explore: the item shown
+  const [saved, setSaved] = useState(loadNature) // known / missed, the last time each was asked
   useEffect(() => saveNature(saved), [saved])
+  const [rounds, setRounds] = useState(loadRounds)
+  useEffect(() => saveRounds(rounds), [rounds])
 
   const items = useMemo(() => itemsFor(continent, kind), [continent, kind])
+  const ids = useMemo(() => items.map((n) => n.id), [items])
+  const key = roundKeyOf(continent, kind)
+  const round = rounds[key] ?? EMPTY_ROUND
+  const [askId, setAskId] = useState<string | null>(() => pickNext(itemsFor(continent, kind).map((n) => n.id), round))
   const fitBox = useMemo(() => boundsOf(continent), [continent])
   const known = items.filter((n) => saved[n.id] === 'known').length
-  const focusId = mode === 'explore' ? selected : quizFocus
+  const focusId = mode === 'explore' ? selected : askId
 
   // On wide screens the panel floats over the right side of the map; keep the continent clear of it (same as StudyView).
   const [vw, setVw] = useState(window.innerWidth)
@@ -64,33 +71,72 @@ export default function NatureView({ initialContinent }: { initialContinent: Con
   const panelWidth = Math.min(460, Math.max(380, vw * 0.32))
   const reserve = wide ? { left: 24, right: panelWidth + 48, top: 24, bottom: 24 } : { left: 8, right: 8, top: 8, bottom: 8 }
 
+  /** Tap on a shape: explore = show it; quiz = answer that one now. */
+  const pickRef = useRef<(id: string) => void>(() => {})
+  pickRef.current = (id) => (mode === 'explore' ? setSelected((s) => (s === id ? null : id)) : setAskId(id))
+
+  const solvedKey = round.solved.join(',')
   const overlay = useMemo(() => {
+    const solved = new Set(mode === 'quiz' ? round.solved : [])
     const sorted = [...items].sort((a, b) => LAYER[a.kind] - LAYER[b.kind])
     const focus = focusId ? byId.get(focusId) : null
     return (
       <g className="nat-layer">
-        {sorted.map((n) => <path key={n.id} className={'nat ' + n.kind} d={pathOf(n.id)} />)}
+        {sorted.map((n) => <path key={n.id} className={'nat ' + n.kind + (solved.has(n.id) ? ' solved' : '')} d={pathOf(n.id)} />)}
         {focus && <path key={'halo-' + focus.id} className={'nat-halo ' + focus.kind} d={pathOf(focus.id)} />}
-        {focus && <path key={'on-' + focus.id} className={'nat on ' + focus.kind} d={pathOf(focus.id)} />}
+        {focus && <path key={'on-' + focus.id} className={'nat on ' + focus.kind + (solved.has(focus.id) ? ' solved' : '')} d={pathOf(focus.id)} />}
+        {/* invisible, wider copies that catch taps (a river line is too thin to hit) */}
+        {sorted.map((n) => <path key={'hit-' + n.id} data-id={n.id} className={'nat-hit ' + n.kind} d={pathOf(n.id)} onClick={() => pickRef.current(n.id)} />)}
       </g>
     )
-  }, [items, focusId])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [items, focusId, mode, solvedKey])
+
+  // names on the map: everything named in this quiz round, or the item opened in the list
+  const labelIds = mode === 'quiz' ? round.solved.filter((id) => ids.includes(id)) : selected ? [selected] : []
+  const freeLabels = labelIds.map((id) => ({ key: id, at: GEO[id].at, text: natureName(byId.get(id)!, lang), className: 'nat-label' }))
 
   function choose(patch: { continent?: Continent; kind?: KindFilter; mode?: Mode }) {
-    if (patch.continent) setContinent(patch.continent)
-    if (patch.kind) setKind(patch.kind)
+    const c = patch.continent ?? continent
+    const k = patch.kind ?? kind
+    setContinent(c)
+    setKind(k)
     if (patch.mode) setMode(patch.mode)
     setSelected(null)
-    setQuizFocus(null)
+    setAskId(pickNext(itemsFor(c, k).map((n) => n.id), rounds[roundKeyOf(c, k)] ?? EMPTY_ROUND))
   }
 
+  const updateRound = (fn: (r: NatureRound) => NatureRound) => setRounds((all) => ({ ...all, [key]: fn(all[key] ?? EMPTY_ROUND) }))
   const record = (id: string, s: NatureStatus) => setSaved((v) => ({ ...v, [id]: s }))
+
+  function onRight(id: string) {
+    const firstTry = !round.missed.includes(id)
+    updateRound((r) => ({ ...r, solved: r.solved.includes(id) ? r.solved : [...r.solved, id] }))
+    if (firstTry) record(id, 'known')
+  }
+  function onWrong(id: string) {
+    updateRound((r) => ({ ...r, missed: r.missed.includes(id) ? r.missed : [...r.missed, id] }))
+    record(id, 'missed')
+  }
+  /** after an answer: on to another open item (`round` is read fresh, because onRight may have just changed it) */
+  function next(justSolved: string | null) {
+    const r = justSolved ? { ...round, solved: [...round.solved, justSolved] } : round
+    setAskId(pickNext(ids, r, askId))
+  }
+  function restart() {
+    updateRound(() => EMPTY_ROUND)
+    setAskId(pickNext(ids, EMPTY_ROUND))
+  }
+
+  const solvedHere = round.solved.filter((id) => ids.includes(id)).length
+  const asked = askId ? byId.get(askId) ?? null : null
 
   return (
     <div className="study-stage nature-stage">
       <div className="study-map">
         <WorldMap fill reserve={reserve} continent={continent} focusId={null} onPickCountry={() => {}} hideNames
-          classFor={() => 'q-open'} colorKey="nature" overlay={overlay} fitBox={fitBox} targetLonLat={focusId ? GEO[focusId].at : null} />
+          classFor={() => 'q-open'} colorKey="nature" overlay={overlay} fitBox={fitBox} freeLabels={freeLabels}
+          targetLonLat={focusId ? GEO[focusId].at : null} />
         <div className="stage-title">{t.continent(continent)} · {t.natureKinds[kind]}</div>
       </div>
 
@@ -134,7 +180,7 @@ export default function NatureView({ initialContinent }: { initialContinent: Con
                           <span className="nat-name">{natureName(n, lang)}</span>
                           {otherNatureName(n, lang) && <small>{otherNatureName(n, lang)}</small>}
                         </button>
-                        {on && <p className="nat-fact">{n.fact[lang]}</p>}
+                        {on && <div className="nat-more"><NatureFactsView item={n} /></div>}
                       </div>
                     )
                   })}
@@ -143,133 +189,104 @@ export default function NatureView({ initialContinent }: { initialContinent: Con
             })}
           </section>
         ) : (
-          <NatureQuiz key={continent + ':' + kind} items={items} onFocus={setQuizFocus} onResult={record} />
+          <>
+            <div className="study-top">
+              <div className="study-head">
+                <div className="counts">
+                  <span className="n new on">{items.length - solvedHere}<small>{t.left}</small></span>
+                  <span className="n learning on">{round.missed.filter((id) => ids.includes(id)).length}<small>{t.missed}</small></span>
+                  <span className="n due on">{solvedHere}<small>{t.done}</small></span>
+                </div>
+                <button className="link" onClick={restart}>{t.restart}</button>
+              </div>
+              <span className="bar big session-bar"><span style={{ width: `${(solvedHere / items.length) * 100}%` }} /></span>
+            </div>
+            {asked ? (
+              <QuizCard key={asked.id} item={asked} named={round.solved.includes(asked.id)}
+                onRight={() => onRight(asked.id)} onWrong={() => onWrong(asked.id)} onNext={(solved) => next(solved ? asked.id : null)} />
+            ) : (
+              <article className="card card-surface finished">
+                <div className="done-badge" aria-hidden="true">✓</div>
+                <h2>{t.roundComplete}</h2>
+                <p>{t.natureSummary(items.length, items.filter((n) => !round.missed.includes(n.id)).length, round.missed.filter((id) => ids.includes(id)).length)}</p>
+                <div className="finish-actions"><button className="btn" onClick={restart}>{t.practiceAgain}</button></div>
+              </article>
+            )}
+          </>
         )}
       </div>
     </div>
   )
 }
 
-type Phase = 'ask' | 'right' | 'wrong'
+type Phase = 'ask' | 'right' | 'wrong' | 'named'
 
-function NatureQuiz({ items, onFocus, onResult }: {
-  items: NatureItem[]
-  onFocus: (id: string | null) => void
-  onResult: (id: string, s: NatureStatus) => void
+/** One question. Remounted (key) for every item, so it always starts fresh. */
+function QuizCard({ item, named, onRight, onWrong, onNext }: {
+  item: NatureItem
+  named: boolean // already named earlier in this round (tapped on the map again): just show it
+  onRight: () => void
+  onWrong: () => void
+  onNext: (solved: boolean) => void
 }) {
   const t = useT()
   const lang = useLang()
-  const [queue, setQueue] = useState(() => shuffle(items.map((n) => n.id)))
-  const [missedIds, setMissedIds] = useState<Set<string>>(() => new Set())
-  const [firstTry, setFirstTry] = useState(0)
-  const [phase, setPhase] = useState<Phase>('ask')
+  const [phase, setPhase] = useState<Phase>(named ? 'named' : 'ask')
   const [input, setInput] = useState('')
   const [typo, setTypo] = useState(false)
   const [wrongText, setWrongText] = useState('')
   const [copyMsg, setCopyMsg] = useState('')
   const [nudge, setNudge] = useState(0)
   const inputRef = useRef<HTMLInputElement>(null)
-  const current = queue.length ? byId.get(queue[0])! : null
-  const total = items.length
+  const name = natureName(item, lang)
 
-  useEffect(() => { onFocus(current?.id ?? null) }, [current?.id, onFocus])
-  useEffect(() => { if (phase !== 'right') inputRef.current?.focus() }, [phase, current?.id])
+  useEffect(() => { if (phase === 'ask' || phase === 'wrong') inputRef.current?.focus() }, [phase])
 
   function markWrong(typed: string) {
     setWrongText(typed)
     setInput('')
-    setCopyMsg('')
     setPhase('wrong')
-    setMissedIds((m) => new Set(m).add(current!.id))
-    onResult(current!.id, 'missed')
+    onWrong()
   }
 
   function submit(e?: React.FormEvent) {
     e?.preventDefault()
-    if (!current) return
     if (phase === 'ask') {
-      const r = checkNature(input, current)
+      const r = checkNature(input, item)
       if (r.kind === 'wrong') return markWrong(input.trim())
       setTypo(r.kind === 'typo')
       setPhase('right')
-      if (!missedIds.has(current.id)) {
-        setFirstTry((n) => n + 1)
-        onResult(current.id, 'known')
-      }
-    } else if (phase === 'right') {
-      next()
+      onRight()
+    } else if (phase === 'right' || phase === 'named') {
+      onNext(phase === 'right')
+    } else if (checkNature(input, item).kind === 'correct') {
+      onNext(false) // written out: on to the next one, this one stays open
     } else {
-      // after a wrong answer: write the name out once (English or German)
-      if (checkNature(input, current).kind === 'correct') next()
-      else {
-        setCopyMsg(t.notSame(natureName(current, lang)))
-        setNudge((n) => n + 1)
-      }
+      setCopyMsg(t.notSame(name))
+      setNudge((n) => n + 1)
     }
-  }
-
-  function next() {
-    setQueue((q) => (phase === 'right' ? passed(q) : missed(q)))
-    setPhase('ask')
-    setInput('')
-    setTypo(false)
-    setWrongText('')
-    setCopyMsg('')
-  }
-
-  function restart() {
-    setQueue(shuffle(items.map((n) => n.id)))
-    setMissedIds(new Set())
-    setFirstTry(0)
-    setPhase('ask')
-    setInput('')
   }
 
   // Enter = next item after a right answer, even when the focus is not in the input
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
-      if (phase === 'right' && e.key === 'Enter' && !(e.target instanceof HTMLInputElement) && !(e.target instanceof HTMLButtonElement)) {
+      if ((phase === 'right' || phase === 'named') && e.key === 'Enter' && !(e.target instanceof HTMLInputElement) && !(e.target instanceof HTMLButtonElement)) {
         e.preventDefault()
-        next()
+        onNext(phase === 'right')
       }
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   })
 
-  if (!current) {
-    return (
-      <article className="card card-surface finished">
-        <div className="done-badge" aria-hidden="true">✓</div>
-        <h2>{t.roundComplete}</h2>
-        <p>{t.natureSummary(total, firstTry, missedIds.size)}</p>
-        <div className="finish-actions">
-          <button className="btn" onClick={restart}>{t.practiceAgain}</button>
-        </div>
-      </article>
-    )
-  }
-
-  const name = natureName(current, lang)
+  const solved = phase === 'right' || phase === 'named'
   return (
-    <>
-      <div className="study-top">
-        <div className="study-head">
-          <div className="counts">
-            <span className="n new on">{queue.length}<small>{t.left}</small></span>
-            <span className="n learning on">{missedIds.size}<small>{t.missed}</small></span>
-            <span className="n due on">{total - queue.length}<small>{t.done}</small></span>
-          </div>
-          <span className="progress-text">{total - queue.length} / {total}</span>
-        </div>
-        <span className="bar big session-bar"><span style={{ width: `${((total - queue.length) / total) * 100}%` }} /></span>
-      </div>
+    <article className={'card card-surface' + (phase === 'wrong' ? ' shake' : '')}>
+      <span className={'nat-kind ' + item.kind}>{t.natureKinds[item.kind]}</span>
+      <h2>{phase === 'ask' ? t.natureQuestion[item.kind] : name}</h2>
+      {phase !== 'ask' && otherNatureName(item, lang) && <p className="de">{otherNatureName(item, lang)}</p>}
 
-      <article className={'card card-surface' + (phase === 'wrong' ? ' shake' : '')} key={current.id + ':' + queue.length}>
-        <span className={'nat-kind ' + current.kind}>{t.natureKinds[current.kind]}</span>
-        <h2>{phase === 'ask' ? t.natureQuestion[current.kind] : name}</h2>
-        {phase !== 'ask' && otherNatureName(current, lang) && <p className="de">{otherNatureName(current, lang)}</p>}
-
+      {phase !== 'named' && (
         <form onSubmit={submit} className={'answer' + (nudge === 0 ? '' : nudge % 2 ? ' nudge-a' : ' nudge-b')}>
           <input
             ref={inputRef}
@@ -283,13 +300,19 @@ function NatureQuiz({ items, onFocus, onResult }: {
           />
           {phase !== 'right' && <button className="btn" type="submit">{phase === 'wrong' ? t.continue : t.check}</button>}
         </form>
-        {phase === 'ask' && <button className="link nat-dunno" onClick={() => markWrong('')}>{t.dontKnow}</button>}
+      )}
+      {phase === 'ask' && (
+        <p className="nat-ask-foot">
+          <button className="link nat-dunno" onClick={() => markWrong('')}>{t.dontKnow}</button>
+          <span className="muted">{t.natureTapHint}</span>
+        </p>
+      )}
 
-        {phase !== 'ask' && (
-          <div className={'banner ' + (phase === 'right' ? 'good' : 'bad')} role="status">
-            {phase === 'right' ? (
-              <><strong>{t.correct}</strong>{typo && <span>{t.watchSpelling}</span>}</>
-            ) : (
+      {phase !== 'ask' && (
+        <div className={'banner ' + (phase === 'wrong' ? 'bad' : 'good')} role="status">
+          {phase === 'named' ? <strong>✓ {t.alreadyNamed}</strong>
+            : phase === 'right' ? <><strong>{t.correct}</strong>{typo && <span>{t.watchSpelling}</span>}</>
+            : (
               <>
                 <strong>{t.notQuite}</strong>
                 {wrongText && <div className="was">{t.youTyped} <s>{wrongText}</s></div>}
@@ -297,12 +320,11 @@ function NatureQuiz({ items, onFocus, onResult }: {
                 <div className="must">{t.natureWriteOut}</div>
               </>
             )}
-          </div>
-        )}
-        {phase === 'wrong' && copyMsg && <p className="copy-msg" role="alert">{copyMsg}</p>}
-        {phase !== 'ask' && <p className="nat-fact">{current.fact[lang]}</p>}
-        {phase === 'right' && <button className="btn next-btn" onClick={next} autoFocus>{t.next} <small>{t.enter}</small></button>}
-      </article>
-    </>
+        </div>
+      )}
+      {phase === 'wrong' && copyMsg && <p className="copy-msg" role="alert">{copyMsg}</p>}
+      {phase !== 'ask' && <NatureFactsView item={item} />}
+      {solved && <button className="btn next-btn" onClick={() => onNext(phase === 'right')} autoFocus>{t.next} <small>{t.enter}</small></button>}
+    </article>
   )
 }
