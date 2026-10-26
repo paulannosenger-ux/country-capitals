@@ -12,7 +12,7 @@ import { feature } from 'topojson-client'
 import atlas from 'world-atlas/countries-50m.json'
 import { countries, countryById, countryName, displayName, inArea, type Area } from '../data/countries'
 import { useLang, useT } from '../i18n'
-import { statusOf, useProgress } from '../progress/progress'
+import { statusOf, useDirection, useProgress } from '../progress/progress'
 
 const W = 960
 const H = 500
@@ -168,6 +168,7 @@ export default function WorldMap({ continent, focusId, onPickCountry, fill = fal
   const zoomRef = useRef<ZoomBehavior<SVGSVGElement, unknown> | null>(null)
   const current = useRef<ZoomTransform>(zoomIdentity)
   const progressVersion = useProgress() // colors change after each review
+  const direction = useDirection() // ... and when switching between country -> capital and capital -> country
   const lang = useLang()
   const t = useT()
   const dragged = useRef(false) // true right after a drag/pinch, so it is not treated as a tap
@@ -304,7 +305,7 @@ export default function WorldMap({ continent, focusId, onPickCountry, fill = fal
       }),
     // progressVersion is not read inside, but statusOf() reads the store: re-render when progress changes
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [continent, focusId, onPickCountry, progressVersion, colorKey, hideNames, lang],
+    [continent, focusId, onPickCountry, progressVersion, direction, colorKey, hideNames, lang],
   )
 
   const dots = useMemo(
@@ -319,7 +320,7 @@ export default function WorldMap({ continent, focusId, onPickCountry, fill = fal
         )
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [continent, focusId, onPickCountry, progressVersion, colorKey, hideNames, lang],
+    [continent, focusId, onPickCountry, progressVersion, direction, colorKey, hideNames, lang],
   )
 
   const wrapped = useMemo(
@@ -329,7 +330,7 @@ export default function WorldMap({ continent, focusId, onPickCountry, fill = fal
         return <path key={'w' + sh.key} d={sh.d} className={c ? 'land ' + classOf(c.id) : 'land other'} onClick={c ? () => !dragged.current && onPickCountry(c.id) : undefined} />
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [continent, focusId, onPickCountry, progressVersion, colorKey],
+    [continent, focusId, onPickCountry, progressVersion, direction, colorKey],
   )
   const wrappedDots = useMemo(
     () =>
@@ -342,7 +343,7 @@ export default function WorldMap({ continent, focusId, onPickCountry, fill = fal
         )
       }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [continent, focusId, onPickCountry, progressVersion, colorKey, hideNames, lang],
+    [continent, focusId, onPickCountry, progressVersion, direction, colorKey, hideNames, lang],
   )
 
   const labelKey = (labelIds ?? []).join(',')

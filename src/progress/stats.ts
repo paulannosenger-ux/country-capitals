@@ -1,7 +1,7 @@
 // Numbers for the stats page, computed from the store (cards + review log).
 import { CONTINENTS, countries, countriesIn, type Continent } from '../data/countries'
 import { dayNumber } from './scheduler'
-import type { Store } from './store'
+import type { Direction, Store } from './store'
 
 export interface ContinentStats { continent: Continent; total: number; new: number; learning: number; mastered: number; learned: number }
 export interface Stats {
@@ -18,7 +18,8 @@ export interface Stats {
   perContinent: ContinentStats[]
 }
 
-export function computeStats(store: Store, now: number): Stats {
+/** `dir`: which deck the learned/mastered numbers are about (streak and reviews count both). */
+export function computeStats(store: Store, now: number, dir: Direction = 'capital'): Stats {
   const today = dayNumber(now)
   const perDay = new Map<number, number>()
   let reviewAnswers = 0
@@ -46,8 +47,8 @@ export function computeStats(store: Store, now: number): Stats {
 
   const perContinent = CONTINENTS.map((continent) => {
     const list = countriesIn(continent)
-    const count = (s: string) => list.filter((c) => store.status(c.id) === s).length
-    return { continent, total: list.length, new: count('new'), learning: count('learning'), mastered: count('mastered'), learned: store.learned(continent) }
+    const count = (s: string) => list.filter((c) => store.status(c.id, dir) === s).length
+    return { continent, total: list.length, new: count('new'), learning: count('learning'), mastered: count('mastered'), learned: store.learned(continent, dir) }
   })
 
   return {

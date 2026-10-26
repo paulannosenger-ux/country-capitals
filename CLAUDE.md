@@ -14,6 +14,7 @@ Student project (owner is a beginner, speaks German). UI in English or German (`
 - "Practice all N": a session through every country of a continent regardless of what is due (`StudyView` with `practice`); does NOT touch the SRS schedule.
 - Country-name answers use `checkCountryName` (en/de name + `nameAliases` from the dataset's official name/altSpellings + `overrides.json` → `nameAliases`).
 - The service worker is registered in `main.tsx` with auto-reload, so a rebuilt version shows up immediately.
+- Learn direction switch (side panel): Country → Capital or Capital → Country. Separate decks: store methods take `dir` (default `'capital'`), reverse cards saved as `r:<id>` (`cardKey` in store.ts). UI direction in `progress.ts` (`useDirection`/`setDirection`, localStorage `country-capitals:direction`); map colors, home numbers and Stats follow it, the cloud leaderboard always uses the capital deck.
 - After a wrong answer the learner must re-type the correct capital (exact match) before the next card; the card counts as Again.
 - Launcher always kills an old server on port 4173 and starts fresh after rebuilding.
 - Gotchas: tsconfig has `erasableSyntaxOnly` (no constructor parameter properties); `sed -i` fails on this Mac in some commands, use python for edits; remember to kill stray `vite preview` processes (port 4173) after testing.

@@ -1,13 +1,14 @@
 // One study session (one continent, or all continents mixed): map on top, flashcard below.
 // Flow: type the capital -> Verify -> right/wrong feedback -> (if right) details + map target -> rate 1-4.
 // Practice mode: every country of the scope once, in random order, without touching the review schedule.
+// Direction "country": the capital is shown and you type the country (own deck; flag and map highlight only after answering).
 import { useEffect, useRef, useState } from 'react'
 import WorldMap from '../map/WorldMap'
 import CountryFacts from './CountryFacts'
 import { capitalsOf, countries, countryById, countryName, flagUrl, inArea, otherName, type Area, type Country } from '../data/countries'
 import { useLang, useT } from '../i18n'
-import { RATINGS, countsFor, intervalLabels, store, useProgress, type Rating } from '../progress/progress'
-import { checkAnswer } from './matcher'
+import { RATINGS, store, useProgress, type Direction, type Rating } from '../progress/progress'
+import { checkAnswer, checkCountryName } from './matcher'
 import { missed, passed, shuffle } from './practice'
 
 type Phase = 'ask' | 'right' | 'wrong'
@@ -16,18 +17,20 @@ interface Props {
   continent: Area | null // a continent or a region (e.g. West Africa)
   /** practice = go through ALL countries of the scope once (ignores what is due; doesn't change the schedule) */
   practice?: boolean
+  /** capital = country shown, type the capital; country = capital shown, type the country */
+  direction?: Direction
   onPractice: () => void
   onExit: () => void
 }
 
 const idsIn = (area: Area | null) => countries.filter((c) => inArea(c, area)).map((c) => c.id)
 
-export default function StudyView({ continent, practice = false, onPractice, onExit }: Props) {
+export default function StudyView({ continent, practice = false, direction = 'capital', onPractice, onExit }: Props) {
   useProgress() // re-render when the numbers change
   const t = useT()
   const lang = useLang()
   // Review mode: the store decides which card comes next (due reviews, learning cards, new cards within the daily limit).
-  const [reviewNext, setReviewNext] = useState(() => (practice ? null : store.pickNext(continent)))
+  const [reviewNext, setReviewNext] = useState(() => (practice ? null : store.pickNext(continent, direction)))
   // Practice mode: our own queue; the first id is the current card.
   const [queue, setQueue] = useState(() => (practice ? shuffle(idsIn(continent)) : []))
   const [missedIds, setMissedIds] = useState<Set<string>>(() => new Set())
@@ -42,21 +45,26 @@ export default function StudyView({ continent, practice = false, onPractice, onE
   const inputRef = useRef<HTMLInputElement>(null)
 
   const current = next ? countryById.get(next.id)! : null
-  const counts = countsFor(continent)
+  const counts = store.counts(continent, direction)
   const total = idsIn(continent).length
-  const secured = practice ? total - queue.length : store.learned(continent)
+  const secured = practice ? total - queue.length : store.learned(continent, direction)
 
   // Focus the input whenever a new question appears (opens the on-screen keyboard on phones).
   useEffect(() => {
     if (phase === 'ask' || phase === 'wrong') inputRef.current?.focus()
   }, [phase, current?.id])
 
+  const reverse = direction === 'country'
+  const check = (text: string, c: Country) => (reverse ? checkCountryName : checkAnswer)(text, c, countries)
+  /** what the learner has to type out after a wrong answer */
+  const answerOf = (c: Country) => (reverse ? countryName(c, lang) : capitalsOf(c, lang)[0])
+
   function submit(e?: React.FormEvent) {
     e?.preventDefault()
     if (!current) return
 
     if (phase === 'ask') {
-      const result = checkAnswer(input, current, countries)
+      const result = check(input, current)
       setTypo(result.kind === 'typo')
       if (result.kind === 'wrong') {
         // Wrong: show the answer, then the learner has to write it out once before moving on.
@@ -70,12 +78,12 @@ export default function StudyView({ continent, practice = false, onPractice, onE
     } else if (phase === 'right' && practice) {
       nextPractice() // Enter = next card
     } else if (phase === 'wrong') {
-      const result = checkAnswer(input, current, countries)
+      const result = check(input, current)
       if (result.kind === 'correct') {
         if (practice) nextPractice()
         else finishCard('again') // counts as "Again": the card comes back soon
       } else {
-        const target = capitalsOf(current, lang)[0]
+        const target = answerOf(current)
         setCopyMsg(result.kind === 'typo' ? t.almost(target) : t.notSame(target))
         setNudge((n) => n + 1)
       }
@@ -91,9 +99,9 @@ export default function StudyView({ continent, practice = false, onPractice, onE
 
   function finishCard(rating: Rating) {
     if (!current || phase === 'ask' || practice) return
-    store.review(current.id, rating)
+    store.review(current.id, rating, direction)
     setStats((s) => ({ reviews: s.reviews + 1, firstTry: s.firstTry + (rating !== 'again' ? 1 : 0) }))
-    setReviewNext(store.pickNext(continent)) // after the review, so the card gets its new due time first
+    setReviewNext(store.pickNext(continent, direction)) // after the review, so the card gets its new due time first
     resetCard()
   }
 
@@ -147,15 +155,17 @@ export default function StudyView({ continent, practice = false, onPractice, onE
   const panelWidth = Math.min(460, Math.max(380, vw * 0.32))
   const reserve = wide ? { left: 24, right: panelWidth + 48, top: 24, bottom: 24 } : { left: 8, right: 8, top: 8, bottom: 8 }
 
-  const labels = current && !practice ? intervalLabels(current.id) : null
-  const waitMin = store.minutesUntilNextLearning(continent)
+  const labels = current && !practice ? store.previewLabels(current.id, direction) : null
+  const waitMin = store.minutesUntilNextLearning(continent, direction)
+  // reverse: the highlight would give the answer away, so it only appears after answering
+  const mapFocus = current && (!reverse || phase !== 'ask') ? current.id : null
 
   return (
     <div className="study-stage">
       <div className="study-map">
-        {/* the country being asked is always highlighted on the map */}
-        <WorldMap fill reserve={reserve} continent={continent} focusId={current?.id ?? null} onPickCountry={() => {}} />
-        <div className="stage-title">{continent ? t.continent(continent) : t.allContinents}{practice && <span className="mode-tag">{t.practiceTag}</span>}</div>
+        {/* the country being asked is highlighted on the map (capital -> country: after answering) */}
+        <WorldMap fill reserve={reserve} continent={continent} focusId={mapFocus} onPickCountry={() => {}} hideNames={reverse} />
+        <div className="stage-title">{continent ? t.continent(continent) : t.allContinents}{practice && <span className="mode-tag">{t.practiceTag}</span>}{reverse && <span className="mode-tag">{t.dirCountry}</span>}</div>
       </div>
 
       <div className="study-main">
@@ -208,10 +218,20 @@ export default function StudyView({ continent, practice = false, onPractice, onE
           </article>
         ) : (
           <article className={'card card-surface' + (phase === 'wrong' ? ' shake' : '')} key={current.id + ':' + stats.reviews}>
-            <img className="flag" src={flagUrl(current)} alt={t.flagOf(countryName(current, lang))} />
-            <h2>{countryName(current, lang)}</h2>
-            {otherName(current, lang) && <p className="de">{otherName(current, lang)}</p>}
-            <p className="prompt">{t.whatCapital}</p>
+            {reverse ? (
+              <>
+                {phase !== 'ask' && <img className="flag" src={flagUrl(current)} alt={t.flagOf(countryName(current, lang))} />}
+                <h2>{capitalsOf(current, lang).join(' · ')}</h2>
+                <p className="prompt">{t.countryOfCapital}</p>
+              </>
+            ) : (
+              <>
+                <img className="flag" src={flagUrl(current)} alt={t.flagOf(countryName(current, lang))} />
+                <h2>{countryName(current, lang)}</h2>
+                {otherName(current, lang) && <p className="de">{otherName(current, lang)}</p>}
+                <p className="prompt">{t.whatCapital}</p>
+              </>
+            )}
 
             <form onSubmit={submit} className={'answer' + (nudge === 0 ? '' : nudge % 2 ? ' nudge-a' : ' nudge-b')}>
               <input
@@ -220,8 +240,8 @@ export default function StudyView({ continent, practice = false, onPractice, onE
                 onChange={(e) => setInput(e.target.value)}
                 readOnly={phase === 'right'}
                 className={phase === 'right' ? 'ok' : phase === 'wrong' ? 'copy' : ''}
-                placeholder={phase === 'wrong' ? t.typeThe(capitalsOf(current, lang)[0]) : t.typeCapital}
-                aria-label={t.capital}
+                placeholder={phase === 'wrong' ? t.typeThe(answerOf(current)) : reverse ? t.typeCountry : t.typeCapital}
+                aria-label={reverse ? t.country : t.capital}
                 autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck={false} enterKeyHint="go"
               />
               {phase !== 'right' && <button className="btn" type="submit">{phase === 'wrong' ? t.continue : t.check}</button>}
@@ -233,13 +253,15 @@ export default function StudyView({ continent, practice = false, onPractice, onE
                   <>
                     <strong>{t.correct}</strong>
                     {typo && <span>{t.watchSpelling}</span>}
-                    <div>{current.capitals.length > 1 ? t.capitals : t.capital}: <b>{capitalsOf(current, lang).join(' · ')}</b></div>
+                    {reverse
+                      ? <div>{t.country}: <b>{countryName(current, lang)}</b></div>
+                      : <div>{current.capitals.length > 1 ? t.capitals : t.capital}: <b>{capitalsOf(current, lang).join(' · ')}</b></div>}
                   </>
                 ) : (
                   <>
                     <strong>{t.notQuite}</strong>
                     {wrongText && <div className="was">{t.youTyped} <s>{wrongText}</s></div>}
-                    <div>{t.answerIs} <b>{capitalsOf(current, lang).join(' · ')}</b></div>
+                    <div>{t.answerIs} <b>{reverse ? countryName(current, lang) : capitalsOf(current, lang).join(' · ')}</b></div>
                     <div className="must">{practice ? t.writeOutPractice : t.writeOutCard}</div>
                   </>
                 )}

@@ -10,7 +10,7 @@ import StudyView from './study/StudyView'
 import MapQuiz from './quiz/MapQuiz'
 import { CONTINENTS, REGIONS, countries, countriesInArea, countryById, displayName, type Area, type Continent, type Region } from './data/countries'
 import { setLang, useLang, useT, type Lang } from './i18n'
-import { countsFor, learnedCount, store, useProgress } from './progress/progress'
+import { countsFor, learnedCount, setDirection, type Direction, store, useDirection, useProgress } from './progress/progress'
 import { computeStats } from './progress/stats'
 import { currentTheme, setTheme } from './theme'
 
@@ -41,6 +41,7 @@ export default function App() {
   const [studying, setStudying] = useState<{ scope: Area | null; practice: boolean } | null>(null)
   const [theme, setThemeState] = useState(currentTheme)
   const version = useProgress() // re-render when progress changes
+  const direction = useDirection() // country -> capital, or capital -> country (separate decks)
   const t = useT()
   const lang = useLang()
 
@@ -62,15 +63,16 @@ export default function App() {
   }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const stats = useMemo(() => computeStats(store, Date.now()), [version])
+  const stats = useMemo(() => computeStats(store, Date.now(), direction), [version, direction])
 
   let page: React.ReactNode
   if (studying) {
     page = (
       <StudyView
-        key={`${studying.scope}:${studying.practice}`} // fresh session when switching to practice
+        key={`${studying.scope}:${studying.practice}:${direction}`} // fresh session when switching to practice
         continent={studying.scope}
         practice={studying.practice}
+        direction={direction}
         onPractice={() => setStudying({ scope: studying.scope, practice: true })}
         onExit={() => setStudying(null)}
       />
@@ -139,6 +141,7 @@ export default function App() {
                 <>
                   <p className="eyebrow">{t.selected}</p>
                   <h2>{t.continent(scope!)}</h2>
+                  <DirectionSwitch />
                   {continent === 'Africa' && (
                     <div className="region-pick" role="group" aria-label={t.africaRegions}>
                       <button className={region === null ? 'on' : ''} aria-pressed={region === null} onClick={() => { setRegion(null); setFocusId(null) }}>
@@ -174,6 +177,7 @@ export default function App() {
                   <p className="eyebrow">{t.getStarted}</p>
                   <h2>{t.chooseContinent}</h2>
                   <p className="muted">{t.chooseHint}</p>
+                  <DirectionSwitch />
                   <button className="btn ghost" onClick={() => setStudying({ scope: null, practice: false })}>
                     {t.mixedReview} <small>{t.mixedSub(Math.min(countries.length, all.new + all.learning + all.due))}</small>
                   </button>
@@ -235,6 +239,20 @@ export default function App() {
       </header>
       <main className={studying ? 'app-study' : view === 'quiz' ? 'app-quiz' : 'app'}>{page}</main>
     </>
+  )
+}
+
+/** Which way round the flashcards ask: country -> capital or capital -> country. Each has its own progress. */
+function DirectionSwitch() {
+  const direction = useDirection()
+  const t = useT()
+  const options: [Direction, string][] = [['capital', t.dirCapital], ['country', t.dirCountry]]
+  return (
+    <div className="dir-switch" role="group" aria-label={t.direction}>
+      {options.map(([d, label]) => (
+        <button key={d} className={d === direction ? 'on' : ''} aria-pressed={d === direction} onClick={() => setDirection(d)}>{label}</button>
+      ))}
+    </div>
   )
 }
 

@@ -1,11 +1,12 @@
 import { computeStats } from '../progress/stats'
-import { store, useProgress } from '../progress/progress'
+import { store, useDirection, useProgress } from '../progress/progress'
 import { useT } from '../i18n'
 
 export default function Stats({ onBack }: { onBack: () => void }) {
   useProgress()
   const t = useT()
-  const s = computeStats(store, Date.now())
+  const direction = useDirection()
+  const s = computeStats(store, Date.now(), direction)
   const maxDay = Math.max(1, ...s.last14.map((d) => d.count))
 
   return (
@@ -13,6 +14,7 @@ export default function Stats({ onBack }: { onBack: () => void }) {
       <div className="page-head">
         <button className="pill" onClick={onBack}>{t.back}</button>
         <h1 className="page-title">{t.stats}</h1>
+        <span className="muted">{direction === 'country' ? t.dirCountry : t.dirCapital}</span>
       </div>
 
       <div className="tiles">

@@ -137,3 +137,23 @@ describe('status + persistence', () => {
     expect(() => store.importJson(JSON.stringify(emptyData()).replace('"version":1', '"version":99'))).toThrow(/backup/)
   })
 })
+
+describe('capital -> country direction', () => {
+  it('has its own deck that does not touch the country -> capital cards', () => {
+    const { store, storage } = setup()
+    store.review('FR', 'easy', 'country')
+    expect(store.card('FR', 'country').state).toBe('review')
+    expect(store.card('FR').state).toBe('new')
+    expect(store.learned('Europe', 'country')).toBe(1)
+    expect(store.learned('Europe')).toBe(0)
+    expect(storage.data!.cards['r:FR']).toBeDefined()
+    expect(storage.data!.cards['FR']).toBeUndefined()
+  })
+  it('picks the next card from the chosen deck', () => {
+    const { store } = setup()
+    store.review('AU', 'easy') // Oceania country -> capital
+    const next = store.pickNext('Oceania', 'country')!
+    expect(next.kind).toBe('new')
+    expect(store.counts('Oceania', 'country').new).toBe(store.counts('Oceania').new + 1)
+  })
+})

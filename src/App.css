@@ -155,6 +155,11 @@
 .mission .counts { margin: 4px 0 10px; }
 .mission .btn { margin-top: 4px; }
 /* Africa: pick a region (North / West / East / South) */
+/* Country -> Capital / Capital -> Country switch in the side panel */
+.dir-switch { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; padding: 3px; border-radius: 12px; background: var(--line); margin: 2px 0 4px; }
+.dir-switch button { border: 0; background: transparent; cursor: pointer; font-size: .82rem; font-weight: 600; color: var(--muted); padding: 7px 4px; border-radius: 9px; }
+.dir-switch button:hover { color: var(--text); }
+.dir-switch button.on { background: var(--surface); color: var(--text); box-shadow: 0 1px 3px rgba(0, 0, 0, .12); }
 .region-pick { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 3px; padding: 3px; border-radius: 12px; background: var(--line); margin: 2px 0 4px; }
 .region-pick button { display: grid; gap: 0; padding: 6px 2px; border: 0; border-radius: 9px; background: transparent; cursor: pointer; font-weight: 600; font-size: .82rem; color: var(--muted);
   transition: background .15s, color .15s, box-shadow .15s; line-height: 1.2; }
