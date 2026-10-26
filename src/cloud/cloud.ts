@@ -13,6 +13,7 @@ import { emptyData, parseAppData, type AppData } from '../progress/storage'
 import { store } from '../progress/store'
 import { firebaseConfig } from './config'
 import type { Match } from '../games/duels'
+import { turnOf, type QdRound, type QuizDuel } from '../games/quizduel'
 import type { RoundResult } from '../games/modes'
 
 /** True once a Firebase project is filled in in config.ts. */
@@ -96,6 +97,7 @@ async function onSignedIn(u: { uid: string; name: string; email: string }) {
   pendingName = null
   await sync('merge')
   void startMatches(u.uid)
+  void startQuizDuels(u.uid)
   unsubStore ??= store.subscribe(() => {
     if (applyingRemote) return
     clearTimeout(timer)
@@ -208,6 +210,7 @@ export async function signOutCloud() {
   unsubStore?.()
   unsubStore = null
   stopMatches()
+  stopQuizDuels()
   uid = null
   await f.logout()
   store.reset()
@@ -273,3 +276,44 @@ export async function loadDuel(id: string) {
 }
 /** Link that opens the duel in the app. */
 export const duelLink = (id: string) => `${location.origin}${location.pathname}?duel=${id}`
+
+// ---- quiz duels (games/quizduel.ts) ----
+
+let quizDuels: QuizDuel[] | null = null // null = not loaded yet
+let unsubQuizDuels: (() => void) | null = null
+const qdListeners = new Set<() => void>()
+function setQuizDuels(list: QuizDuel[] | null) {
+  quizDuels = list ? [...list].sort((a, b) => b.updatedAt - a.updatedAt) : null
+  qdListeners.forEach((fn) => fn())
+}
+const subscribeQuizDuels = (fn: () => void) => { qdListeners.add(fn); return () => { qdListeners.delete(fn) } }
+/** All my quiz duels, last changed first (live); null while loading or signed out. */
+export const useQuizDuels = () => useSyncExternalStore(subscribeQuizDuels, () => quizDuels)
+
+async function startQuizDuels(me: string) {
+  if (unsubQuizDuels) return
+  const f = await fb()
+  if (uid !== me) return
+  unsubQuizDuels = f.watchQuizDuels(me, setQuizDuels, () => setQuizDuels([]))
+}
+function stopQuizDuels() {
+  unsubQuizDuels?.()
+  unsubQuizDuels = null
+  setQuizDuels(null)
+}
+
+/** Starts a quiz duel against a friend with my first round already played. Returns its id. */
+export async function createQuizDuel(opponent: { uid: string; name: string }, first: QdRound) {
+  const a = me()
+  const players = [a.uid, opponent.uid]
+  const now = Date.now()
+  return (await fb()).createQuizDuel({
+    players, names: { [a.uid]: a.name, [opponent.uid]: opponent.name },
+    createdAt: now, updatedAt: now, rounds: [first], turn: turnOf([first], players),
+  })
+}
+/** Saves the rounds after I played (whose turn it is next is worked out here). */
+export async function saveQuizDuel(d: QuizDuel, rounds: QdRound[]) {
+  me()
+  await (await fb()).saveQuizDuel(d.id, rounds, turnOf(rounds, d.players))
+}

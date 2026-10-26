@@ -5,6 +5,7 @@
 //   players/{uid}   public card for the leaderboard (name + numbers), readable by every signed-in player
 //   progress/{uid}  the full progress as JSON text, only readable by its owner
 //   matches/{id}    a duel: questions + everybody's result (see games/duels.ts)
+//   quizduels/{id}  a quiz duel: 2 players, up to 6 rounds (see games/quizduel.ts)
 import { initializeApp } from 'firebase/app'
 import {
   createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendPasswordResetEmail,
@@ -16,6 +17,7 @@ import {
 import { firebaseConfig } from './config'
 import type { PlayerCard } from './cloud'
 import type { Match } from '../games/duels'
+import type { QdRound, QuizDuel } from '../games/quizduel'
 import type { RoundResult } from '../games/modes'
 
 const app = initializeApp(firebaseConfig!)
@@ -75,6 +77,23 @@ export function watchMatches(uid: string, fn: (list: Match[]) => void, onError: 
   return onSnapshot(
     query(collection(db, 'matches'), where('participants', 'array-contains', uid), limit(100)),
     (snap) => fn(snap.docs.map((d) => ({ ...(d.data() as Omit<Match, 'id'>), id: d.id }))),
+    onError,
+  )
+}
+
+// ---- quiz duels ----
+export async function createQuizDuel(d: Omit<QuizDuel, 'id'>): Promise<string> {
+  return (await addDoc(collection(db, 'quizduels'), d)).id
+}
+/** Saves the rounds after my turn (the rules only allow this while it is my turn). */
+export async function saveQuizDuel(id: string, rounds: QdRound[], turn: string | null) {
+  await updateDoc(doc(db, 'quizduels', id), { rounds, turn, updatedAt: Date.now() })
+}
+/** Live list of all quiz duels I play in. */
+export function watchQuizDuels(uid: string, fn: (list: QuizDuel[]) => void, onError: () => void) {
+  return onSnapshot(
+    query(collection(db, 'quizduels'), where('players', 'array-contains', uid), limit(100)),
+    (snap) => fn(snap.docs.map((d) => ({ ...(d.data() as Omit<QuizDuel, 'id'>), id: d.id }))),
     onError,
   )
 }

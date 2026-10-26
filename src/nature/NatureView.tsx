@@ -4,36 +4,18 @@
 // that one instead. Named ones turn green and get their name on the map; the round is kept per continent + kind.
 // A wrong answer must be written out once; the item stays open and comes back later.
 import { useEffect, useMemo, useRef, useState } from 'react'
-import WorldMap, { geoPathD } from '../map/WorldMap'
+import WorldMap from '../map/WorldMap'
 import { CONTINENTS, type Continent } from '../data/countries'
 import { useLang, useT } from '../i18n'
-import geoRaw from '../../data/nature-geo.json'
+import { GEO, boundsOf, pathOf } from './geo'
 import NatureFactsView from './NatureFactsView'
 import { EMPTY_ROUND, KINDS, NATURE, checkNature, itemsFor, loadNature, loadRounds, natureName, otherNatureName, pickNext,
   roundKeyOf, saveNature, saveRounds, type KindFilter, type NatureItem, type NatureRound, type NatureStatus } from './nature'
 import '../quiz/quiz.css'
 import './nature.css'
 
-const GEO = geoRaw as unknown as Record<string, { geo: unknown; at: [number, number] }>
 const byId = new Map(NATURE.map((n) => [n.id, n]))
-const pathCache = new Map<string, string>()
-function pathOf(id: string) {
-  if (!pathCache.has(id)) pathCache.set(id, geoPathD(GEO[id].geo))
-  return pathCache.get(id)!
-}
 
-/** [west, south, east, north] around all items of a continent, so nothing is cut off at the edge */
-function boundsOf(continent: Continent): [number, number, number, number] {
-  let w = 180, s = 90, e = -180, n = -90
-  const visit = (c: unknown): void => {
-    if (typeof (c as number[])[0] === 'number') {
-      const [x, y] = c as number[]
-      w = Math.min(w, x); e = Math.max(e, x); s = Math.min(s, y); n = Math.max(n, y)
-    } else (c as unknown[]).forEach(visit)
-  }
-  for (const item of itemsFor(continent, 'all')) visit((GEO[item.id].geo as { coordinates: unknown }).coordinates)
-  return [w, s, e, n]
-}
 // mountains at the bottom, then seas and lakes, rivers on top
 const LAYER: Record<NatureItem['kind'], number> = { mountains: 0, water: 1, river: 2 }
 
@@ -56,7 +38,7 @@ export default function NatureView({ initialContinent }: { initialContinent: Con
   const key = roundKeyOf(continent, kind)
   const round = rounds[key] ?? EMPTY_ROUND
   const [askId, setAskId] = useState<string | null>(() => pickNext(itemsFor(continent, kind).map((n) => n.id), round))
-  const fitBox = useMemo(() => boundsOf(continent), [continent])
+  const fitBox = useMemo(() => boundsOf(itemsFor(continent, 'all').map((n) => n.id)), [continent])
   const known = items.filter((n) => saved[n.id] === 'known').length
   const focusId = mode === 'explore' ? selected : askId
 

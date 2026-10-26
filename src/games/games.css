@@ -87,3 +87,52 @@
 /* nav: little number on the Play tab when it's your turn */
 .tab .badge { display: inline-grid; place-items: center; min-width: 17px; height: 17px; padding: 0 5px; margin-left: 5px; border-radius: 999px;
   background: var(--red); color: #fff; font-size: .68rem; font-weight: 700; vertical-align: 1px; }
+
+/* ===== Quiz duel ===== */
+.qd-list .lb-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.qd-list .lb-head .btn { padding: 8px 16px; min-height: 0; }
+.qd-list > .muted { margin-top: 2px; font-size: .92rem; }
+@media (min-width: 720px) { .qd-cats { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+
+/* a question */
+.qd-card { gap: 12px; }
+.qd-map { position: relative; width: 100%; height: 260px; border-radius: 14px; overflow: hidden; background: var(--sea); border: 1px solid var(--line); }
+.qd-map .zoom-btns { display: none; }
+.qd-options { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 4px; }
+@media (max-width: 420px) { .qd-options { grid-template-columns: 1fr; } }
+.qd-opt { min-height: 58px; padding: 10px 12px; border-radius: 14px; border: 1px solid var(--line-strong); background: var(--surface-2); color: var(--text);
+  font: inherit; font-weight: 600; font-size: 1rem; cursor: pointer; transition: background .15s, border-color .15s, opacity .2s, transform .1s; overflow-wrap: anywhere; }
+.qd-opt:hover:not(:disabled) { border-color: var(--accent); }
+.qd-opt:active:not(:disabled) { transform: scale(.98); }
+.qd-opt:disabled { cursor: default; }
+.qd-opt.right { background: var(--c-mastered); border-color: var(--c-mastered); color: #fff; }
+.qd-opt.wrong { background: var(--red); border-color: var(--red); color: #fff; }
+.qd-opt.dim { opacity: .45; }
+
+/* the board */
+.qd-board { display: grid; gap: 14px; }
+.qd-score { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; text-align: center; }
+.qd-score > div { display: grid; gap: 2px; min-width: 0; }
+.qd-score .muted { font-size: .9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.qd-score b { font-size: 2.6rem; font-weight: 700; letter-spacing: -.03em; font-variant-numeric: tabular-nums; line-height: 1.1; }
+.qd-vs { font-size: 2rem; color: var(--muted); }
+.qd-status { text-align: center; font-weight: 600; margin: -6px 0 0; }
+.qd-status.win { color: var(--accent); } .qd-status.loss { color: var(--red); } .qd-status.draw { color: var(--amber); }
+.qd-rounds { display: grid; }
+.qd-round { border-top: 1px solid var(--line); }
+.qd-round-line { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 12px; align-items: center; width: 100%; padding: 10px 4px;
+  border: 0; background: none; color: var(--text); font: inherit; text-align: center; cursor: pointer; border-radius: 10px; }
+.qd-round-line:hover:not(:disabled) { background: var(--surface-2); }
+.qd-round-line:disabled { cursor: default; }
+.qd-round-mid { display: grid; gap: 1px; min-width: 0; }
+.qd-round-mid b { font-weight: 600; font-size: .95rem; }
+.qd-round-mid small { font-size: .74rem; }
+.qd-dots { display: inline-flex; gap: 5px; }
+.qd-dots i { width: 16px; height: 16px; border-radius: 5px; background: var(--line); }
+.qd-dots i.good { background: var(--c-mastered); }
+.qd-dots i.bad { background: var(--red); }
+.qd-dots i.hidden { background: var(--line-strong); }
+.qd-answers { list-style: none; margin: 0 0 10px; padding: 4px 8px 6px; display: grid; gap: 6px; font-size: .92rem; animation: fade .25s ease-out; }
+.qd-answers li { display: grid; grid-template-columns: 18px minmax(0, 1fr) 18px; gap: 8px; align-items: baseline; }
+.qd-answers li.muted { display: block; text-align: center; }
+.qd-answers .good { color: var(--c-mastered); font-weight: 700; } .qd-answers .bad { color: var(--red); font-weight: 700; }

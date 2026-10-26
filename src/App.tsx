@@ -3,7 +3,7 @@ import WorldMap from './map/WorldMap'
 import Settings from './pages/Settings'
 import Stats from './pages/Stats'
 import Friends from './pages/Friends'
-import { cloudEnabled, useAccount, useMatches } from './cloud/cloud'
+import { cloudEnabled, useAccount, useMatches, useQuizDuels } from './cloud/cloud'
 import GamesView from './games/GamesView'
 import { matchState } from './games/duels'
 import StudyView from './study/StudyView'
@@ -32,7 +32,10 @@ export default function App() {
   }, [])
   const account = useAccount()
   const matches = useMatches()
-  const myTurn = account.status === 'signedIn' && matches ? matches.filter((m) => matchState(m, account.uid) === 'yourTurn').length : 0
+  const quizDuels = useQuizDuels()
+  const myTurn = account.status === 'signedIn'
+    ? (matches ?? []).filter((m) => matchState(m, account.uid) === 'yourTurn').length + (quizDuels ?? []).filter((d) => d.turn === account.uid).length
+    : 0
   const [continent, setContinent] = useState<Continent | null>(null)
   // Africa can be split into regions (North / West / East / South); null = the whole continent
   const [region, setRegion] = useState<Region | null>(null)

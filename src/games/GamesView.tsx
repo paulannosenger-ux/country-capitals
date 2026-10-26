@@ -1,4 +1,5 @@
-// "Play" tab: quick rounds in four modes, and duels against friends (invite them or share a link).
+// "Play" tab: quick rounds in four modes, duels against friends (invite them or share a link),
+// and quiz duels (6 rounds, take turns choosing the category; QuizDuelView.tsx).
 import { useEffect, useState } from 'react'
 import { CONTINENTS, REGIONS, type Area } from '../data/countries'
 import { useT } from '../i18n'
@@ -7,6 +8,7 @@ import { matchState, opponents, outcome, ranking, type Match } from './duels'
 import { GAME_MODES, MODE_ICON, bestKey, loadBest, pickQuestions, saveBest, type GameMode, type RoundResult } from './modes'
 import GamePlay from './GamePlay'
 import GameResult from './GameResult'
+import { QuizDuelList, QuizDuelScreen } from './QuizDuelView'
 import '../quiz/quiz.css'
 import './games.css'
 
@@ -17,6 +19,7 @@ type Screen =
   | (Setup & { kind: 'result'; mine?: RoundResult; matchId?: string; preselect?: string[]; record?: { old: number | null } | null })
   | { kind: 'invite'; match: Match }
   | (Setup & { kind: 'saving'; matchId: string; result: RoundResult; failed: boolean })
+  | { kind: 'quizduel'; id: string | null } // null = start a new one
 
 const SETUP_KEY = 'country-capitals:games:setup'
 function loadSetup(): { mode: GameMode; area: Area | null } {
@@ -64,6 +67,10 @@ export default function GamesView({ joinId, onJoinHandled, onOpenFriends }: Prop
     } catch {
       setScreen({ ...s, kind: 'saving', failed: true })
     }
+  }
+
+  if (screen.kind === 'quizduel' && account.status === 'signedIn') {
+    return <QuizDuelScreen key={screen.id ?? 'new'} id={screen.id} me={me} myName={account.name} onBack={() => setScreen({ kind: 'hub' })} />
   }
 
   if (screen.kind === 'play') {
@@ -161,6 +168,10 @@ export default function GamesView({ joinId, onJoinHandled, onOpenFriends }: Prop
           {t.startRound} <small>{record !== undefined ? t.recordIs(record) : t.tenQuestions}</small>
         </button>
       </div>
+
+      {account.status === 'signedIn' && (
+        <QuizDuelList me={me} onOpen={(id) => setScreen({ kind: 'quizduel', id })} onNew={() => setScreen({ kind: 'quizduel', id: null })} />
+      )}
 
       {account.status === 'signedIn' ? <DuelList me={me} onPlay={playMatch} onOpen={(m) => setScreen({ kind: 'result', mode: m.mode, area: m.area, questions: m.questions, matchId: m.id })} />
         : account.status === 'signedOut' && !joinId && (

@@ -32,17 +32,6 @@ async function load(name: string): Promise<any[]> {
 const nameOf = (f: any) => String(f.properties.name ?? f.properties.NAME ?? '').replace(/\s+/g, ' ').trim()
 type Pt = [number, number]
 
-/** Lines: every vertex. Polygons: outer rings only (enough for the bbox check). */
-function points(geom: any): Pt[] {
-  switch (geom.type) {
-    case 'LineString': return geom.coordinates
-    case 'MultiLineString': return geom.coordinates.flat()
-    case 'Polygon': return geom.coordinates[0]
-    case 'MultiPolygon': return geom.coordinates.flatMap((p: any) => p[0])
-    default: return []
-  }
-}
-
 /** Fewer points + 2 decimals (about 1 km): keeps the file small, still looks the same on the map. */
 function simplifyLine(line: Pt[], tol: number): Pt[] {
   const out: Pt[] = []
@@ -82,18 +71,26 @@ for (const item of NATURE) {
     for (const file of FILES[item.src]) {
       for (const f of await load(file)) {
         if (nameOf(f) !== wanted || !f.geometry) continue
-        const pts = points(f.geometry)
-        if (item.bbox) {
-          const [w, s, e, n] = item.bbox
-          const inside = pts.filter(([x, y]) => x >= w && x <= e && y >= s && y <= n).length
-          if (inside < pts.length / 2) continue
-        }
-        found = true
         const g = f.geometry
-        if (g.type === 'LineString') lines.push(g.coordinates)
-        else if (g.type === 'MultiLineString') lines.push(...g.coordinates)
-        else if (g.type === 'Polygon') polys.push(g.coordinates)
-        else if (g.type === 'MultiPolygon') polys.push(...g.coordinates)
+        // the pieces of the feature; with a bbox, each piece is checked on its own
+        // (Natural Earth puts both "Negro" rivers, Amazon and Patagonia, into one feature)
+        const pieces: { line?: Pt[]; poly?: Pt[][] }[] =
+          g.type === 'LineString' ? [{ line: g.coordinates }]
+          : g.type === 'MultiLineString' ? g.coordinates.map((line: Pt[]) => ({ line }))
+          : g.type === 'Polygon' ? [{ poly: g.coordinates }]
+          : g.type === 'MultiPolygon' ? g.coordinates.map((poly: Pt[][]) => ({ poly }))
+          : []
+        for (const piece of pieces) {
+          if (item.bbox) {
+            const [w, s, e, n] = item.bbox
+            const pts = piece.line ?? piece.poly![0]
+            const inside = pts.filter(([x, y]) => x >= w && x <= e && y >= s && y <= n).length
+            if (inside < pts.length / 2) continue
+          }
+          found = true
+          if (piece.line) lines.push(piece.line)
+          else polys.push(piece.poly!)
+        }
       }
       if (found) break // 1:50m had it, don't add the 1:10m copy as well
     }
