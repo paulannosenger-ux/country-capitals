@@ -42,11 +42,10 @@
 .nav-btn.icon { font-size: 1.1rem; padding: 6px 10px; }
 
 /* ---- hero: a compact strip above the map (title left, figures right) ---- */
-.app.app-home { max-width: 1720px; }
 .hero { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 40px; padding: 18px 0 16px; animation: rise .7s cubic-bezier(.2, .7, .2, 1) both; }
 .hero-text { flex: 1 1 360px; min-width: 0; }
 .hero h1 { font-size: clamp(1.5rem, 2.6vw, 2.1rem); font-weight: 700; letter-spacing: -.035em; line-height: 1.08; }
-.lede { font-size: .95rem; color: var(--muted); max-width: 44em; margin-top: 4px; line-height: 1.4; letter-spacing: -.005em; }
+.lede { font-size: .95rem; color: var(--muted); margin-top: 4px; line-height: 1.4; letter-spacing: -.005em; }
 .figures { display: flex; flex-wrap: wrap; gap: 12px 36px; }
 .figures > div { display: flex; flex-direction: column-reverse; gap: 0; }
 .figures dd { font-size: clamp(1.4rem, 2.2vw, 1.75rem); font-weight: 650; letter-spacing: -.03em; line-height: 1.05; font-variant-numeric: tabular-nums; }
@@ -75,25 +74,21 @@
 .pill:hover { background: var(--surface-2); }
 .pill:active { transform: scale(.97); }
 
-/* ---- home layout: phones = map, continents, panel; wide screens = continents | big map | panel ---- */
+/* ---- home layout: the wide 16:9 map on top with the study panel next to it (same height),
+   the continents in a row below. Phones: map, continents, panel stacked. ---- */
+.app.app-home { max-width: 1480px; }
 .home { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); grid-template-areas: 'map' 'conts' 'side'; }
-.home > .map-card { grid-area: map; height: clamp(280px, 100vw - 16px, 64vh); background: var(--sea); }
+.home > .map-card { grid-area: map; aspect-ratio: 4 / 3; background: var(--sea); }
 .home > .continents { grid-area: conts; }
 .home > .side { grid-area: side; }
+@media (min-width: 700px) { .home > .map-card { aspect-ratio: 16 / 9; } }
 @media (min-width: 1000px) {
-  .home { grid-template-columns: 210px minmax(0, 1fr) 330px; grid-template-areas: 'conts map side'; align-items: start; }
-  .home > .continents { grid-template-columns: minmax(0, 1fr); gap: 10px; }
-  .home .cont { padding: 13px 15px 14px; }
+  .home { grid-template-columns: minmax(0, 1fr) 340px; grid-template-areas: 'map side' 'conts conts'; }
+  /* the panel is exactly as high as the map; if its content is taller, it scrolls inside */
+  .home > .side { position: relative; }
+  .home > .side > .mission { position: absolute; inset: 0; overflow-y: auto; align-content: start; }
+  .home > .continents { grid-template-columns: repeat(6, minmax(0, 1fr)); }
 }
-/* wide and tall enough: the page is exactly one screen high and the map fills everything below the strip */
-@media (min-width: 1000px) and (min-height: 620px) {
-  .app.app-home { height: calc(100vh - 53px); height: calc(100dvh - 53px); display: flex; flex-direction: column; padding-bottom: 20px; }
-  .app-home .home { flex: 1; min-height: 0; grid-template-rows: minmax(0, 1fr); }
-  .home > .map-card { height: 100%; min-height: 0; }
-  .home > .continents, .home > .side { max-height: 100%; overflow-y: auto; }
-  .home > .continents { align-content: start; padding: 2px; margin: -2px; } /* room for the focus ring */
-}
-@media (min-width: 1440px) { .home { grid-template-columns: 230px minmax(0, 1fr) 350px; } }
 
 /* ---- map ---- */
 .map-card { position: relative; overflow: hidden; }
