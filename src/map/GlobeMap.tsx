@@ -2,7 +2,7 @@
 // - Surface: satellite tiles from Esri World Imagery, sharper the closer you zoom (like Google Earth); offline /
 //   before they arrive: public/earth.jpg (NASA Blue Marble). Countries on top with a light tint of their learning
 //   colour, other continents darkened; tiny countries get a dot. Drag to turn, scroll/pinch to zoom.
-// - Turns to the chosen continent; `zoomTo` flies to a country; with nothing chosen it slowly spins.
+// - Turns to the chosen continent; `zoomTo` flies to a country. It only moves when you turn it (no auto-spin).
 // - `cities`: the country's biggest cities as small HTML labels (hidden when they are on the back side).
 // Lazy-loaded by WorldMap, so three.js is only downloaded by people who switch the globe on.
 import { useEffect, useRef } from 'react'
@@ -78,6 +78,8 @@ export default function GlobeMap({ continent, focusId, onPickCountry, hideNames 
       .atmosphereAltitude(0.16)
       .polygonsData(features)
       .polygonSideColor(() => 'rgba(0,0,0,0)')
+      // finer triangles: with the default (5°) big countries like DR Congo got holes in their colour
+      .polygonCapCurvatureResolution(1.5)
       .polygonStrokeColor(() => 'rgba(255,255,255,0.55)')
       .polygonsTransitionDuration(300)
       .onPolygonClick((f) => { const id = (f as Feature).cid; if (id) onPickRef.current(id) })
@@ -97,9 +99,10 @@ export default function GlobeMap({ continent, focusId, onPickCountry, hideNames 
       })
       .htmlTransitionDuration(0)
       .pointOfView({ lat: 25, lng: 10, altitude: WORLD_ALTITUDE })
-    const controls = g.controls()
-    controls.autoRotateSpeed = 0.35
-    controls.enableDamping = true
+    g.controls().enableDamping = true
+    // sharper satellite tiles: switch to the next detail level at twice the camera distance than globe.gl does
+    // (its default gives blurry pictures on big / retina screens)
+    g.scene().traverse((o: any) => { if (Array.isArray(o.thresholds)) o.thresholds = o.thresholds.map((t: number) => t * 2) })
     globeRef.current = g
 
     const size = () => g.width(el.clientWidth).height(el.clientHeight)
@@ -120,8 +123,8 @@ export default function GlobeMap({ continent, focusId, onPickCountry, hideNames 
     const g = globeRef.current
     if (!g) return
     const colors = {
-      learning: token('--c-learning', 0.55),
-      mastered: token('--c-mastered', 0.55),
+      learning: token('--c-learning', 0.42),
+      mastered: token('--c-mastered', 0.42),
       focus: token('--accent', 0.6),
     }
     g.polygonCapColor((f) => {
@@ -187,7 +190,6 @@ export default function GlobeMap({ continent, focusId, onPickCountry, hideNames 
     const g = globeRef.current
     if (!g) return
     const view = (zoomTo && countryView(zoomTo)) || (continent ? continentView(continent) : null)
-    g.controls().autoRotate = !view
     g.pointOfView(view ?? { ...g.pointOfView(), altitude: WORLD_ALTITUDE }, ms)
   }
   useEffect(flyHome, [continent, zoomTo]) // eslint-disable-line react-hooks/exhaustive-deps
