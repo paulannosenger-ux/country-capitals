@@ -30,6 +30,8 @@ export default defineConfig({
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,png,json,webmanifest,woff2}'],
         maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // the map data chunk is large
+        // the satellite photo (1 MB) is only downloaded by people who switch it on, then kept for offline use
+        runtimeCaching: [{ urlPattern: /satellite\.jpg$/, handler: 'CacheFirst', options: { cacheName: 'satellite' } }],
       },
     }),
   ],

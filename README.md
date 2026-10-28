@@ -35,6 +35,9 @@ To try it on your phone while developing: `npm run dev -- --host`, then open the
 | Part | What it does |
 |---|---|
 | **Map** | Natural Earth 50m via `world-atlas`, drawn with `d3-geo`; zoom/pan/pinch with `d3-zoom`. Tiny countries (and Tuvalu, which has no polygon) get tappable circle markers. |
+| **Home layout** | A slim strip (title + figures) on top; below it the continents on the left, the big map in the middle (it fills the rest of the screen) and the study panel on the right. On phones: map, continents, panel stacked. |
+| **Satellite view** | The 🛰️ button under the zoom buttons switches every map (learn, map quiz, nature, play) between the normal map and a satellite photo; 🗺️ switches back. The choice is remembered (localStorage `country-capitals:mapstyle`). The photo is NASA's "Blue Marble: Next Generation" (July, public domain), bent into the map's own projection by `npm run data:satellite` → `public/satellite.jpg` (4800 × 2500, ~1.1 MB; only downloaded when switched on, then cached for offline use). Countries then only keep a light tint of their colour and white borders; other continents are darkened. |
+| **Biggest cities** | After a right answer (flashcards and map quiz) the country's capital (red diamond) and its biggest cities (white dots) are written on the map, and listed under "Biggest cities" in the facts. In the flashcards the map also zooms in on the country, and back out for the next card. Data: Natural Earth populated places (public domain), up to 5 per country, built by `npm run data:cities` → `data/cities.json`. Ranked by the city's own population (at least a quarter of its urban area, because a few big cities have broken numbers in the file); the numbers themselves are not exact enough to show. Suburbs right next to a bigger city are left out. |
 | **Study screen** | The continent map fills the whole page (on phones it is pinned at the top) and the card with flag and question floats on it. The country being asked is always highlighted on the map. Oceania shows the Pacific islands west of the date line (Tonga, Samoa) at the right edge. |
 | **Card** | Flag, English + German name. You type the capital; the answer checker ignores case, accents and punctuation, accepts alternative spellings and small typos (more for longer words), and never accepts another country's capital. Details (population, area, government, languages, currency, Wikipedia summary) appear only after a correct answer. |
 | **Africa regions** | Africa (54 countries) can be split into North (10), West (17), East (14) and Southern Africa (13): pick Africa, then a region. Studying, practice and the map quiz then use only that region (the map zooms in). Rough split by compass direction, Central Africa shared out; the list is in `src/data/countries.ts` (`REGION_IDS`). Learning progress is shared: a country learned in "West Africa" also counts for Africa. |
@@ -57,9 +60,10 @@ Tech: Vite + TypeScript + React (the card flow, map and stats share state, which
 ```
 firestore.rules  database rules for the accounts (paste into the Firebase console)
 data/            countries.json (generated), overrides.json (manual fixes + sources), config.ts (country list)
-scripts/         fetch-data.ts (download + build JSON), validate-data.ts (completeness check)
+scripts/         fetch-data.ts (download + build JSON), validate-data.ts (completeness check),
+                 fetch-nature.ts, fetch-cities.ts, fetch-satellite.ts (map extras, see section 2)
 public/          flags/*.svg, icons
-src/map/         WorldMap.tsx (zoomable map, focus ring)
+src/map/         WorldMap.tsx (zoomable map, focus ring, cities, satellite), projection.ts (shared with the satellite script), mapStyle.ts
 src/components/  CountUp (animated numbers)
 src/study/       StudyView.tsx, CountryFacts.tsx (facts block, shared with the map quiz), matcher.ts (answer checking), practice.ts (practice-all queue)
 src/games/       GamesView.tsx (Play tab), GamePlay.tsx (a round), GameResult.tsx (result, challenge, comparison), modes.ts (questions + points), duels.ts
@@ -83,6 +87,8 @@ src/cloud/       config.ts (Firebase project), cloud.ts (account + sync), fireba
 | Summary text | [Wikipedia REST API](https://en.wikipedia.org/api/rest_v1/) page summaries (CC BY-SA; every card links to the article) |
 | Flags | [flag-icons](https://github.com/lipis/flag-icons) (MIT) |
 | Map | [Natural Earth](https://www.naturalearthdata.com) via [`world-atlas`](https://github.com/topojson/world-atlas) (public domain / ISC) |
+| Biggest cities | Natural Earth 1:10m populated places (public domain) |
+| Satellite photo | [NASA Visible Earth, Blue Marble: Next Generation](https://visibleearth.nasa.gov/collection/1484/blue-marble) (public domain) |
 
 ### Refresh the data
 

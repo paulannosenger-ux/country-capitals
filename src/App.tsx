@@ -103,21 +103,25 @@ export default function App() {
     const learned = scope ? learnedCount(scope) : 0
     page = (
       <>
+        {/* compact header strip, so the map gets most of the screen */}
         <section className="hero">
-          <LanguageSwitch />
-          <h1>{t.heroLine1}<br />{t.heroLine2}</h1>
-          <p className="lede">{t.lede}</p>
+          <div className="hero-text">
+            <h1>{t.heroLine1} {t.heroLine2}</h1>
+            <p className="lede">{t.lede}</p>
+          </div>
           <dl className="figures">
             <div><dd>{stats.learned}<small>/{stats.total}</small></dd><dt>{t.learned}</dt></div>
             <div><dd>{stats.mastered}</dd><dt>{t.mastered}</dt></div>
             <div><dd>{stats.streak}</dd><dt>{t.dayStreak}</dt></div>
             <div><dd className={due > 0 ? 'accent' : ''}>{due}</dd><dt>{t.dueToday}</dt></div>
           </dl>
+          <LanguageSwitch />
         </section>
 
+        {/* continents left, the big map in the middle, the study panel right (stacked on phones: map first) */}
         <div className="home">
           <div className="map-card card-surface">
-            <WorldMap continent={scope} focusId={focusId} onPickCountry={onPickCountry} />
+            <WorldMap fill continent={scope} focusId={focusId} onPickCountry={onPickCountry} />
             {continent && <button className="pill back" onClick={() => chooseContinent(null)}>{t.world}</button>}
             {focus && <div className="target-label">{displayName(focus, lang)}</div>}
             <div className="legend">
@@ -246,7 +250,7 @@ export default function App() {
           </nav>
         </div>
       </header>
-      <main className={studying || view === 'nature' ? 'app-study' : view === 'quiz' ? 'app-quiz' : 'app'}>{page}</main>
+      <main className={studying || view === 'nature' ? 'app-study' : view === 'quiz' ? 'app-quiz' : view === 'home' ? 'app app-home' : 'app'}>{page}</main>
     </>
   )
 }

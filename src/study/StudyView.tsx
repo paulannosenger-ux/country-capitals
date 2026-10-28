@@ -159,12 +159,15 @@ export default function StudyView({ continent, practice = false, direction = 'ca
   const waitMin = store.minutesUntilNextLearning(continent, direction)
   // reverse: the highlight would give the answer away, so it only appears after answering
   const mapFocus = current && (!reverse || phase !== 'ask') ? current.id : null
+  // right answer: zoom in on the country and show its biggest cities
+  const cityFocus = current && phase === 'right' ? current.id : null
 
   return (
     <div className="study-stage">
       <div className="study-map">
         {/* the country being asked is highlighted on the map (capital -> country: after answering) */}
-        <WorldMap fill reserve={reserve} continent={continent} focusId={mapFocus} onPickCountry={() => {}} hideNames={reverse} />
+        <WorldMap fill reserve={reserve} continent={continent} focusId={mapFocus} onPickCountry={() => {}} hideNames={reverse}
+          cities={cityFocus} zoomTo={cityFocus} />
         <div className="stage-title">{continent ? t.continent(continent) : t.allContinents}{practice && <span className="mode-tag">{t.practiceTag}</span>}{reverse && <span className="mode-tag">{t.dirCountry}</span>}</div>
       </div>
 

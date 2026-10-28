@@ -79,7 +79,7 @@ const en = {
   rating: { again: 'Again', hard: 'Hard', good: 'Good', easy: 'Easy' },
   interval: (s: string) => s,
   // facts
-  population: 'Population', area: 'Area', government: 'Government', languages: 'Languages', currency: 'Currency',
+  population: 'Population', area: 'Area', government: 'Government', languages: 'Languages', currency: 'Currency', bigCities: 'Biggest cities',
   fmtPopulation: (n: number) => `≈ ${n >= 1e6 ? `${(n / 1e6).toFixed(n < 1e7 ? 2 : 1)} million` : Math.round(n).toLocaleString('en-US')}`,
   fmtArea: (n: number, target: number) => `${target < 100 ? n.toFixed(target % 1 ? 2 : 0) : Math.round(n).toLocaleString('en-US')} km²`,
   // map quiz
@@ -98,6 +98,7 @@ const en = {
   playAgain: 'Play again', tryHard: 'Try hard mode', nameThisCountry: 'Name this country',
   // map
   worldMap: 'World map', zoomIn: 'Zoom in', zoomOut: 'Zoom out', resetView: 'Reset view',
+  satelliteView: 'Satellite view', flatView: 'Normal map',
   // settings
   back: '← Back', dailyLimits: 'Daily limits', dailyLimitsHint: '250 or more = no limit: a whole continent is played through in one go.',
   newPerDay: 'New cards per day', reviewsPerDay: 'Maximum reviews per day', backup: 'Backup',
@@ -230,7 +231,7 @@ const de: typeof en = {
   rating: { again: 'Nochmal', hard: 'Schwer', good: 'Gut', easy: 'Leicht' },
   // "10m" -> "10 Min.", "4d" -> "4 T.", "1.5mo" -> "1,5 Mon."
   interval: (s) => s.replace('.', ',').replace(/mo$/, ' Mon.').replace(/m$/, ' Min.').replace(/h$/, ' Std.').replace(/d$/, ' T.').replace(/y$/, ' J.'),
-  population: 'Einwohner', area: 'Fläche', government: 'Regierungsform', languages: 'Sprachen', currency: 'Währung',
+  population: 'Einwohner', area: 'Fläche', government: 'Regierungsform', languages: 'Sprachen', currency: 'Währung', bigCities: 'Größte Städte',
   fmtPopulation: (n) => `≈ ${n >= 1e6 ? `${(n / 1e6).toLocaleString('de-DE', { maximumFractionDigits: n < 1e7 ? 2 : 1, minimumFractionDigits: n < 1e7 ? 2 : 1 })} Mio.` : Math.round(n).toLocaleString('de-DE')}`,
   fmtArea: (n, target) => `${target < 100 ? n.toLocaleString('de-DE', { maximumFractionDigits: target % 1 ? 2 : 0 }) : Math.round(n).toLocaleString('de-DE')} km²`,
   continentLabel: 'Kontinent', difficulty: 'Schwierigkeit', easy: 'Leicht', hard: 'Schwer', country: 'Land', countryCapital: 'Land + Hauptstadt',
@@ -247,6 +248,7 @@ const de: typeof en = {
     `Alle ${t} Länder benannt${hard ? ', mit Hauptstadt' : ''} · ${s} beim ersten Versuch richtig${h ? `, ${h} mit Hilfe` : ''}.`,
   playAgain: 'Nochmal spielen', tryHard: 'Schwer ausprobieren', nameThisCountry: 'Benenne dieses Land',
   worldMap: 'Weltkarte', zoomIn: 'Vergrößern', zoomOut: 'Verkleinern', resetView: 'Ansicht zurücksetzen',
+  satelliteView: 'Satellitenansicht', flatView: 'Normale Karte',
   back: '← Zurück', dailyLimits: 'Tageslimits', dailyLimitsHint: '250 oder mehr = kein Limit: Ein ganzer Kontinent wird in einem Durchgang gespielt.',
   newPerDay: 'Neue Karten pro Tag', reviewsPerDay: 'Höchstens Wiederholungen pro Tag', backup: 'Sicherung',
   backupText1: 'Dein Fortschritt ist ', backupOnly: 'nur in diesem Browser',

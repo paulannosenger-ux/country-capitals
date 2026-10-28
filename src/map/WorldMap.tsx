@@ -3,8 +3,10 @@
 // - Countries are colored by learning status; other continents are dimmed.
 // - Tiny countries (and Tuvalu, which has no polygon) get a circle marker.
 // - The focused country gets a highlight ring.
+// - Satellite look (mapStyle.ts): public/satellite.jpg lies under the countries, which then only show their borders.
+// - `cities`: dots + names of a country's biggest cities; `zoomTo`: zoom in on one country.
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
-import { geoGraticule10, geoNaturalEarth1, geoPath } from 'd3-geo'
+import { geoGraticule10, geoPath } from 'd3-geo'
 import { zoom, zoomIdentity, type D3ZoomEvent, type ZoomBehavior, type ZoomTransform } from 'd3-zoom'
 import { select } from 'd3-selection'
 import 'd3-transition'
@@ -13,9 +15,11 @@ import atlas from 'world-atlas/countries-50m.json'
 import { countries, countryById, countryName, displayName, inArea, type Area } from '../data/countries'
 import { useLang, useT } from '../i18n'
 import { statusOf, useDirection, useProgress } from '../progress/progress'
+import { citiesOf, cityName } from '../data/cities'
+import { H, W, makeProjection } from './projection'
+import { setMapStyle, useMapStyle } from './mapStyle'
 
-const W = 960
-const H = 500
+const SAT_URL = `${import.meta.env.BASE_URL}satellite.jpg`
 const MARKER_PX = 5 // marker radius in screen pixels
 const TINY_AREA = 14 // polygons smaller than this (viewBox units²) also get a marker
 
@@ -24,8 +28,7 @@ const topo = atlas as any
 const allFeatures: any[] = (feature(topo, topo.objects.countries) as any).features.filter(
   (f: any) => f.id !== '010', // drop Antarctica to save space
 )
-// fit the whole globe outline (not just the land) so the hologram frame is never cut off
-const projection = geoNaturalEarth1().fitExtent([[6, 6], [W - 6, H - 6]], { type: 'Sphere' } as any)
+const projection = makeProjection()
 const pathGen = geoPath(projection)
 const graticulePath = pathGen(geoGraticule10())!
 const spherePath = pathGen({ type: 'Sphere' } as any)!
@@ -47,6 +50,8 @@ const markers: Marker[] = []
 /** Where a country's name label goes: centre of its largest piece (France: mainland, not French Guiana) + that piece's width. */
 interface LabelSpot { x: number; y: number; w: number; area: number }
 const labelSpots = new Map<string, LabelSpot>()
+/** The pieces of each country (bounds + area), for zooming in on it. */
+const pieces = new Map<string, { b: [[number, number], [number, number]]; area: number }[]>()
 // Countries just west of the date line (Tonga, Samoa, ...) sit at the far LEFT edge of the map.
 // For Oceania we draw that strip a second time at the RIGHT edge, so they appear next to Fiji and Kiribati.
 const WRAP_STRIP = 0.12 * W
@@ -58,9 +63,11 @@ for (const f of allFeatures) {
   shapes.push({ key: f.id ?? f.properties?.name, d, countryId, minX: pathGen.bounds(f)[0][0] })
   if (countryId) {
     hasPolygon.add(countryId)
-    const pieces = f.geometry.type === 'MultiPolygon' ? f.geometry.coordinates.map((coordinates: any) => ({ type: 'Polygon', coordinates })) : [f.geometry]
-    for (const piece of pieces) {
+    const parts = f.geometry.type === 'MultiPolygon' ? f.geometry.coordinates.map((coordinates: any) => ({ type: 'Polygon', coordinates })) : [f.geometry]
+    for (const piece of parts) {
       const area = pathGen.area(piece)
+      if (!pieces.has(countryId)) pieces.set(countryId, [])
+      pieces.get(countryId)!.push({ b: pathGen.bounds(piece) as any, area })
       if (area <= (labelSpots.get(countryId)?.area ?? -1)) continue
       const [x, y] = pathGen.centroid(piece)
       const [[x0], [x1]] = pathGen.bounds(piece)
@@ -108,6 +115,30 @@ function displayPoint(id: string): [number, number] | null {
   return p
 }
 
+/** [x0, y0, x1, y1] around a country: its bigger pieces (not every far-away island) and its cities. */
+function countryBox(id: string): [number, number, number, number] | null {
+  const ps = pieces.get(id) ?? []
+  const biggest = Math.max(0, ...ps.map((p) => p.area))
+  const xs: number[] = [], ys: number[] = []
+  for (const p of ps) if (p.area >= biggest * 0.15) { xs.push(p.b[0][0], p.b[1][0]); ys.push(p.b[0][1], p.b[1][1]) }
+  for (const c of citiesOf(id)) {
+    const q = projection(c.at)
+    if (q) { xs.push(q[0]); ys.push(q[1]) }
+  }
+  if (!xs.length) {
+    const q = targetPoint(id)
+    if (!q) return null
+    xs.push(q[0]); ys.push(q[1])
+  }
+  let [x0, y0, x1, y1] = [Math.min(...xs), Math.min(...ys), Math.max(...xs), Math.max(...ys)]
+  // tiny countries: show some surroundings
+  const minSize = 14
+  if (x1 - x0 < minSize) { const c = (x0 + x1) / 2; x0 = c - minSize / 2; x1 = c + minSize / 2 }
+  if (y1 - y0 < minSize * 0.6) { const c = (y0 + y1) / 2; y0 = c - minSize * 0.3; y1 = c + minSize * 0.3 }
+  if (x1 < WRAP_STRIP && countryById.get(id)?.continent === 'Oceania') { x0 += W; x1 += W }
+  return [x0, y0, x1, y1]
+}
+
 // Where to zoom for each continent: [west, south, east, north] in degrees.
 const VIEW_BOX: Record<Area, [number, number, number, number]> = {
   'North Africa': [-18, 8, 40, 38],
@@ -125,11 +156,15 @@ const VIEW_BOX: Record<Area, [number, number, number, number]> = {
 /** The visible area in viewBox units, minus space reserved for panels floating over the map. */
 interface Box { w: number; h: number; left: number; right: number; top: number; bottom: number }
 
-/** Zoom/pan so the continent (or the whole world) fills the free part of the box. */
-function transformFor(continent: Area | null, box: Box, fitBox?: [number, number, number, number] | null): ZoomTransform {
+/** Zoom/pan so the continent (or the whole world, or one country) fills the free part of the box. */
+function transformFor(continent: Area | null, box: Box, fitBox?: [number, number, number, number] | null, country?: string | null): ZoomTransform {
   let x0 = 0, y0 = 0, x1 = W, y1 = H
   let pad = 0.98
-  if (continent) {
+  const cb = country ? countryBox(country) : null
+  if (cb) {
+    ;[x0, y0, x1, y1] = cb
+    pad = 0.45 // the country in the middle, its neighbours around it
+  } else if (continent) {
     // fitBox only ever widens the continent's usual view
     const v = VIEW_BOX[continent]
     const f = fitBox ?? v
@@ -141,7 +176,9 @@ function transformFor(continent: Area | null, box: Box, fitBox?: [number, number
   }
   const aw = box.w - box.left - box.right
   const ah = box.h - box.top - box.bottom
-  const k = Math.min(aw / Math.abs(x1 - x0), ah / Math.abs(y1 - y0)) * pad
+  let k = Math.min(aw / Math.abs(x1 - x0), ah / Math.abs(y1 - y0)) * pad
+  // a country: not closer than 5x the continent view (tiny countries would fill the screen)
+  if (cb) k = Math.min(k, transformFor(continent, box, fitBox).k * 5)
   const cx = (x0 + x1) / 2
   const cy = (y0 + y1) / 2
   return zoomIdentity.translate(box.left + aw / 2 - k * cx, box.top + ah / 2 - k * cy).scale(k)
@@ -173,9 +210,13 @@ interface Props {
   targetLonLat?: [number, number] | null
   /** called with the focused country's position in screen pixels (relative to the map) whenever it moves */
   onTargetMove?: (p: { x: number; y: number } | null) => void
+  /** show the biggest cities of this country (dots + names) */
+  cities?: string | null
+  /** zoom in on this country (back to the continent when it is null again) */
+  zoomTo?: string | null
 }
 
-export default function WorldMap({ continent, focusId, onPickCountry, fill = false, reserve, classFor, colorKey, hideNames = false, onTargetMove, labelIds, overlay, targetLonLat, fitBox, freeLabels }: Props) {
+export default function WorldMap({ continent, focusId, onPickCountry, fill = false, reserve, classFor, colorKey, hideNames = false, onTargetMove, labelIds, overlay, targetLonLat, fitBox, freeLabels, cities, zoomTo }: Props) {
   const svgRef = useRef<SVGSVGElement>(null)
   const gRef = useRef<SVGGElement>(null)
   const markerRef = useRef<SVGGElement>(null)
@@ -185,6 +226,7 @@ export default function WorldMap({ continent, focusId, onPickCountry, fill = fal
   const direction = useDirection() // ... and when switching between country -> capital and capital -> country
   const lang = useLang()
   const t = useT()
+  const sat = useMapStyle() === 'satellite'
   const dragged = useRef(false) // true right after a drag/pinch, so it is not treated as a tap
   // viewBox: fixed 960x500, or (fill mode) the same height with the width of the container's aspect ratio
   const [vb, setVb] = useState({ w: W, h: H })
@@ -196,6 +238,7 @@ export default function WorldMap({ continent, focusId, onPickCountry, fill = fal
   reserveRef.current = reserve
   const reserveKey = JSON.stringify(reserve ?? {})
   const prevContinent = useRef<Area | null | undefined>(undefined)
+  const prevZoomTo = useRef<string | null | undefined>(undefined)
   const onTargetMoveRef = useRef(onTargetMove)
   onTargetMoveRef.current = onTargetMove
 
@@ -223,9 +266,20 @@ export default function WorldMap({ continent, focusId, onPickCountry, fill = fal
     const t = current.current
     const pxPerUnit = (svg.clientWidth || W) / vbRef.current.w
     let targetPx: { x: number; y: number } | null = null
+    const placed: [number, number, number, number][] = [] // city name boxes already shown (screen pixels)
     for (const el of Array.from(group.children) as SVGGElement[]) {
       const x = t.applyX(+el.dataset.x!)
       const y = t.applyY(+el.dataset.y!)
+      if (el.classList.contains('city')) {
+        // drawn in screen pixels; a name that would overlap one already shown is hidden (the dot stays)
+        el.setAttribute('transform', `translate(${x},${y}) scale(${1 / pxPerUnit})`)
+        const sx = x * pxPerUnit, sy = y * pxPerUnit
+        const box: [number, number, number, number] = [sx + 6, sy - 8, sx + 10 + Number(el.dataset.tw), sy + 8]
+        const free = !placed.some((b) => box[0] < b[2] && box[2] > b[0] && box[1] < b[3] && box[3] > b[1])
+        if (free) placed.push(box)
+        ;(el.querySelector('text') as SVGTextElement).style.display = free ? '' : 'none'
+        continue
+      }
       if (el.classList.contains('map-label')) {
         // drawn in screen pixels; only shown once the country is wide enough on screen for its name
         const screenW = Number(el.dataset.w) * t.k * pxPerUnit
@@ -295,14 +349,15 @@ export default function WorldMap({ continent, focusId, onPickCountry, fill = fal
     if (!svg || !z) return
     const k0 = Math.min(vb.w / W, vb.h / H) // zoom level at which the whole world fits
     z.scaleExtent([k0, k0 * 40]).translateExtent(fill ? [[-W * 0.6, -H * 0.6], [W * 1.6, H * 1.6]] : [[0, 0], [W, H]])
-    const target = transformFor(continent, currentBox(), fitBoxRef.current)
-    const animate = prevContinent.current !== undefined && prevContinent.current !== continent
+    const target = transformFor(continent, currentBox(), fitBoxRef.current, zoomTo)
+    const animate = prevContinent.current !== undefined && (prevContinent.current !== continent || prevZoomTo.current !== (zoomTo ?? null))
     prevContinent.current = continent
+    prevZoomTo.current = zoomTo ?? null
     const sel = select(svg).interrupt()
     if (animate) sel.transition().duration(800).call(z.transform, target)
     else sel.call(z.transform, target) // first paint or window resize: jump
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [continent, vb.w, vb.h, fill, reserveKey])
+  }, [continent, vb.w, vb.h, fill, reserveKey, zoomTo])
 
   const paths = useMemo(
     () =>
@@ -362,10 +417,12 @@ export default function WorldMap({ continent, focusId, onPickCountry, fill = fal
     [continent, focusId, onPickCountry, progressVersion, direction, colorKey, hideNames, lang],
   )
 
-  const labelKey = (labelIds ?? []).join(',')
+  // the country whose cities are shown doesn't get its name too (it would sit between the cities)
+  const labelList = (labelIds ?? []).filter((id) => id !== cities)
+  const labelKey = labelList.join(',')
   const labels = useMemo(
     () =>
-      (labelIds ?? []).map((id) => {
+      labelList.map((id) => {
         const sp = labelSpots.get(id)
         const c = countryById.get(id)
         const name = c && countryName(c, lang)
@@ -381,7 +438,8 @@ export default function WorldMap({ continent, focusId, onPickCountry, fill = fal
   )
 
   const lonLatPoint = targetLonLat ? projection(targetLonLat) : null
-  const target = focusId ? displayPoint(focusId) : lonLatPoint ? [lonLatPoint[0], lonLatPoint[1]] : null
+  // zoomed in on a country: it fills the view, the ring would only cover its cities
+  const target = zoomTo ? null : focusId ? displayPoint(focusId) : lonLatPoint ? [lonLatPoint[0], lonLatPoint[1]] : null
 
   const freeKey = (freeLabels ?? []).map((l) => l.key + l.text + (l.className ?? '')).join('|')
   const free = useMemo(
@@ -399,8 +457,26 @@ export default function WorldMap({ continent, focusId, onPickCountry, fill = fal
     [freeKey],
   )
 
+  const cityEls = useMemo(() => {
+    if (!cities) return null
+    const wrap = countryById.get(cities)?.continent === 'Oceania'
+    // capital first, so its name wins when names would overlap
+    return [...citiesOf(cities)].sort((a, b) => (b.cap ?? 0) - (a.cap ?? 0)).map((c, i) => {
+      const p = projection(c.at)
+      if (!p) return null
+      const x = wrap && p[0] < WRAP_STRIP ? p[0] + W : p[0]
+      const name = cityName(c, lang)
+      return (
+        <g key={cities + i} className={'city' + (c.cap ? ' cap' : '')} data-x={x} data-y={p[1]} data-tw={name.length * 6.6}>
+          {c.cap ? <rect x={-4.5} y={-4.5} width={9} height={9} transform="rotate(45)" /> : <circle r={3.5} />}
+          <text x={8}>{name}</text>
+        </g>
+      )
+    })
+  }, [cities, lang])
+
   // After re-render (new classes, labels, reticle) make sure everything keeps its position.
-  useEffect(updateMarkers, [dots, wrappedDots, labels, free, target])
+  useEffect(updateMarkers, [dots, wrappedDots, labels, free, target, cityEls])
 
   function zoomBy(factor: number) {
     if (!svgRef.current || !zoomRef.current) return
@@ -408,25 +484,31 @@ export default function WorldMap({ continent, focusId, onPickCountry, fill = fal
   }
   function resetView() {
     if (!svgRef.current || !zoomRef.current) return
-    select(svgRef.current).transition().duration(600).call(zoomRef.current.transform, transformFor(continent, currentBox(), fitBoxRef.current))
+    select(svgRef.current).transition().duration(600).call(zoomRef.current.transform, transformFor(continent, currentBox(), fitBoxRef.current, zoomTo))
   }
 
   return (
     <>
-      <svg ref={svgRef} className={'world-map' + (fill ? ' fill' : '')} viewBox={`0 0 ${vb.w} ${vb.h}`} role="img" aria-label={t.worldMap}>
+      <svg ref={svgRef} className={'world-map' + (fill ? ' fill' : '') + (sat ? ' sat' : '')} viewBox={`0 0 ${vb.w} ${vb.h}`} role="img" aria-label={t.worldMap}>
         <defs>
           <clipPath id="wrap-clip"><rect x="0" y="0" width={WRAP_STRIP} height={H} /></clipPath>
+          <clipPath id="sphere-clip"><path d={spherePath} /></clipPath>
         </defs>
         <g ref={gRef}>
           <path className="sphere" d={spherePath} />
+          {sat && <image className="sat-img" href={SAT_URL} x="0" y="0" width={W} height={H} preserveAspectRatio="none" clipPath="url(#sphere-clip)" />}
           <path className="graticule" d={graticulePath} />
           {paths}
-          <g transform={`translate(${W},0)`} clipPath="url(#wrap-clip)">{wrapped}</g>
+          <g transform={`translate(${W},0)`} clipPath="url(#wrap-clip)">
+            {sat && <image className="sat-img" href={SAT_URL} x="0" y="0" width={W} height={H} preserveAspectRatio="none" />}
+            {wrapped}
+          </g>
           {overlay}
         </g>
         <g ref={markerRef}>
           {dots}
           {wrappedDots}
+          {cityEls}
           {labels}
           {free}
           {target && (
@@ -441,6 +523,10 @@ export default function WorldMap({ continent, focusId, onPickCountry, fill = fal
         <button className="map-btn" onClick={() => zoomBy(1.7)} aria-label={t.zoomIn}>+</button>
         <button className="map-btn" onClick={() => zoomBy(1 / 1.7)} aria-label={t.zoomOut}>−</button>
         <button className="map-btn" onClick={resetView} aria-label={t.resetView}>⤢</button>
+        <button className={'map-btn style-btn' + (sat ? ' on' : '')} onClick={() => setMapStyle(sat ? 'flat' : 'satellite')}
+          aria-pressed={sat} aria-label={t.satelliteView} title={sat ? t.flatView : t.satelliteView}>
+          <span aria-hidden="true">{sat ? '🗺️' : '🛰️'}</span>
+        </button>
       </div>
     </>
   )

@@ -236,7 +236,8 @@ export default function MapQuiz({ initialContinent }: { initialContinent: Area |
     <div className="quiz-stage" ref={stageRef}>
       <div className="quiz-map">
         <WorldMap fill reserve={reserve} continent={continent} focusId={selected} onPickCountry={onPickCountry}
-          classFor={classFor} colorKey={colorKey} hideNames onTargetMove={onTargetMove} labelIds={named} />
+          classFor={classFor} colorKey={colorKey} hideNames onTargetMove={onTargetMove} labelIds={named}
+          cities={phase === 'right' || alreadyNamed ? selected : null} />
       </div>
 
       <div className="q-bar" ref={barRef}>
