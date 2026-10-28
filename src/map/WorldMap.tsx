@@ -17,7 +17,9 @@ import { countries, countryById, countryName, displayName, inArea, type Area } f
 import { useLang, useT } from '../i18n'
 import { statusOf, useDirection, useProgress } from '../progress/progress'
 import { citiesOf, cityName } from '../data/cities'
-import { H, W, makeProjection } from './projection'
+import { H, SAT_SCALE, W, makeProjection } from './projection'
+import { renderDetail } from './satDetail'
+import { SAT_CREDIT } from './satTiles'
 import { setMapStyle, useMapStyle, type MapStyle } from './mapStyle'
 
 // the 3D globe brings three.js (~600 KB), so it is only loaded when someone switches to it
@@ -99,6 +101,9 @@ for (const [id, sp] of labelSpots) {
   if (sp.x < 0.12 * W && countryById.get(id)?.continent === 'Oceania') sp.x += W
 }
 
+/** Countries too small to tap on the map (they get a dot); the globe uses the same list. */
+export const tinyCountryIds = (): string[] => markers.map((m) => m.id)
+
 const wrappedMarkers: Marker[] = markers
   .filter((m) => m.x < WRAP_STRIP && countryById.get(m.id)?.continent === 'Oceania')
   .map((m) => ({ ...m, x: m.x + W, id: m.id }))
@@ -153,7 +158,7 @@ export const VIEW_BOX: Record<Area, [number, number, number, number]> = {
   'Southern Africa': [10, -36, 59, 4],
   Europe: [-25, 34, 45, 72],
   Asia: [25, -11, 180, 78],
-  Africa: [-20, -36, 52, 38],
+  Africa: [-26, -36, 52, 38], // west edge: Cape Verde
   'North America': [-168, 7, -12, 84],
   'South America': [-82, -56, -34, 13],
   Oceania: [110, -48, 180, 22],
@@ -259,6 +264,45 @@ function FlatMap({ continent, focusId, onPickCountry, fill = false, reserve, cla
   const t = useT()
   const style = useMapStyle()
   const sat = style === 'satellite' || style === 'globe' // (globe here = a map that can't be one)
+  const satRef = useRef(sat)
+  satRef.current = sat
+  // sharp satellite picture of the visible area (satDetail.ts), redrawn after every zoom/pan
+  const [detail, setDetail] = useState<{ href: string; x: number; y: number; w: number; h: number } | null>(null)
+  const detailJob = useRef(0)
+  const detailTimer = useRef<number | undefined>(undefined)
+  function scheduleDetail() {
+    clearTimeout(detailTimer.current)
+    const job = ++detailJob.current
+    detailTimer.current = window.setTimeout(async () => {
+      const svg = svgRef.current
+      if (!svg || !satRef.current || !svg.clientWidth) return setDetail(null)
+      const t = current.current
+      const { w: vw, h: vh } = vbRef.current
+      const pxPerUnit = (svg.clientWidth / vw) * t.k // screen pixels per map unit
+      if (pxPerUnit < SAT_SCALE * 1.3) return setDetail(null) // the normal picture is sharp enough
+      // visible part of the map, in map units (only the part on the map)
+      const x0 = Math.max(0, -t.x / t.k), y0 = Math.max(0, -t.y / t.k)
+      const x1 = Math.min(W, (vw - t.x) / t.k), y1 = Math.min(H, (vh - t.y) / t.k)
+      if (x1 <= x0 || y1 <= y0) return setDetail(null)
+      const scale = pxPerUnit * Math.min(1.5, window.devicePixelRatio || 1)
+      const canvas = await renderDetail([x0, y0, x1, y1], Math.round((x1 - x0) * scale), Math.round((y1 - y0) * scale), () => job !== detailJob.current)
+      if (job !== detailJob.current || !canvas) return
+      canvas.toBlob((blob) => {
+        if (!blob || job !== detailJob.current) return
+        setDetail((old) => {
+          if (old) URL.revokeObjectURL(old.href)
+          return { href: URL.createObjectURL(blob), x: x0, y: y0, w: x1 - x0, h: y1 - y0 }
+        })
+      }, 'image/jpeg', 0.9)
+    }, 250)
+  }
+  const scheduleDetailRef = useRef(scheduleDetail)
+  scheduleDetailRef.current = scheduleDetail
+  useEffect(() => { scheduleDetailRef.current() }, [sat])
+  // free the last detail picture when the map goes away
+  const detailRef = useRef(detail)
+  detailRef.current = detail
+  useEffect(() => () => { detailJob.current++; if (detailRef.current) URL.revokeObjectURL(detailRef.current.href) }, [])
   const dragged = useRef(false) // true right after a drag/pinch, so it is not treated as a tap
   // viewBox: fixed 960x500, or (fill mode) the same height with the width of the container's aspect ratio
   const [vb, setVb] = useState({ w: W, h: H })
@@ -361,6 +405,7 @@ function FlatMap({ continent, focusId, onPickCountry, fill = false, reserve, cla
       })
       .on('end', (e: D3ZoomEvent<SVGSVGElement, unknown>) => {
         if (e.sourceEvent) setTimeout(() => (dragged.current = false), 60)
+        scheduleDetailRef.current()
       })
     zoomRef.current = z
     select(svg).call(z)
@@ -529,6 +574,7 @@ function FlatMap({ continent, focusId, onPickCountry, fill = false, reserve, cla
         <g ref={gRef}>
           <path className="sphere" d={spherePath} />
           {sat && <image className="sat-img" href={SAT_URL} x="0" y="0" width={W} height={H} preserveAspectRatio="none" clipPath="url(#sphere-clip)" />}
+          {sat && detail && <image className="sat-img" href={detail.href} x={detail.x} y={detail.y} width={detail.w} height={detail.h} preserveAspectRatio="none" clipPath="url(#sphere-clip)" />}
           <path className="graticule" d={graticulePath} />
           {paths}
           <g transform={`translate(${W},0)`} clipPath="url(#wrap-clip)">
@@ -557,6 +603,7 @@ function FlatMap({ continent, focusId, onPickCountry, fill = false, reserve, cla
         <button className="map-btn" onClick={resetView} aria-label={t.resetView}>⤢</button>
         <StyleButton globe={globe} />
       </div>
+      {sat && <div className="sat-credit">{SAT_CREDIT}</div>}
     </>
   )
 }

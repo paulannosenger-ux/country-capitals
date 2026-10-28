@@ -1,6 +1,7 @@
 // The 3D globe look (globe.gl on three.js), used on the home page and in the flashcards instead of the flat map.
-// - Texture: public/earth.jpg (NASA Blue Marble, see scripts/fetch-satellite.ts), countries on top with a light
-//   tint of their learning colour, other continents darkened; drag to turn, scroll/pinch to zoom.
+// - Surface: satellite tiles from Esri World Imagery, sharper the closer you zoom (like Google Earth); offline /
+//   before they arrive: public/earth.jpg (NASA Blue Marble). Countries on top with a light tint of their learning
+//   colour, other continents darkened; tiny countries get a dot. Drag to turn, scroll/pinch to zoom.
 // - Turns to the chosen continent; `zoomTo` flies to a country; with nothing chosen it slowly spins.
 // - `cities`: the country's biggest cities as small HTML labels (hidden when they are on the back side).
 // Lazy-loaded by WorldMap, so three.js is only downloaded by people who switch the globe on.
@@ -10,11 +11,19 @@ import { countryById, displayName, inArea } from '../data/countries'
 import { citiesOf, cityName, type City } from '../data/cities'
 import { useLang, useT } from '../i18n'
 import { statusOf, useDirection, useProgress } from '../progress/progress'
-import { StyleButton, VIEW_BOX, allFeatures, countryOfFeature, type MapProps } from './WorldMap'
+import { StyleButton, VIEW_BOX, allFeatures, countryOfFeature, tinyCountryIds, type MapProps } from './WorldMap'
+import { SAT_CREDIT, SAT_TILE_URL } from './satTiles'
 
 const EARTH_URL = `${import.meta.env.BASE_URL}earth.jpg`
 const WORLD_ALTITUDE = 1.9 // camera distance in globe radii when the whole world is shown
 const FLY_MS = 1100
+
+// tiny countries (Cape Verde, Malta, Tuvalu, ...) as dots you can tap
+const tinyDots = tinyCountryIds().flatMap((id) => {
+  const c = countryById.get(id)
+  return c?.latlng ? [{ id, lat: c.latlng[0], lng: c.latlng[1] }] : []
+})
+type Dot = (typeof tinyDots)[number]
 
 // the countries with their id (polygons that belong to no country on our list stay plain)
 const features = allFeatures.map((f) => ({ ...f, cid: countryOfFeature(f) }))
@@ -42,7 +51,7 @@ function countryView(id: string) {
   const c = countryById.get(id)
   if (!c?.latlng) return null
   const size = Math.sqrt(c.areaKm2 ?? 10000)
-  return { lat: c.latlng[0], lng: c.latlng[1], altitude: clamp(size / 1800, 0.35, 1.5) } // closer than 0.35 the photo gets blurry
+  return { lat: c.latlng[0], lng: c.latlng[1], altitude: clamp(size / 2000, 0.18, 1.5) }
 }
 
 export default function GlobeMap({ continent, focusId, onPickCountry, hideNames = false, cities, zoomTo, reserve, globe: canBeGlobe }: MapProps) {
@@ -58,8 +67,11 @@ export default function GlobeMap({ continent, focusId, onPickCountry, hideNames 
   // Create the globe once.
   useEffect(() => {
     const el = wrapRef.current!
-    const g = new Globe(el, { animateIn: true })
+    let dotRadius = 0.45
+    const g: GlobeInstance = new Globe(el, { animateIn: true })
       .globeImageUrl(EARTH_URL)
+      .globeTileEngineUrl(SAT_TILE_URL)
+      .globeTileEngineMaxLevel(17)
       .backgroundColor('rgba(0,0,0,0)')
       .showAtmosphere(true)
       .atmosphereColor('#7fb2ff')
@@ -69,9 +81,20 @@ export default function GlobeMap({ continent, focusId, onPickCountry, hideNames 
       .polygonStrokeColor(() => 'rgba(255,255,255,0.55)')
       .polygonsTransitionDuration(300)
       .onPolygonClick((f) => { const id = (f as Feature).cid; if (id) onPickRef.current(id) })
+      .pointsData(tinyDots)
+      .pointLat('lat')
+      .pointLng('lng')
+      .pointRadius(0.45)
+      .pointAltitude(0.002)
+      .onPointClick((d) => onPickRef.current((d as Dot).id))
       .htmlLat((d) => (d as City).at[1])
       .htmlLng((d) => (d as City).at[0])
-      .htmlAltitude(0.012)
+      .htmlAltitude(0.002)
+      // tiny-country dots are sized in degrees: smaller the closer you get (else Luxembourg becomes a disc)
+      .onZoom(({ altitude }) => {
+        const r = clamp(altitude * 0.22, 0.03, 0.45)
+        if (Math.abs(r - dotRadius) / dotRadius > 0.15) { dotRadius = r; g.pointRadius(r) }
+      })
       .htmlTransitionDuration(0)
       .pointOfView({ lat: 25, lng: 10, altitude: WORLD_ALTITUDE })
     const controls = g.controls()
@@ -110,7 +133,21 @@ export default function GlobeMap({ continent, focusId, onPickCountry, hideNames 
       const st = statusOf(id)
       return st === 'learning' ? colors.learning : st === 'mastered' ? colors.mastered : 'rgba(255,255,255,0.05)'
     })
-      .polygonAltitude((f) => ((f as Feature).cid === focusId ? 0.022 : 0.006))
+      // barely above the ground: higher layers shift against the photo when you look from close by
+      .polygonAltitude((f) => ((f as Feature).cid === focusId ? 0.003 : 0.0008))
+      .pointColor((d) => {
+        const id = (d as Dot).id
+        if (id === focusId) return token('--accent', 1)
+        const st = statusOf(id)
+        return st === 'learning' ? token('--c-learning', 1) : st === 'mastered' ? token('--c-mastered', 1) : 'rgba(235,238,245,0.9)'
+      })
+      .pointLabel((d) => {
+        if (hideNames) return ''
+        const box = document.createElement('div')
+        box.className = 'g-tip'
+        box.textContent = displayName(countryById.get((d as Dot).id)!, lang)
+        return box
+      })
       .polygonLabel((f) => {
         const id = (f as Feature).cid
         if (!id || hideNames) return ''
@@ -159,7 +196,7 @@ export default function GlobeMap({ continent, focusId, onPickCountry, hideNames 
     const g = globeRef.current
     if (!g) return
     const pov = g.pointOfView()
-    g.pointOfView({ ...pov, altitude: clamp(pov.altitude / factor, 0.1, 4) }, 300)
+    g.pointOfView({ ...pov, altitude: clamp(pov.altitude / factor, 0.005, 4) }, 300)
   }
 
   return (
@@ -171,6 +208,7 @@ export default function GlobeMap({ continent, focusId, onPickCountry, hideNames 
         <button className="map-btn" onClick={() => flyHome(700)} aria-label={t.resetView}>⤢</button>
         <StyleButton globe={canBeGlobe} />
       </div>
+      <div className="sat-credit">{SAT_CREDIT}</div>
     </>
   )
 }

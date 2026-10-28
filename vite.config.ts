@@ -34,7 +34,12 @@ export default defineConfig({
         globIgnores: ['**/GlobeMap-*.js'],
         // the satellite photos (~1 MB each) and the globe code are only downloaded by people who switch them on,
         // then kept for offline use
-        runtimeCaching: [{ urlPattern: /(satellite|earth)\.jpg$|GlobeMap-[\w-]+\.js$/, handler: 'CacheFirst', options: { cacheName: 'map-extras' } }],
+        runtimeCaching: [
+          { urlPattern: /(satellite|earth)\.jpg$|GlobeMap-[\w-]+\.js$/, handler: 'CacheFirst', options: { cacheName: 'map-extras' } },
+          // sharp satellite tiles (Esri) seen before also work offline; the oldest are dropped after 800
+          { urlPattern: /^https:\/\/server\.arcgisonline\.com\/.*World_Imagery/, handler: 'CacheFirst',
+            options: { cacheName: 'sat-tiles', expiration: { maxEntries: 800 }, cacheableResponse: { statuses: [0, 200] } } },
+        ],
       },
     }),
   ],
