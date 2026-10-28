@@ -1,6 +1,6 @@
 /* ===== Map quiz: full-page blank map, answer box connected to the country by a line ===== */
 .app-quiz { max-width: none; padding: 0; }
-.quiz-stage { position: fixed; inset: 52px 0 0 0; overflow: hidden; background: var(--sea); animation: fade .5s ease-out both; }
+.quiz-stage { position: fixed; inset: 52px 0 var(--tabbar) 0; overflow: hidden; background: var(--sea); animation: fade .5s ease-out both; }
 .quiz-map { position: absolute; inset: 0; }
 .quiz-map .zoom-btns { right: 20px; bottom: 20px; }
 

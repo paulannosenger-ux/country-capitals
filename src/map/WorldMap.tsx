@@ -520,8 +520,8 @@ export default function WorldMap({ continent, focusId, onPickCountry, fill = fal
         </g>
       </svg>
       <div className="zoom-btns">
-        <button className="map-btn" onClick={() => zoomBy(1.7)} aria-label={t.zoomIn}>+</button>
-        <button className="map-btn" onClick={() => zoomBy(1 / 1.7)} aria-label={t.zoomOut}>−</button>
+        <button className="map-btn zoom-pm" onClick={() => zoomBy(1.7)} aria-label={t.zoomIn}>+</button>
+        <button className="map-btn zoom-pm" onClick={() => zoomBy(1 / 1.7)} aria-label={t.zoomOut}>−</button>
         <button className="map-btn" onClick={resetView} aria-label={t.resetView}>⤢</button>
         <button className={'map-btn style-btn' + (sat ? ' on' : '')} onClick={() => setMapStyle(sat ? 'flat' : 'satellite')}
           aria-pressed={sat} aria-label={t.satelliteView} title={sat ? t.flatView : t.satelliteView}>

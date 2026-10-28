@@ -31,12 +31,6 @@
 @media (max-width: 420px) { .nav-inner { padding: 0 8px; } .tab { padding: 5px 7px; } .nav-btn { padding: 8px 4px; } .nav-actions { gap: 0; } }
 @media (max-width: 360px) { .tab { padding: 5px 5px; font-size: .8rem; } .nav-btn { padding: 8px 3px; } }
 
-/* English / Deutsch switch on the start page */
-.lang-switch { display: inline-flex; padding: 3px; gap: 2px; border-radius: 999px; background: var(--line); }
-.lang-switch button { border: 0; background: transparent; cursor: pointer; font-size: .85rem; font-weight: 550; color: var(--muted); padding: 6px 16px; border-radius: 999px;
-  transition: background .15s, color .15s, box-shadow .15s; }
-.lang-switch button:hover { color: var(--text); }
-.lang-switch button.on { background: var(--surface); color: var(--text); box-shadow: 0 1px 3px rgba(0, 0, 0, .12); }
 .nav-btn { background: none; border: 0; cursor: pointer; font-size: .9rem; font-weight: 500; color: var(--muted); padding: 8px 12px; border-radius: 8px; transition: color .15s, background .15s; }
 .nav-btn:hover { color: var(--text); background: var(--line); }
 .nav-btn.icon { font-size: 1.1rem; padding: 6px 10px; }
@@ -52,9 +46,6 @@
 .figures dd small { font-size: .55em; color: var(--muted); font-weight: 500; letter-spacing: 0; margin-left: 2px; }
 .figures dd.accent { color: var(--accent); }
 .figures dt { font-size: .78rem; color: var(--muted); }
-/* the nav bar has the language button; here only where the nav hides it (small phones) */
-.hero .lang-switch { display: none; }
-@media (max-width: 480px) { .hero .lang-switch { display: inline-flex; } }
 @media (max-width: 600px) { .hero { padding: 14px 0 12px; gap: 12px 24px; } .figures { gap: 10px 24px; } .lede { display: none; } }
 @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 
@@ -267,3 +258,66 @@
 .world-map.sat .land.dim { opacity: 1; fill: #000; fill-opacity: .58; }
 .world-map.sat .map-label text, .world-map.sat .city text { fill: #fff; stroke: rgba(0, 0, 0, .7); }
 .map-btn.style-btn { font-size: .95rem; }
+
+/* ===== Phones + tablets (src/device.ts sets <html data-device="mobile">): an app-like version ===== */
+/* tab bar at the bottom; everything fixed to the screen ends above it */
+:root { --tabbar: 0px; }
+html[data-device='mobile']:has(.tabbar) { --tabbar: calc(60px + env(safe-area-inset-bottom)); }
+body { padding-bottom: var(--tabbar); }
+.tabbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; display: grid; grid-template-columns: repeat(4, minmax(0, 150px)); justify-content: center;
+  padding: 5px 8px calc(5px + env(safe-area-inset-bottom)); background: color-mix(in srgb, var(--bg) 80%, transparent);
+  -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px); border-top: 1px solid var(--line); }
+.tb-item { position: relative; border: 0; background: none; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 4px 0 2px; cursor: pointer;
+  font-size: .68rem; font-weight: 600; letter-spacing: .01em; color: var(--muted); -webkit-tap-highlight-color: transparent; transition: color .15s; }
+.tb-item.on { color: var(--accent); }
+.tb-item:active svg { transform: scale(.9); }
+.tb-item svg { transition: transform .15s; }
+.tb-item .badge { position: absolute; top: 0; left: calc(50% + 7px); margin: 0; }
+
+/* top bar: brand left, icon buttons right (the tabs are at the bottom now) */
+html[data-device='mobile'] .wordmark { display: flex; }
+html[data-device='mobile'] .wordmark .wm-text { display: inline; }
+html[data-device='mobile'] .lang-btn { display: inline-block; }
+html[data-device='mobile'] .nb-text { display: none; }
+html[data-device='mobile'] .nb-icon { display: inline-block; }
+html[data-device='mobile'] .nav-btn { padding: 8px 9px; }
+@media (max-width: 360px) { html[data-device='mobile'] .wordmark .wm-text { display: none; } }
+
+/* touch maps: pinch to zoom (no +/- buttons), bigger buttons */
+html[data-device='mobile'] .zoom-btns .zoom-pm { display: none; }
+html[data-device='mobile'] .map-btn { width: 40px; height: 40px; }
+
+/* start page: the map from edge to edge, taller once a continent is chosen */
+.app-mhome { padding-bottom: 28px; }
+.m-map { position: relative; height: clamp(230px, 60vw, 54vh); background: var(--sea); border-bottom: 1px solid var(--line); overflow: hidden;
+  transition: height .5s cubic-bezier(.2, .7, .2, 1); }
+.m-home.zoomed .m-map { height: clamp(300px, 100vw, 62vh); }
+@media (min-width: 700px) { .m-map, .m-home.zoomed .m-map { height: 58vh; } }
+@media (orientation: landscape) and (max-height: 520px) { .m-map, .m-home.zoomed .m-map { height: 80vh; } }
+.m-map .legend { bottom: 12px; }
+.m-body { display: grid; gap: 16px; padding: 16px 16px 0; max-width: 1180px; margin: 0 auto; animation: rise .6s cubic-bezier(.2, .7, .2, 1) both; }
+.m-body > * { min-width: 0; }
+/* the four figures as small tiles in one row */
+.m-body .figures { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.m-body .figures > div { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 10px 10px 9px; }
+.m-body .figures dd { font-size: 1.3rem; }
+.m-body .figures dt { font-size: .7rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* continents: a row you swipe through */
+.m-body .continents { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 10px; margin: 0 -16px; padding: 2px 16px 6px; scrollbar-width: none; }
+.m-body .continents::-webkit-scrollbar { display: none; }
+.m-body .cont { flex: 0 0 clamp(140px, 40vw, 200px); scroll-snap-align: start; scroll-margin-left: 16px; }
+.m-body .cont:hover { transform: none; }
+.m-body .mission { padding: 22px; }
+/* tablets: continents and panel side by side */
+@media (min-width: 700px) {
+  .m-body { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); padding: 20px 24px 0; gap: 20px; align-items: start; }
+  .m-body .figures { grid-column: 1 / -1; gap: 12px; }
+  .m-body .figures dd { font-size: 1.6rem; }
+  .m-body .continents { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); overflow: visible; margin: 0; padding: 0; }
+  .m-body .mission { padding: 26px; }
+}
+/* floating start button (phones only; tablets see the panel right away) */
+.m-start { position: fixed; left: 16px; right: 16px; bottom: calc(var(--tabbar) + 12px); z-index: 25; min-height: 50px; flex-direction: row;
+  box-shadow: 0 10px 30px -6px rgba(0, 0, 0, .35); animation: rise .35s cubic-bezier(.2, .7, .2, 1) both; }
+.app-mhome:has(.m-start) { padding-bottom: 92px; }
+@media (min-width: 700px) { .m-start { display: none; } .app-mhome:has(.m-start) { padding-bottom: 28px; } }

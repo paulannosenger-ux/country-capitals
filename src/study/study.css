@@ -13,7 +13,7 @@
   .study-main { padding-top: 8px; }
 }
 @media (min-width: 940px) {
-  .study-stage { position: fixed; inset: 52px 0 0 0; }
+  .study-stage { position: fixed; inset: 52px 0 var(--tabbar) 0; }
   .study-map { position: absolute; inset: 0; height: auto; border: 0; }
   .stage-title { left: 28px; top: 24px; font-size: 1.05rem; padding: 7px 16px; }
   .study-map .zoom-btns { left: 28px; bottom: 24px; }

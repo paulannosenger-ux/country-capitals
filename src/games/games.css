@@ -84,8 +84,8 @@
 .chip { border: 1px solid var(--line-strong); background: var(--surface-2); border-radius: 999px; padding: 8px 14px; cursor: pointer; font-weight: 550; font-size: .92rem; }
 .chip.on { background: var(--accent); border-color: var(--accent); color: var(--on-ink); }
 
-/* nav: little number on the Play tab when it's your turn */
-.tab .badge { display: inline-grid; place-items: center; min-width: 17px; height: 17px; padding: 0 5px; margin-left: 5px; border-radius: 999px;
+/* nav: little number on the Play tab when it's your turn (top bar and the phone tab bar) */
+.tab .badge, .tb-item .badge { display: inline-grid; place-items: center; min-width: 17px; height: 17px; padding: 0 5px; margin-left: 5px; border-radius: 999px;
   background: var(--red); color: #fff; font-size: .68rem; font-weight: 700; vertical-align: 1px; }
 
 /* ===== Quiz duel ===== */
