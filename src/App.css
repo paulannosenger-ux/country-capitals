@@ -7,7 +7,7 @@
 /* ---- top navigation (translucent, like a system bar) ---- */
 .nav { position: sticky; top: 0; z-index: 20; background: color-mix(in srgb, var(--bg) 78%, transparent);
   -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid var(--line); }
-.nav-inner { max-width: 1720px; margin: 0 auto; height: 52px; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
+.nav-inner { margin: 0 auto; height: 52px; padding: 0 var(--gutter); display: flex; align-items: center; justify-content: space-between; }
 @media (max-width: 600px) { .nav-inner { padding: 0 12px; } }
 .wordmark { background: none; border: 0; cursor: pointer; font-weight: 650; font-size: 1.02rem; letter-spacing: -.01em; display: flex; align-items: center; gap: 8px; padding: 6px 8px; margin-left: -8px; border-radius: 8px; }
 .logo { color: var(--accent); display: inline-flex; }
@@ -50,7 +50,7 @@
 @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 
 /* ---- buttons ---- */
-.btn { display: inline-flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; min-height: 52px; padding: 0 24px; border: 0; border-radius: 14px;
+.btn { display: inline-flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; min-height: 3.25rem; padding: 0 1.5rem; border: 0; border-radius: .875rem;
   background: var(--ink); color: var(--on-ink); font-weight: 600; font-size: 1rem; letter-spacing: -.01em; cursor: pointer; transition: opacity .15s, transform .15s, background .15s; }
 .btn:hover { opacity: .86; }
 .btn:active { transform: scale(.98); }
@@ -65,20 +65,38 @@
 .pill:hover { background: var(--surface-2); }
 .pill:active { transform: scale(.97); }
 
-/* ---- home layout: the wide 16:9 map on top with the study panel next to it (same height),
-   the continents in a row below. Phones: map, continents, panel stacked. ---- */
-.app.app-home { max-width: 1480px; }
+/* ---- home layout (desktop): the map on top with the study panel beside it (same height), the continents in a
+   row below. Wide + tall enough: the whole page fills exactly one screen, at any screen size. Phones: see the end. ---- */
+:root { --gutter: clamp(24px, 2.4vw, 56px); }
+@media (max-width: 600px) { :root { --gutter: 12px; } }
 .home { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); grid-template-areas: 'map' 'conts' 'side'; }
-.home > .map-card { grid-area: map; aspect-ratio: 4 / 3; background: var(--sea); }
+.home > .map-card { grid-area: map; aspect-ratio: 16 / 9; background: var(--sea); }
 .home > .continents { grid-area: conts; }
 .home > .side { grid-area: side; }
-@media (min-width: 700px) { .home > .map-card { aspect-ratio: 16 / 9; } }
 @media (min-width: 1000px) {
-  .home { grid-template-columns: minmax(0, 1fr) 340px; grid-template-areas: 'map side' 'conts conts'; }
+  .app.app-home { max-width: none; padding: 0 var(--gutter) 24px; }
+  .home { gap: clamp(16px, 1.1vw, 24px); grid-template-columns: minmax(0, 1fr) clamp(340px, 22vw, 480px); grid-template-areas: 'map side' 'conts conts'; }
   /* the panel is exactly as high as the map; if its content is taller, it scrolls inside */
   .home > .side { position: relative; }
   .home > .side > .mission { position: absolute; inset: 0; overflow-y: auto; align-content: start; }
-  .home > .continents { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .home > .continents { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: clamp(12px, 1.1vw, 24px); }
+  /* bigger screens: bigger type */
+  .app-home .hero h1 { font-size: clamp(1.8rem, 2.2vw, 3rem); }
+  .app-home .lede { font-size: clamp(.95rem, .85vw, 1.2rem); }
+  .app-home .figures { gap: 12px clamp(28px, 2.6vw, 64px); }
+  .app-home .figures dd { font-size: clamp(1.5rem, 1.9vw, 2.6rem); }
+  .app-home .figures dt { font-size: clamp(.78rem, .65vw, .95rem); }
+  .app-home .cont { padding: clamp(14px, 1.1vw, 24px) clamp(16px, 1.2vw, 26px); }
+  .app-home .cont-name { font-size: clamp(.98rem, .95vw, 1.3rem); }
+  .app-home .cont-meta { font-size: clamp(.85rem, .75vw, 1.05rem); }
+  .app-home .mission { padding: clamp(24px, 1.8vw, 40px); gap: clamp(10px, .7vw, 16px); }
+  .app-home .mission h2 { font-size: clamp(1.85rem, 2vw, 2.8rem); }
+}
+@media (min-width: 1000px) and (min-height: 640px) {
+  /* one screen high: strip on top, continents at the bottom, the map takes all the rest */
+  .app.app-home { height: calc(100vh - 53px); height: calc(100dvh - 53px); display: flex; flex-direction: column; }
+  .app-home .home { flex: 1; min-height: 0; grid-template-rows: minmax(0, 1fr) auto; }
+  .home > .map-card { aspect-ratio: auto; height: 100%; min-height: 0; }
 }
 
 /* ---- map ---- */
@@ -121,7 +139,7 @@
 @keyframes label-in { from { opacity: 0; transform: translate(-50%, -6px); } to { opacity: 1; transform: translateX(-50%); } }
 @media (max-width: 600px) { .target-label { top: auto; bottom: 46px; } }
 .zoom-btns { position: absolute; right: 12px; bottom: 12px; display: grid; gap: 6px; }
-.map-btn { width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--line); background: color-mix(in srgb, var(--surface) 90%, transparent); cursor: pointer; font-size: 1.05rem;
+.map-btn { width: 2.125rem; height: 2.125rem; border-radius: 50%; border: 1px solid var(--line); background: color-mix(in srgb, var(--surface) 90%, transparent); cursor: pointer; font-size: 1.05rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, .1); transition: transform .15s; }
 .map-btn:hover { transform: scale(1.06); } .map-btn:active { transform: scale(.94); }
 .legend { position: absolute; left: 14px; bottom: 12px; display: flex; gap: 12px; font-size: .76rem; color: var(--muted); background: color-mix(in srgb, var(--surface) 88%, transparent);
@@ -169,7 +187,7 @@
 .region-pick button:hover { color: var(--text); }
 .region-pick button.on { background: var(--surface); color: var(--text); box-shadow: 0 1px 3px rgba(0, 0, 0, .12); }
 .region-hint { font-size: .85rem; }
-.mission .btn.ghost { min-height: 48px; }
+.mission .btn.ghost { min-height: 3rem; }
 
 /* ---- pages (settings, stats) ---- */
 .settings { display: grid; gap: 16px; max-width: 760px; margin: 0 auto; padding-top: 32px; animation: rise .5s ease-out both; }

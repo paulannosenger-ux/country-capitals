@@ -44,9 +44,11 @@
 
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+/* big desktop screens: everything (text, buttons, panels) grows with the screen, up to 21px per rem at 2700px width */
+html[data-device='desktop'] { font-size: clamp(16px, .78vw, 21px); }
 body {
   margin: 0; min-height: 100vh; background: var(--bg); color: var(--text);
-  font-family: var(--font); font-size: 16px; line-height: 1.45; font-weight: 400;
+  font-family: var(--font); font-size: 1rem; line-height: 1.45; font-weight: 400;
   -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility;
 }
 button, input { font: inherit; color: inherit; }
