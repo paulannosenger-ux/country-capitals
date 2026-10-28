@@ -114,7 +114,7 @@ export default function App() {
     )
     const mapContent = (
       <>
-        <WorldMap fill continent={scope} focusId={focusId} onPickCountry={onPickCountry} />
+        <WorldMap fill globe continent={scope} focusId={focusId} onPickCountry={onPickCountry} />
         {continent && <button className="pill back" onClick={() => chooseContinent(null)}>{t.world}</button>}
         {focus && <div className="target-label">{displayName(focus, lang)}</div>}
         <div className="legend">

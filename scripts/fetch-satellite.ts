@@ -1,9 +1,10 @@
-// Builds public/satellite.jpg: the satellite view of the map.
+// Builds public/satellite.jpg (the satellite view of the flat map) and public/earth.jpg (the texture of the 3D globe).
 //   node scripts/fetch-satellite.ts            (uses the cached download in scripts/.cache/sat)
 //   node scripts/fetch-satellite.ts --refresh  (re-downloads the photo)
 // Source: NASA Visible Earth "Blue Marble: Next Generation" (July: little snow in the north, with sea floor), public domain.
 // The photo is a plain lon/lat grid; here every pixel is moved into the map's own projection
 // (src/map/projection.ts), so it lies exactly under the country borders.
+// The globe wraps a plain lon/lat picture around the sphere itself, so earth.jpg is just the photo made smaller.
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import jpeg from 'jpeg-js'
@@ -28,9 +29,9 @@ const src = jpeg.decode(readFileSync(SRC), { maxMemoryUsageInMB: 1024 })
 const projection = makeProjection()
 const ow = W * SAT_SCALE
 const oh = H * SAT_SCALE
-const out = Buffer.alloc(ow * oh * 4)
+let out = Buffer.alloc(ow * oh * 4)
 
-/** Colour of the photo at lon/lat, blended from the 4 nearest pixels. */
+/** Colour of the photo at lon/lat, blended from the 4 nearest pixels (written into `out` at offset o). */
 function sample(lon: number, lat: number, o: number) {
   const x = ((lon + 180) / 360) * src.width - 0.5
   const y = ((90 - lat) / 180) * src.height - 0.5
@@ -64,3 +65,17 @@ for (let py = 0; py < oh; py++) {
 const file = jpeg.encode({ data: out, width: ow, height: oh }, QUALITY)
 writeFileSync('public/satellite.jpg', file.data)
 console.log(`public/satellite.jpg: ${ow} x ${oh}, ${Math.round(file.data.length / 1024)} KB`)
+
+// globe texture: 4096 x 2048 (a power of two works best for WebGL)
+const gw = 4096, gh = 2048
+out = Buffer.alloc(gw * gh * 4)
+for (let py = 0; py < gh; py++) {
+  for (let px = 0; px < gw; px++) {
+    const o = (py * gw + px) * 4
+    out[o + 3] = 255
+    sample(((px + 0.5) / gw) * 360 - 180, 90 - ((py + 0.5) / gh) * 180, o)
+  }
+}
+const globeFile = jpeg.encode({ data: out, width: gw, height: gh }, QUALITY)
+writeFileSync('public/earth.jpg', globeFile.data)
+console.log(`public/earth.jpg: ${gw} x ${gh}, ${Math.round(globeFile.data.length / 1024)} KB`)

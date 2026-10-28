@@ -277,6 +277,20 @@
 .world-map.sat .map-label text, .world-map.sat .city text { fill: #fff; stroke: rgba(0, 0, 0, .7); }
 .map-btn.style-btn { font-size: .95rem; }
 
+/* 3D globe (GlobeMap.tsx): deep space behind it, whatever the theme */
+.globe-wrap { position: absolute; inset: 0; overflow: hidden; cursor: grab; touch-action: none;
+  background: radial-gradient(ellipse at 50% 45%, #10203a 0%, #060b16 55%, #020409 100%); }
+.globe-wrap:active { cursor: grabbing; }
+.globe-wrap ~ .zoom-btns { z-index: 2; }
+.g-tip { background: rgba(10, 14, 24, .82); color: #fff; padding: 5px 10px; border-radius: 8px; font: 600 .82rem/1.2 var(--font); white-space: nowrap; }
+/* city labels on the globe: a dot exactly on the city, the name to its right */
+.g-city { position: relative; width: 0; height: 0; pointer-events: none; }
+.g-city i { position: absolute; left: -4px; top: -4px; width: 8px; height: 8px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 1.5px #1d1d1f; }
+.g-city.cap i { background: var(--red); box-shadow: 0 0 0 1.5px #fff; transform: rotate(45deg); border-radius: 1px; }
+.g-city span { position: absolute; left: 9px; top: -9px; white-space: nowrap; font: 650 12.5px/18px var(--font); color: #fff;
+  text-shadow: 0 0 3px rgba(0, 0, 0, .9), 0 1px 2px rgba(0, 0, 0, .8); }
+.g-city.cap span { font-weight: 750; }
+
 /* ===== Phones + tablets (src/device.ts sets <html data-device="mobile">): an app-like version ===== */
 /* tab bar at the bottom; everything fixed to the screen ends above it */
 :root { --tabbar: 0px; }

@@ -167,7 +167,7 @@ export default function StudyView({ continent, practice = false, direction = 'ca
       <div className="study-map">
         {/* the country being asked is highlighted on the map (capital -> country: after answering) */}
         <WorldMap fill reserve={reserve} continent={continent} focusId={mapFocus} onPickCountry={() => {}} hideNames={reverse}
-          cities={cityFocus} zoomTo={cityFocus} />
+          cities={cityFocus} zoomTo={cityFocus} globe />
         <div className="stage-title">{continent ? t.continent(continent) : t.allContinents}{practice && <span className="mode-tag">{t.practiceTag}</span>}{reverse && <span className="mode-tag">{t.dirCountry}</span>}</div>
       </div>
 

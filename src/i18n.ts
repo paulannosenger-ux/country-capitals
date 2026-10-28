@@ -98,7 +98,7 @@ const en = {
   playAgain: 'Play again', tryHard: 'Try hard mode', nameThisCountry: 'Name this country',
   // map
   worldMap: 'World map', zoomIn: 'Zoom in', zoomOut: 'Zoom out', resetView: 'Reset view',
-  satelliteView: 'Satellite view', flatView: 'Normal map',
+  satelliteView: 'Satellite view', flatView: 'Normal map', globeView: '3D globe',
   // settings
   back: '← Back', dailyLimits: 'Daily limits', dailyLimitsHint: '250 or more = no limit: a whole continent is played through in one go.',
   newPerDay: 'New cards per day', reviewsPerDay: 'Maximum reviews per day', backup: 'Backup',
@@ -248,7 +248,7 @@ const de: typeof en = {
     `Alle ${t} Länder benannt${hard ? ', mit Hauptstadt' : ''} · ${s} beim ersten Versuch richtig${h ? `, ${h} mit Hilfe` : ''}.`,
   playAgain: 'Nochmal spielen', tryHard: 'Schwer ausprobieren', nameThisCountry: 'Benenne dieses Land',
   worldMap: 'Weltkarte', zoomIn: 'Vergrößern', zoomOut: 'Verkleinern', resetView: 'Ansicht zurücksetzen',
-  satelliteView: 'Satellitenansicht', flatView: 'Normale Karte',
+  satelliteView: 'Satellitenansicht', flatView: 'Normale Karte', globeView: '3D-Globus',
   back: '← Zurück', dailyLimits: 'Tageslimits', dailyLimitsHint: '250 oder mehr = kein Limit: Ein ganzer Kontinent wird in einem Durchgang gespielt.',
   newPerDay: 'Neue Karten pro Tag', reviewsPerDay: 'Höchstens Wiederholungen pro Tag', backup: 'Sicherung',
   backupText1: 'Dein Fortschritt ist ', backupOnly: 'nur in diesem Browser',

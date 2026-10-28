@@ -5,7 +5,8 @@
 // - The focused country gets a highlight ring.
 // - Satellite look (mapStyle.ts): public/satellite.jpg lies under the countries, which then only show their borders.
 // - `cities`: dots + names of a country's biggest cities; `zoomTo`: zoom in on one country.
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+// - Globe look (only where `globe` is set: home page, flashcards): GlobeMap.tsx draws a 3D globe instead.
+import { Suspense, lazy, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { geoGraticule10, geoPath } from 'd3-geo'
 import { zoom, zoomIdentity, type D3ZoomEvent, type ZoomBehavior, type ZoomTransform } from 'd3-zoom'
 import { select } from 'd3-selection'
@@ -17,7 +18,10 @@ import { useLang, useT } from '../i18n'
 import { statusOf, useDirection, useProgress } from '../progress/progress'
 import { citiesOf, cityName } from '../data/cities'
 import { H, W, makeProjection } from './projection'
-import { setMapStyle, useMapStyle } from './mapStyle'
+import { setMapStyle, useMapStyle, type MapStyle } from './mapStyle'
+
+// the 3D globe brings three.js (~600 KB), so it is only loaded when someone switches to it
+const GlobeMap = lazy(() => import('./GlobeMap'))
 
 const SAT_URL = `${import.meta.env.BASE_URL}satellite.jpg`
 const MARKER_PX = 5 // marker radius in screen pixels
@@ -25,7 +29,7 @@ const TINY_AREA = 14 // polygons smaller than this (viewBox units²) also get a 
 
 // ---- Static geometry, computed once ----
 const topo = atlas as any
-const allFeatures: any[] = (feature(topo, topo.objects.countries) as any).features.filter(
+export const allFeatures: any[] = (feature(topo, topo.objects.countries) as any).features.filter(
   (f: any) => f.id !== '010', // drop Antarctica to save space
 )
 const projection = makeProjection()
@@ -41,6 +45,8 @@ export const geoPathD = (geometry: any) => pathGen(geometry) ?? ''
 const POLYGON_NAME_TO_COUNTRY: Record<string, string> = { Kosovo: 'XK', Somaliland: 'SO', 'N. Cyprus': 'CY' }
 
 const byCcn3 = new Map(countries.filter((c) => c.ccn3).map((c) => [c.ccn3!, c.id]))
+/** The country (on our list) a map polygon belongs to, or null (Antarctica, Western Sahara, ...). */
+export const countryOfFeature = (f: any): string | null => (f.id && byCcn3.get(f.id)) || POLYGON_NAME_TO_COUNTRY[f.properties?.name] || null
 
 interface Shape { key: string; d: string; countryId: string | null; minX: number }
 interface Marker { id: string; x: number; y: number; area: number }
@@ -57,7 +63,7 @@ const pieces = new Map<string, { b: [[number, number], [number, number]]; area: 
 const WRAP_STRIP = 0.12 * W
 const hasPolygon = new Set<string>()
 for (const f of allFeatures) {
-  const countryId = (f.id && byCcn3.get(f.id)) || POLYGON_NAME_TO_COUNTRY[f.properties?.name] || null
+  const countryId = countryOfFeature(f)
   const d = pathGen(f)
   if (!d) continue
   shapes.push({ key: f.id ?? f.properties?.name, d, countryId, minX: pathGen.bounds(f)[0][0] })
@@ -140,7 +146,7 @@ function countryBox(id: string): [number, number, number, number] | null {
 }
 
 // Where to zoom for each continent: [west, south, east, north] in degrees.
-const VIEW_BOX: Record<Area, [number, number, number, number]> = {
+export const VIEW_BOX: Record<Area, [number, number, number, number]> = {
   'North Africa': [-18, 8, 40, 38],
   'West Africa': [-26, -4, 20, 28],
   'East Africa': [12, -13, 57, 19],
@@ -214,9 +220,34 @@ interface Props {
   cities?: string | null
   /** zoom in on this country (back to the continent when it is null again) */
   zoomTo?: string | null
+  /** this map may be shown as a 3D globe (when the globe look is chosen) */
+  globe?: boolean
+}
+export type MapProps = Props
+
+export default function WorldMap(props: Props) {
+  const style = useMapStyle()
+  if (props.globe && style === 'globe') {
+    return <Suspense fallback={<div className="globe-wrap" />}><GlobeMap {...props} /></Suspense>
+  }
+  return <FlatMap {...props} />
 }
 
-export default function WorldMap({ continent, focusId, onPickCountry, fill = false, reserve, classFor, colorKey, hideNames = false, onTargetMove, labelIds, overlay, targetLonLat, fitBox, freeLabels, cities, zoomTo }: Props) {
+/** Button that switches the map look: flat -> satellite (-> globe, where allowed) -> flat. Shows where it goes next. */
+export function StyleButton({ globe = false }: { globe?: boolean }) {
+  const t = useT()
+  const style = useMapStyle()
+  const shown: MapStyle = style === 'globe' && !globe ? 'satellite' : style
+  const next: MapStyle = shown === 'flat' ? 'satellite' : shown === 'satellite' && globe ? 'globe' : 'flat'
+  const label = { flat: t.flatView, satellite: t.satelliteView, globe: t.globeView }[next]
+  return (
+    <button className="map-btn style-btn" onClick={() => setMapStyle(next)} aria-label={label} title={label}>
+      <span aria-hidden="true">{{ flat: '🗺️', satellite: '🛰️', globe: '🌍' }[next]}</span>
+    </button>
+  )
+}
+
+function FlatMap({ continent, focusId, onPickCountry, fill = false, reserve, classFor, colorKey, hideNames = false, onTargetMove, labelIds, overlay, targetLonLat, fitBox, freeLabels, cities, zoomTo, globe }: Props) {
   const svgRef = useRef<SVGSVGElement>(null)
   const gRef = useRef<SVGGElement>(null)
   const markerRef = useRef<SVGGElement>(null)
@@ -226,7 +257,8 @@ export default function WorldMap({ continent, focusId, onPickCountry, fill = fal
   const direction = useDirection() // ... and when switching between country -> capital and capital -> country
   const lang = useLang()
   const t = useT()
-  const sat = useMapStyle() === 'satellite'
+  const style = useMapStyle()
+  const sat = style === 'satellite' || style === 'globe' // (globe here = a map that can't be one)
   const dragged = useRef(false) // true right after a drag/pinch, so it is not treated as a tap
   // viewBox: fixed 960x500, or (fill mode) the same height with the width of the container's aspect ratio
   const [vb, setVb] = useState({ w: W, h: H })
@@ -523,10 +555,7 @@ export default function WorldMap({ continent, focusId, onPickCountry, fill = fal
         <button className="map-btn zoom-pm" onClick={() => zoomBy(1.7)} aria-label={t.zoomIn}>+</button>
         <button className="map-btn zoom-pm" onClick={() => zoomBy(1 / 1.7)} aria-label={t.zoomOut}>−</button>
         <button className="map-btn" onClick={resetView} aria-label={t.resetView}>⤢</button>
-        <button className={'map-btn style-btn' + (sat ? ' on' : '')} onClick={() => setMapStyle(sat ? 'flat' : 'satellite')}
-          aria-pressed={sat} aria-label={t.satelliteView} title={sat ? t.flatView : t.satelliteView}>
-          <span aria-hidden="true">{sat ? '🗺️' : '🛰️'}</span>
-        </button>
+        <StyleButton globe={globe} />
       </div>
     </>
   )
