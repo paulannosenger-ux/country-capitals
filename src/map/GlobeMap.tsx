@@ -2,11 +2,13 @@
 // - Surface: satellite tiles from Esri World Imagery, sharper the closer you zoom (like Google Earth); offline /
 //   before they arrive: public/earth.jpg (NASA Blue Marble). Countries on top with a light tint of their learning
 //   colour, other continents darkened; tiny countries get a dot. Drag to turn, scroll/pinch to zoom.
+// - Space around it: sharp star points (`stars`) in front of a faint Milky Way picture (`starrySky`).
 // - Turns to the chosen continent; `zoomTo` flies to a country. It only moves when you turn it (no auto-spin).
 // - `cities`: the country's biggest cities as small HTML labels (hidden when they are on the back side).
 // Lazy-loaded by WorldMap, so three.js is only downloaded by people who switch the globe on.
 import { useEffect, useRef } from 'react'
 import Globe, { type GlobeInstance } from 'globe.gl'
+import { BufferGeometry, Float32BufferAttribute, Points, PointsMaterial } from 'three'
 import { countryById, displayName, inArea } from '../data/countries'
 import { citiesOf, cityName, type City } from '../data/cities'
 import { useLang, useT } from '../i18n'
@@ -37,6 +39,76 @@ function token(name: string, alpha: number): string {
   const m = /^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(hex)
   if (!m) return `rgba(255,255,255,${alpha})`
   return `rgba(${parseInt(m[1], 16)},${parseInt(m[2], 16)},${parseInt(m[3], 16)},${alpha})`
+}
+
+/** Random numbers that are the same every time (the sky looks the same on every visit). */
+function seeded(seed: number) {
+  return () => {
+    seed = (seed + 0x6d2b79f5) | 0
+    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed)
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296
+  }
+}
+
+/** The night sky as a picture wrapped around the scene: only the faint Milky Way (the stars are real points, see `stars`). */
+let sky: string | null = null
+function starrySky(): string {
+  if (sky) return sky
+  const w = 4096, h = 2048
+  const canvas = document.createElement('canvas')
+  canvas.width = w; canvas.height = h
+  const ctx = canvas.getContext('2d')!
+  const rnd = seeded(7)
+  ctx.fillStyle = '#01020a'
+  ctx.fillRect(0, 0, w, h)
+  // Milky Way: many soft, faint clouds along a wavy band
+  const bandY = (x: number) => h * (0.5 + 0.22 * Math.sin((x / w) * Math.PI * 2 + 0.6))
+  for (let i = 0; i < 1800; i++) {
+    const x = rnd() * w
+    const y = bandY(x) + (rnd() - 0.5) * h * 0.16 * (0.4 + rnd())
+    const r = 30 + rnd() * 110
+    const g = ctx.createRadialGradient(x, y, 0, x, y, r)
+    const tint = rnd() < 0.5 ? '170,180,255' : '255,225,200'
+    g.addColorStop(0, `rgba(${tint},${0.018 + rnd() * 0.02})`)
+    g.addColorStop(1, 'rgba(0,0,0,0)')
+    ctx.fillStyle = g
+    ctx.fillRect(x - r, y - r, r * 2, r * 2)
+  }
+  sky = canvas.toDataURL('image/jpeg', 0.9)
+  return sky
+}
+
+/**
+ * Stars as points of light around the scene: drawn in screen pixels, so they stay sharp on any screen
+ * (in the sky picture they became blurry blobs). Three sizes, more of them along the Milky Way.
+ */
+function stars(radius: number): Points[] {
+  const rnd = seeded(11)
+  const tints: [number, number, number][] = [[1, 1, 1], [0.82, 0.88, 1], [1, 0.94, 0.84], [0.75, 0.8, 1], [1, 0.86, 0.75]]
+  const layers = [
+    { n: 9000, size: 1.2, opacity: 0.7 },
+    { n: 2000, size: 1.8, opacity: 0.9 },
+    { n: 260, size: 2.8, opacity: 1 },
+  ]
+  return layers.map(({ n, size, opacity }) => {
+    const pos: number[] = [], col: number[] = []
+    for (let i = 0; i < n; i++) {
+      // a random direction; a third of them squeezed towards the Milky Way plane (tilted by ~60°)
+      let x = rnd() * 2 - 1, y = rnd() * 2 - 1, z = rnd() * 2 - 1
+      if (rnd() < 0.33) y *= 0.15
+      const len = Math.hypot(x, y, z) || 1
+      ;[x, y, z] = [x / len, y / len, z / len]
+      const ty = y * 0.5 - z * 0.866, tz = y * 0.866 + z * 0.5
+      pos.push(x * radius, ty * radius, tz * radius)
+      const tint = tints[Math.floor(rnd() * tints.length)], dim = 0.45 + rnd() * 0.55
+      col.push(tint[0] * dim, tint[1] * dim, tint[2] * dim)
+    }
+    const geo = new BufferGeometry()
+    geo.setAttribute('position', new Float32BufferAttribute(pos, 3))
+    geo.setAttribute('color', new Float32BufferAttribute(col, 3))
+    return new Points(geo, new PointsMaterial({ size, sizeAttenuation: false, vertexColors: true, transparent: true, opacity, depthWrite: false }))
+  })
 }
 
 /** Where the camera looks for a continent (middle of its usual map view) and how far away it is. */
@@ -72,7 +144,8 @@ export default function GlobeMap({ continent, focusId, onPickCountry, hideNames 
       .globeImageUrl(EARTH_URL)
       .globeTileEngineUrl(SAT_TILE_URL)
       .globeTileEngineMaxLevel(17)
-      .backgroundColor('rgba(0,0,0,0)')
+      .backgroundColor('#01020a')
+      .backgroundImageUrl(starrySky())
       .showAtmosphere(true)
       .atmosphereColor('#7fb2ff')
       .atmosphereAltitude(0.16)
@@ -100,6 +173,8 @@ export default function GlobeMap({ continent, focusId, onPickCountry, hideNames 
       .htmlTransitionDuration(0)
       .pointOfView({ lat: 25, lng: 10, altitude: WORLD_ALTITUDE })
     g.controls().enableDamping = true
+    const starLayers = stars(g.getGlobeRadius() * 400) // inside the sky sphere (globe.gl puts it at 500 radii)
+    starLayers.forEach((p) => g.scene().add(p))
     // sharper satellite tiles: switch to the next detail level at twice the camera distance than globe.gl does
     // (its default gives blurry pictures on big / retina screens)
     g.scene().traverse((o: any) => { if (Array.isArray(o.thresholds)) o.thresholds = o.thresholds.map((t: number) => t * 2) })
@@ -111,6 +186,7 @@ export default function GlobeMap({ continent, focusId, onPickCountry, hideNames 
     ro.observe(el)
     return () => {
       ro.disconnect()
+      starLayers.forEach((p) => { p.geometry.dispose(); (p.material as PointsMaterial).dispose() })
       g._destructor()
       g.renderer().dispose()
       el.innerHTML = ''
