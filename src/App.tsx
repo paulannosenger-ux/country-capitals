@@ -134,7 +134,9 @@ export default function App() {
             <button key={c} className={'cont card-surface' + (c === continent ? ' active' : '')} onClick={() => chooseContinent(c)}>
               <span className="cont-name">{t.continent(c)}</span>
               <span className="cont-meta">{l} / {n}{k.due + k.learning > 0 && <em> · {t.nDue(k.due + k.learning)}</em>}</span>
-              <span className="bar"><span style={{ width: `${(l / n) * 100}%` }} /></span>
+              {/* big percentage: only shown in the tall tiles of the desktop panel */}
+            <span className="cont-pct">{Math.round((l / n) * 100)}<small>%</small></span>
+            <span className="bar"><span style={{ width: `${(l / n) * 100}%` }} /></span>
             </button>
           )
         })}

@@ -82,6 +82,7 @@
 .mission .cont:hover { transform: none; border-color: var(--line-strong); box-shadow: none; }
 .mission .cont.active { box-shadow: 0 0 0 2px var(--accent); }
 .mission .cont .bar { margin-top: 9px; }
+.cont-pct { display: none; }
 @media (min-width: 1000px) {
   .app.app-home { max-width: none; padding: 0 var(--gutter) 24px; }
   .home { gap: clamp(16px, 1.1vw, 24px); grid-template-columns: minmax(0, 1fr) clamp(360px, 24vw, 520px); grid-template-areas: 'map side'; }
@@ -119,6 +120,20 @@
   .app.app-home { height: calc(100vh - 53px); height: calc(100dvh - 53px); display: flex; flex-direction: column; }
   .app-home .home { flex: 1; min-height: 0; grid-template-rows: minmax(0, 1fr); }
   .home > .map-card { aspect-ratio: auto; height: 100%; min-height: 0; }
+  /* the panel's content fills it from top to bottom: the continent tiles take all the spare height
+     (their text grows with the tile), the buttons end at the bottom edge */
+  .side .mission { display: flex; flex-direction: column; }
+  .side .mission > * { flex: none; }
+  .side .mission .continents { flex: 1 0 auto; grid-auto-rows: minmax(0, 1fr); }
+  .side .mission .cont { display: flex; flex-direction: column; container-type: size; min-height: 64px; }
+  .side .mission .cont-name { font-size: clamp(.95rem, min(17cqh, 11.5cqw), 1.8rem); } /* "North America" stays on one line */
+  .side .mission .cont-meta { font-size: clamp(.8rem, min(11cqh, 7cqw), 1.15rem); margin-top: 2px; }
+  .side .mission .cont-pct { display: block; margin-top: auto; font-size: clamp(1.1rem, min(34cqh, 26cqw), 4rem); font-weight: 650;
+    letter-spacing: -.04em; line-height: 1; font-variant-numeric: tabular-nums; }
+  .side .mission .cont-pct small { font-size: .45em; font-weight: 550; color: var(--muted); margin-left: 2px; letter-spacing: 0; }
+  .side .mission .cont .bar { margin-top: clamp(6px, 6cqh, 14px); }
+  /* tiles too low for the big number (laptops): back to name, count, bar */
+  @container (max-height: 90px) { .side .mission .cont-pct { display: none; } }
 }
 
 /* ---- map ---- */
