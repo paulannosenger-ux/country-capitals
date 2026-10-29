@@ -192,7 +192,7 @@ export default function App() {
     )
     page = device === 'desktop' ? (
       <>
-        {/* compact header strip, then the wide map with the panel beside it, continents below */}
+        {/* compact header strip, then the big map; on the right the continents and the study panel */}
         <section className="hero">
           <div className="hero-text">
             <h1>{t.heroLine1} {t.heroLine2}</h1>
@@ -202,8 +202,7 @@ export default function App() {
         </section>
         <div className="home">
           <div className="map-card card-surface">{mapContent}</div>
-          {continentCards}
-          <aside className="side">{mission}</aside>
+          <aside className="side"><div className="side-inner">{continentCards}{mission}</div></aside>
         </div>
       </>
     ) : (
