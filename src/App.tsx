@@ -140,13 +140,17 @@ export default function App() {
         })}
       </section>
     )
+    // desktop: the continents sit inside the panel (phones/tablets have their own swipe row)
+    const continentsInPanel = device === 'desktop' ? continentCards : null
+    const chooseWords = t.chooseContinent.split(' ')
     const mission = (
       <section className="mission card-surface">
         {continent ? (
           <>
             <p className="eyebrow">{t.selected}</p>
-            <h2>{t.continent(scope!)}</h2>
+            <h2 className="picked">{t.continent(scope!)}</h2>
             <DirectionSwitch />
+            {continentsInPanel}
             {continent === 'Africa' && (
               <div className="region-pick" role="group" aria-label={t.africaRegions}>
                 <button className={region === null ? 'on' : ''} aria-pressed={region === null} onClick={() => { setRegion(null); setFocusId(null) }}>
@@ -180,9 +184,11 @@ export default function App() {
         ) : (
           <>
             <p className="eyebrow">{t.getStarted}</p>
-            <h2>{t.chooseContinent}</h2>
+            {/* the last word ("continent") in green */}
+            <h2>{chooseWords.slice(0, -1).join(' ')} <em>{chooseWords[chooseWords.length - 1]}</em></h2>
             <p className="muted">{t.chooseHint}</p>
             <DirectionSwitch />
+            {continentsInPanel}
             <button className="btn ghost" onClick={() => setStudying({ scope: null, practice: false })}>
               {t.mixedReview} <small>{t.mixedSub(Math.min(countries.length, all.new + all.learning + all.due))}</small>
             </button>
@@ -192,7 +198,7 @@ export default function App() {
     )
     page = device === 'desktop' ? (
       <>
-        {/* compact header strip, then the big map; on the right the continents and the study panel */}
+        {/* compact header strip, then the big map; on the right one tall panel (with the continents in it) */}
         <section className="hero">
           <div className="hero-text">
             <h1>{t.heroLine1} {t.heroLine2}</h1>
@@ -202,7 +208,7 @@ export default function App() {
         </section>
         <div className="home">
           <div className="map-card card-surface">{mapContent}</div>
-          <aside className="side"><div className="side-inner">{continentCards}{mission}</div></aside>
+          <aside className="side"><div className="side-inner">{mission}</div></aside>
         </div>
       </>
     ) : (
