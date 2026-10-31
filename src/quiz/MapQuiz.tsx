@@ -1,9 +1,11 @@
 // Map quiz: the continent is shown blank; click any country and name it (hard mode: + its capital).
 // A line connects the selected country with the answer box. "Tip" shows the flag.
 // A wrong answer must be written out once; the country stays open and is asked again later.
+// Silhouette mode (ShapeQuiz.tsx): no map, only a country's outline to name.
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import WorldMap from '../map/WorldMap'
 import CountryFacts from '../study/CountryFacts'
+import ShapeQuiz from './ShapeQuiz'
 import { CONTINENTS, REGIONS, capitalsOf, countries, countriesInArea, countryById, countryName, flagUrl, inArea, type Area } from '../data/countries'
 import { useLang, useT } from '../i18n'
 import { checkAnswer, checkCountryName, type AnswerResult } from '../study/matcher'
@@ -225,7 +227,7 @@ export default function MapQuiz({ initialContinent }: { initialContinent: Area |
     setSave((s) => ({ ...s, ...patch }))
   }
   function restart() {
-    if (!finished && sum.done + sum.missed > 0 && !window.confirm(t.confirmRestart(t.continent(continent), mode === 'hard'))) return
+    if (!finished && sum.done + sum.missed > 0 && !window.confirm(t.confirmRestart(t.continent(continent), t.modeName[mode]))) return
     choose(null)
     setSave((s) => ({ ...s, rounds: { ...s.rounds, [key]: {} } }))
   }
@@ -233,12 +235,13 @@ export default function MapQuiz({ initialContinent }: { initialContinent: Area |
   const showFlag = tip || phase === 'right' || alreadyNamed
 
   return (
-    <div className="quiz-stage" ref={stageRef}>
-      <div className="quiz-map">
+    <div className={'quiz-stage' + (mode === 'shape' ? ' shape-stage' : '')} ref={stageRef}>
+      {mode === 'shape' && <ShapeQuiz key={key} ids={ids} round={round} setStatus={setStatus} />}
+      {mode !== 'shape' && <div className="quiz-map">
         <WorldMap fill reserve={reserve} continent={continent} focusId={selected} onPickCountry={onPickCountry}
           classFor={classFor} colorKey={colorKey} hideNames onTargetMove={onTargetMove} labelIds={named}
           cities={phase === 'right' || alreadyNamed ? selected : null} />
-      </div>
+      </div>}
 
       <div className="q-bar" ref={barRef}>
         <div className="q-bar-row">
@@ -252,9 +255,9 @@ export default function MapQuiz({ initialContinent }: { initialContinent: Area |
             </select>
           </label>
           <div className="seg" role="group" aria-label={t.difficulty}>
-            {(['easy', 'hard'] as Mode[]).map((m) => (
+            {(['easy', 'hard', 'shape'] as Mode[]).map((m) => (
               <button key={m} className={m === mode ? 'on' : ''} aria-pressed={m === mode} onClick={() => m !== mode && changeRound({ mode: m })}>
-                {m === 'easy' ? t.easy : t.hard}<small>{m === 'easy' ? t.country : t.countryCapital}</small>
+                {t.modeName[m]}<small>{{ easy: t.country, hard: t.countryCapital, shape: t.shapeSub }[m]}</small>
               </button>
             ))}
           </div>
@@ -264,7 +267,7 @@ export default function MapQuiz({ initialContinent }: { initialContinent: Area |
           <button className="q-link" onClick={restart}>{t.restart}</button>
         </div>
         <span className="bar"><span style={{ width: `${(sum.done / sum.total) * 100}%` }} /></span>
-        {!sel && !finished && (
+        {!sel && !finished && mode !== 'shape' && (
           <div className="q-hint">
             <span>{t.clickHint(mode === 'hard')}</span>
             <button className="pill" onClick={goNext}>{t.pickForMe}</button>
@@ -272,12 +275,12 @@ export default function MapQuiz({ initialContinent }: { initialContinent: Area |
         )}
       </div>
 
-      <div className="q-legend">
+      {mode !== 'shape' && <div className="q-legend">
         <span><i className="sw q-open" />{t.open}</span>
         <span><i className="sw q-solved" />{t.correctPlain}</span>
         <span><i className="sw q-helped" />{t.withHelp}</span>
         <span><i className="sw q-missed" />{t.tryAgain}</span>
-      </div>
+      </div>}
 
       {sel && (
         <>
@@ -370,6 +373,7 @@ export default function MapQuiz({ initialContinent }: { initialContinent: Area |
           <div className="finish-actions">
             <button className="btn" onClick={restart}>{t.playAgain}</button>
             {mode === 'easy' && <button className="btn ghost" onClick={() => changeRound({ mode: 'hard' })}>{t.tryHard}</button>}
+            {mode === 'hard' && <button className="btn ghost" onClick={() => changeRound({ mode: 'shape' })}>{t.tryShape}</button>}
           </div>
         </div>
       )}

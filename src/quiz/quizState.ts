@@ -2,7 +2,7 @@
 // Saved in its own localStorage key, separate from the flashcard progress.
 import { AREAS, type Area } from '../data/countries'
 
-export type Mode = 'easy' | 'hard' // easy = name the country, hard = country + capital
+export type Mode = 'easy' | 'hard' | 'shape' // easy = name the country, hard = country + capital, shape = only its outline
 /** solved = right on the first try · helped = right after a mistake or with the flag tip · missed = wrong, ask again */
 export type QStatus = 'solved' | 'helped' | 'missed'
 export type Round = Record<string, QStatus>
@@ -24,7 +24,7 @@ export function loadQuiz(): QuizSave {
     if (!raw || typeof raw !== 'object') return fallback
     return {
       continent: AREAS.includes(raw.continent) ? raw.continent : fallback.continent,
-      mode: raw.mode === 'hard' ? 'hard' : 'easy',
+      mode: raw.mode === 'hard' || raw.mode === 'shape' ? raw.mode : 'easy',
       rounds: raw.rounds && typeof raw.rounds === 'object' ? raw.rounds : {},
     }
   } catch {

@@ -100,3 +100,28 @@
 }
 @media (max-width: 380px) { .seg button small { display: none; } }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ===== Silhouette mode (ShapeQuiz.tsx): a country's outline on a plain background ===== */
+.quiz-stage.shape-stage { background: var(--bg); overflow-y: auto; }
+/* the card sits in the free space: right of the top bar on wide screens, below it on narrow ones */
+.shape-wrap { min-height: 100%; display: grid; place-items: center; padding: 200px 16px 24px; }
+@media (min-width: 1100px) { .shape-wrap { padding: 24px 24px 24px 480px; } }
+.shape-card { width: min(640px, 100%); padding: 22px 24px 24px; display: grid; gap: 14px; animation: rise .4s ease-out both; }
+.shape-box { aspect-ratio: 600 / 420; max-height: 46vh; justify-self: center; width: 100%; transition: max-height .4s ease; border-radius: 16px; background: var(--surface-2); border: 1px solid var(--line); display: grid; place-items: center; overflow: hidden; }
+.shape-box svg { width: 100%; height: 100%; display: block; }
+.shape-box path { fill: var(--text); fill-opacity: .88; stroke: var(--text); stroke-width: .6; stroke-linejoin: round; animation: shape-in .45s cubic-bezier(.2, .7, .2, 1) both;
+  transform-origin: center; transform-box: fill-box; transition: fill .3s; }
+.shape-box.right { max-height: 26vh; } /* smaller after the answer, so flag, name and map fit too */
+.shape-box.right path { fill: var(--c-mastered); stroke: var(--c-mastered); fill-opacity: 1; }
+.shape-box.wrong path { fill: color-mix(in srgb, var(--red) 70%, var(--text)); }
+@keyframes shape-in { from { opacity: 0; transform: scale(.94); } to { opacity: 1; transform: none; } }
+.shape-loading { color: var(--muted); font-size: .9rem; }
+.shape-flag { width: 72px; border-radius: 6px; box-shadow: 0 1px 4px rgba(0, 0, 0, .2); justify-self: center; }
+.shape-form { display: grid; gap: 12px; }
+.shape-form input { width: 100%; font-size: 1.15rem; padding: 14px 16px; border-radius: 14px; border: 1px solid var(--line-strong); background: var(--surface-2); }
+.shape-form input:focus { outline: 2px solid var(--accent); outline-offset: 0; border-color: transparent; }
+.shape-solution { display: grid; gap: 12px; }
+.shape-locate { position: relative; height: clamp(140px, 22vh, 220px); border-radius: 14px; overflow: hidden; background: var(--sea); border: 1px solid var(--line); }
+.shape-locate .zoom-btns { display: none; }
+/* three difficulty buttons in the top bar: a bit tighter */
+.q-bar .seg button { padding: 5px 10px; }

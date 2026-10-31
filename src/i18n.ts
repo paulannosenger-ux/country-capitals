@@ -91,7 +91,10 @@ const en = {
   close: 'Close', flagTip: 'Flag (tip)', nextCountry: 'Next country', nameOfCountry: 'Name of the country', itsCapital: 'Its capital',
   flagShown: 'Flag shown', tipShowFlag: 'Tip: show flag', watchSpellingQuiz: 'Watch the spelling. ', youTypedLower: 'you typed',
   writeOutQuiz: 'Write it out once to continue. This country stays open and comes back.',
-  confirmRestart: (cont: string, hard: boolean) => `Start ${cont} (${hard ? 'hard' : 'easy'}) from the beginning?`,
+  confirmRestart: (cont: string, mode: string) => `Start ${cont} (${mode}) from the beginning?`,
+  modeName: { easy: 'Easy', hard: 'Hard', shape: 'Silhouette' } as Record<'easy' | 'hard' | 'shape', string>,
+  shapeSub: 'Only the outline', shapeQuestion: 'Which country has this shape?', shapeMissing: 'No outline for this country',
+  tryShape: 'Try silhouette mode',
   complete: (cont: string) => `${cont} complete`,
   quizSummary: (t: number, hard: boolean, s: number, h: number) =>
     `All ${t} countries named${hard ? ' with their capitals' : ''} · ${s} right on the first try${h ? `, ${h} with help` : ''}.`,
@@ -242,7 +245,10 @@ const de: typeof en = {
   close: 'Schließen', flagTip: 'Flagge (Tipp)', nextCountry: 'Nächstes Land', nameOfCountry: 'Name des Landes', itsCapital: 'Seine Hauptstadt',
   flagShown: 'Flagge angezeigt', tipShowFlag: 'Tipp: Flagge zeigen', watchSpellingQuiz: 'Achte auf die Schreibweise. ', youTypedLower: 'du hast geschrieben',
   writeOutQuiz: 'Schreib es einmal ab, um weiterzumachen. Das Land bleibt offen und kommt wieder.',
-  confirmRestart: (cont, hard) => `${cont} (${hard ? 'schwer' : 'leicht'}) von vorne beginnen?`,
+  confirmRestart: (cont, mode) => `${cont} (${mode}) von vorne beginnen?`,
+  modeName: { easy: 'Leicht', hard: 'Schwer', shape: 'Silhouette' },
+  shapeSub: 'Nur der Umriss', shapeQuestion: 'Welches Land hat diese Form?', shapeMissing: 'Für dieses Land gibt es keinen Umriss',
+  tryShape: 'Silhouette ausprobieren',
   complete: (cont) => `${cont} geschafft`,
   quizSummary: (t, hard, s, h) =>
     `Alle ${t} Länder benannt${hard ? ', mit Hauptstadt' : ''} · ${s} beim ersten Versuch richtig${h ? `, ${h} mit Hilfe` : ''}.`,
