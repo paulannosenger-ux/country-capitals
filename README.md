@@ -208,6 +208,14 @@ The most important **rivers**, **waters** (seas, lakes, the Suez and Panama cana
 - **The shapes** come from Natural Earth (public domain, 1:50m; a few rivers from 1:10m). After changing the list run `npm run data:nature`: it writes `data/nature-geo.json` (~360 KB, loaded only when the tab is opened) and lists any name it could not find.
 - Not built yet: deserts (Sahara, Gobi, …) are in the same Natural Earth file and could be added as a fourth kind.
 
-## 8. Later ideas (not built)
+## 8. Space tab: the planets
+
+The 8 planets of the solar system as real 3D balls (`src/space/`, three.js, loaded only when the tab is opened): lit by the Sun from one side (day and night side), tilted like the real planets (Uranus lies on its side), Saturn with its rings, in front of the same starry sky as the globe (`src/map/space.ts`). Drag to turn, pinch/scroll to zoom.
+
+- **Explore**: the planets in a row in their order from the Sun (their sizes roughly in proportion); tap one to see it big, with position, kind (rocky planet / gas giant / ice giant), diameter, distance from the Sun, length of day and year, number of moons and a short fact (EN + DE).
+- **Quiz**: a planet appears without its name, type it (English or German, small typos forgiven, another planet's name never counts). Tip = its position from the Sun. A wrong answer has to be written out once. The round is saved (localStorage `country-capitals:space:v1`).
+- **Data**: `data/planets.ts` (NASA fact sheets; moon counts as of 2025). **Pictures**: `npm run data:planets` downloads the Solar System Scope textures (CC BY 4.0, credit shown in the tab) into `public/planets/` (~1.8 MB, cached once used).
+
+## 9. Later ideas (not built)
 
 Live duels (both at the same time), survival mode (until the first mistake), duel wins on the leaderboard, syncing map-quiz progress, friend groups (separate leaderboards), more languages, a Pacific-centred Oceania view.

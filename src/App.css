@@ -337,7 +337,7 @@ html[data-device='mobile'] .sat-credit { top: 6px; bottom: auto; left: auto; rig
 :root { --tabbar: 0px; }
 html[data-device='mobile']:has(.tabbar) { --tabbar: calc(60px + env(safe-area-inset-bottom)); }
 body { padding-bottom: var(--tabbar); }
-.tabbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; display: grid; grid-template-columns: repeat(4, minmax(0, 150px)); justify-content: center;
+.tabbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; display: grid; grid-template-columns: repeat(5, minmax(0, 130px)); justify-content: center;
   padding: 5px 8px calc(5px + env(safe-area-inset-bottom)); background: color-mix(in srgb, var(--bg) 80%, transparent);
   -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px); border-top: 1px solid var(--line); }
 .tb-item { position: relative; border: 0; background: none; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 4px 0 2px; cursor: pointer;

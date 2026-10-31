@@ -14,6 +14,7 @@
     "data:nature": "node scripts/fetch-nature.ts",
     "data:cities": "node scripts/fetch-cities.ts",
     "data:satellite": "node scripts/fetch-satellite.ts",
+    "data:planets": "node scripts/fetch-planets.ts",
     "prebuild": "node scripts/validate-data.ts",
     "test": "vitest run"
   },

@@ -10,6 +10,8 @@ import StudyView from './study/StudyView'
 import MapQuiz from './quiz/MapQuiz'
 // loaded only when the tab is opened (it brings ~360 KB of river/lake/mountain shapes)
 const NatureView = lazy(() => import('./nature/NatureView'))
+// the planets bring three.js: loaded only when the Space tab is opened
+const SpaceView = lazy(() => import('./space/SpaceView'))
 import { CONTINENTS, REGIONS, countries, countriesInArea, countryById, displayName, type Area, type Continent, type Region } from './data/countries'
 import { setLang, useLang, useT } from './i18n'
 import { countsFor, learnedCount, setDirection, type Direction, store, useDirection, useProgress } from './progress/progress'
@@ -17,7 +19,7 @@ import { computeStats } from './progress/stats'
 import { currentTheme, setTheme } from './theme'
 import { useDevice } from './device'
 
-type View = 'home' | 'quiz' | 'nature' | 'games' | 'settings' | 'stats' | 'friends'
+type View = 'home' | 'quiz' | 'nature' | 'space' | 'games' | 'settings' | 'stats' | 'friends'
 
 /** A shared duel link (?duel=ID) opens the Play tab with that duel. */
 function duelFromUrl(): string | null {
@@ -86,6 +88,8 @@ export default function App() {
     )
   } else if (view === 'quiz') {
     page = <MapQuiz initialContinent={scope} />
+  } else if (view === 'space') {
+    page = <Suspense fallback={null}><SpaceView /></Suspense>
   } else if (view === 'nature') {
     page = <Suspense fallback={null}><NatureView initialContinent={continent} /></Suspense>
   } else if (view === 'settings') {
@@ -243,14 +247,16 @@ export default function App() {
             <span className="wm-text">{t.brand}</span>
           </button>
           {device === 'desktop' && <nav className="tabs" aria-label={t.learn + " / " + t.mapQuiz}>
-            <button className={'tab' + (!['quiz', 'nature', 'games'].includes(view) || studying ? ' on' : '')} onClick={() => { setStudying(null); setView('home') }}
-              aria-current={!['quiz', 'nature', 'games'].includes(view) || studying ? 'page' : undefined}>{t.learn}</button>
+            <button className={'tab' + (!['quiz', 'nature', 'space', 'games'].includes(view) || studying ? ' on' : '')} onClick={() => { setStudying(null); setView('home') }}
+              aria-current={!['quiz', 'nature', 'space', 'games'].includes(view) || studying ? 'page' : undefined}>{t.learn}</button>
             <button className={'tab' + (view === 'quiz' && !studying ? ' on' : '')} onClick={() => { setStudying(null); setView('quiz') }}
               aria-current={view === 'quiz' && !studying ? 'page' : undefined}>
               <span className="tab-long">{t.mapQuiz}</span><span className="tab-short">{t.mapQuizShort}</span>
             </button>
             <button className={'tab' + (view === 'nature' && !studying ? ' on' : '')} onClick={() => { setStudying(null); setView('nature') }}
               aria-current={view === 'nature' && !studying ? 'page' : undefined}>{t.nature}</button>
+            <button className={'tab' + (view === 'space' && !studying ? ' on' : '')} onClick={() => { setStudying(null); setView('space') }}
+              aria-current={view === 'space' && !studying ? 'page' : undefined}>{t.space}</button>
             <button className={'tab' + (view === 'games' && !studying ? ' on' : '')} onClick={() => { setStudying(null); setView('games') }}
               aria-current={view === 'games' && !studying ? 'page' : undefined}>
               {t.play}{myTurn > 0 && <span className="badge" aria-label={t.duelGroup.yourTurn}>{myTurn}</span>}
@@ -281,7 +287,7 @@ export default function App() {
           </nav>
         </div>
       </header>
-      <main className={studying || view === 'nature' ? 'app-study' : view === 'quiz' ? 'app-quiz' : view === 'home' ? (device === 'desktop' ? 'app app-home' : 'app-mhome') : 'app'}>{page}</main>
+      <main className={studying || view === 'nature' || view === 'space' ? 'app-study' : view === 'quiz' ? 'app-quiz' : view === 'home' ? (device === 'desktop' ? 'app app-home' : 'app-mhome') : 'app'}>{page}</main>
       {/* phones + tablets: the tabs sit at the bottom like in an app (hidden while studying cards: the keyboard needs the space) */}
       {device === 'mobile' && !studying && (
         <nav className="tabbar" aria-label={t.learn + ' / ' + t.mapQuiz}>
@@ -289,9 +295,10 @@ export default function App() {
             ['home', t.learn, <path key="i" d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v16H5.5A1.5 1.5 0 0 1 4 18.5zM13 4h5.5A1.5 1.5 0 0 1 20 5.5v13a1.5 1.5 0 0 1-1.5 1.5H13zM7 8h1.5M16 8h1.5" />],
             ['quiz', t.mapQuizShort, <path key="i" d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11zM12 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z" />],
             ['nature', t.nature, <path key="i" d="M2.5 19.5 9 8l4 7 2.5-4 6 8.5zM9 8l1.6 2.8M3 5c2-1.4 4-1.4 6 0s4 1.4 6 0" />],
+            ['space', t.space, <path key="i" d="M12 16.5a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9zM4.5 15.5c-1.6 1.6-2.1 3-1.5 3.6 1.2 1.2 6.4-1.8 11.6-7s8.2-10.4 7-11.6c-.6-.6-2 0-3.6 1.5" />],
             ['games', t.play, <path key="i" d="M7 8h10a4 4 0 0 1 4 4v1a3.5 3.5 0 0 1-6.3 2.1L14 14h-4l-.7 1.1A3.5 3.5 0 0 1 3 13v-1a4 4 0 0 1 4-4zM7.5 10.5v3M6 12h3M15.5 11.5h.01M17.5 13h.01" />],
           ] as [View, string, React.ReactNode][]).map(([v, label, icon]) => {
-            const on = v === 'home' ? !['quiz', 'nature', 'games'].includes(view) : view === v
+            const on = v === 'home' ? !['quiz', 'nature', 'space', 'games'].includes(view) : view === v
             return (
               <button key={v} className={'tb-item' + (on ? ' on' : '')} aria-current={on ? 'page' : undefined} onClick={() => setView(v)}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{icon}</svg>
