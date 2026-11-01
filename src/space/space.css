@@ -26,7 +26,7 @@
 .space-modes button { padding: 8px; }
 
 /* the planets in a row, like a little solar system; the balls get light from the left like the big one */
-.planet-row { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 4px; align-items: end; padding: 6px 0 2px; }
+.planet-row { display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 4px; align-items: end; padding: 6px 0 2px; }
 .planet-pick { display: grid; justify-items: center; gap: 6px; padding: 8px 0 6px; border: 0; border-radius: 12px; background: transparent; cursor: pointer; color: var(--muted);
   transition: background .15s; }
 .planet-pick:hover { background: var(--line); }
@@ -37,6 +37,8 @@
 /* sizes roughly in proportion (gas giants big, rocky planets small), so the row also teaches the sizes */
 .planet-ball.mercury { max-width: 18px; } .planet-ball.venus, .planet-ball.earth { max-width: 26px; } .planet-ball.mars { max-width: 20px; }
 .planet-ball.uranus, .planet-ball.neptune { max-width: 34px; }
+/* the Sun glows instead of having a night side */
+.planet-ball.sun { max-width: 48px; box-shadow: 0 0 12px 2px rgba(255, 170, 60, .55); }
 
 .planet-facts { display: grid; gap: 8px; animation: fade .35s ease-out both; }
 .planet-facts h3 { font-size: 1.5rem; font-weight: 700; letter-spacing: -.02em; }

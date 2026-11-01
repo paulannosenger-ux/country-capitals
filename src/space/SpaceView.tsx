@@ -4,9 +4,10 @@
 // Quiz: a planet appears without its name, type it (English or German). Tip = its position from the Sun
 // (counts as "with help"). A wrong answer has to be written out once. The round is saved (planets.ts).
 import { useEffect, useRef, useState } from 'react'
-import PlanetScene, { type SceneView } from './PlanetScene'
+import PlanetScene, { type Focus, type SceneView } from './PlanetScene'
+import { SUN } from '../../data/planets'
 import {
-  EMPTY_SPACE_ROUND, PLANETS, checkPlanet, loadSpaceRound, otherPlanetName, pickNextPlanet, planetName, saveSpaceRound, textureUrl,
+  EMPTY_SPACE_ROUND, PLANETS, SUN_URL, checkPlanet, loadSpaceRound, otherPlanetName, pickNextPlanet, planetName, saveSpaceRound, textureUrl,
   type Planet, type SpaceRound,
 } from './planets'
 import { useLang, useT } from '../i18n'
@@ -22,7 +23,7 @@ export default function SpaceView() {
   const lang = useLang()
   const device = useDevice()
   const [mode, setMode] = useState<Mode>('explore')
-  const [selected, setSelected] = useState<Planet | null>(null) // explore: null = the whole solar system
+  const [selected, setSelected] = useState<Focus>(null) // explore: a planet, the Sun, or null = the whole solar system
 
   // quiz state
   const [round, setRound] = useState<SpaceRound>(loadSpaceRound)
@@ -78,7 +79,7 @@ export default function SpaceView() {
   })
 
   const view: SceneView = mode === 'explore' || !asked ? { kind: 'system', focus: mode === 'explore' ? selected : null } : { kind: 'solo', planet: asked }
-  const names = Object.fromEntries(PLANETS.map((p) => [p.id, planetName(p, lang)]))
+  const names = { ...Object.fromEntries(PLANETS.map((p) => [p.id, planetName(p, lang)])), sun: lang === 'de' ? SUN.de : SUN.en }
   const reserveRight = device === 'desktop' ? Math.min(520, Math.max(380, window.innerWidth * 0.28)) + 40 : 0
   const named = round.solved.length
 
@@ -105,6 +106,11 @@ export default function SpaceView() {
               <h2>{t.planetsTitle[0]}<em>{t.planetsTitle[1]}</em></h2>
               {/* the planets in a row, in their order from the Sun */}
               <div className="planet-row" role="listbox" aria-label={t.planetsTitle.join('')}>
+                <button role="option" aria-selected={selected === 'sun'} className={'planet-pick sun' + (selected === 'sun' ? ' on' : '')} onClick={() => setSelected('sun')}
+                  title={names.sun}>
+                  <span className="planet-ball sun" style={{ backgroundImage: `url(${SUN_URL})` }} />
+                  <small aria-hidden="true">&nbsp;</small>
+                </button>
                 {PLANETS.map((p) => (
                   <button key={p.id} role="option" aria-selected={p === selected} className={'planet-pick' + (p === selected ? ' on' : '')} onClick={() => setSelected(p)}
                     title={planetName(p, lang)}>
@@ -115,7 +121,7 @@ export default function SpaceView() {
               </div>
               {selected ? (
                 <>
-                  <PlanetFacts planet={selected} />
+                  {selected === 'sun' ? <SunFacts /> : <PlanetFacts planet={selected} />}
                   <button className="btn ghost" onClick={() => setSelected(null)}>{t.wholeSystem}</button>
                 </>
               ) : (
@@ -172,6 +178,29 @@ export default function SpaceView() {
           )}
         </div>
       </aside>
+    </div>
+  )
+}
+
+/** The Sun's key figures. */
+function SunFacts() {
+  const t = useT()
+  const lang = useLang()
+  const de = lang === 'de' ? 1 : 0
+  return (
+    <div className="planet-facts">
+      <h3>{de ? SUN.de : SUN.en}<small> · {de ? SUN.en : SUN.de}</small></h3>
+      <p className="muted">{SUN.kind[de]} · {t.sunCentre}</p>
+      <dl className="facts">
+        <div><dt>{t.pDiameter}</dt><dd>{t.fmtNum(SUN.diameterKm)} km <small>({t.timesEarth(SUN.timesEarth)})</small></dd></div>
+        <div><dt>{t.sunDistance}</dt><dd>{t.millionKm(t.fmtNum(SUN.distanceMkm))}</dd></div>
+        <div><dt>{t.sunSurface}</dt><dd>{t.fmtNum(SUN.surfaceC)} °C</dd></div>
+        <div><dt>{t.sunCore}</dt><dd>{t.millionC(SUN.coreMillionC)}</dd></div>
+        <div><dt>{t.sunAge}</dt><dd>{t.billionYears(t.fmtNum(SUN.ageBillion))}</dd></div>
+        <div><dt>{t.sunLight}</dt><dd>{SUN.lightMinutes}</dd></div>
+        <div className="wide"><dt>{t.pDay}</dt><dd>{SUN.turn[de]}</dd></div>
+      </dl>
+      <p className="summary">{SUN.fact[lang]}</p>
     </div>
   )
 }

@@ -1,7 +1,8 @@
 // The Space tab's 3D scene (three.js), two views:
 // - system: the solar system. The Sun in the middle, the 8 planets on their orbits (slowly going round), names next to
 //   them. Distances and sizes are squeezed (in real life the planets would be specks far apart), the order is right.
-//   Tap a planet (or pick it in the panel): the camera flies to it and follows it; `focus = null` = the whole system.
+//   Tap a planet or the Sun (or pick it in the panel): the camera flies to it (and follows a planet along its orbit);
+//   `focus = null` = the whole system.
 // - solo: one planet alone, lit from the side, no name (the quiz).
 // Planets are tilted like the real ones (Uranus on its side), Saturn has its rings. Drag to turn, scroll/pinch to zoom.
 // `reserveRight` keeps everything centred in the part of the screen the panel doesn't cover.
@@ -31,9 +32,11 @@ function texture(url: string): Texture {
 
 // ---- squeezed solar system (scene units) ----
 const SUN_R = 3.2
-const AU: Record<string, number> = { mercury: 0.39, venus: 0.72, earth: 1, mars: 1.52, jupiter: 5.2, saturn: 9.58, uranus: 19.2, neptune: 30.05 }
 const YEARS: Record<string, number> = { mercury: 0.24, venus: 0.62, earth: 1, mars: 1.88, jupiter: 11.86, saturn: 29.46, uranus: 84, neptune: 164.8 }
-const orbitRadius = (p: Planet) => 4.8 + 6 * Math.pow(AU[p.id], 0.45)
+// Orbit radii chosen by hand: the order and the big gap after Mars are right, and neighbours are always further apart
+// than their two balls (+ Saturn's ring) are wide, so planets never touch when they pass each other.
+const ORBIT: Record<string, number> = { mercury: 6.2, venus: 8, earth: 9.8, mars: 11.5, jupiter: 16.5, saturn: 22, uranus: 27.5, neptune: 32.5 }
+const orbitRadius = (p: Planet) => ORBIT[p.id]
 const ballRadius = (p: Planet) => 0.55 * Math.pow(p.diameterKm / 12742, 0.4)
 /** angle per second: inner planets faster, but the outer ones still move a little */
 const orbitSpeed = (p: Planet) => 0.09 / Math.pow(YEARS[p.id], 0.6)
@@ -74,12 +77,14 @@ function glow(): Sprite {
   return s
 }
 
-export type SceneView = { kind: 'system'; focus: Planet | null } | { kind: 'solo'; planet: Planet }
+/** What the camera looks at in the solar system: a planet, the Sun, or (null) everything. */
+export type Focus = Planet | 'sun' | null
+export type SceneView = { kind: 'system'; focus: Focus } | { kind: 'solo'; planet: Planet }
 
 interface Props {
   view: SceneView
-  /** a planet was tapped in the solar system (null: the Sun, = back to the overview) */
-  onPick?: (p: Planet | null) => void
+  /** a planet or the Sun was tapped in the solar system */
+  onPick?: (p: Focus) => void
   /** planet names in the scene (in the interface language) */
   names: Record<string, string>
   reserveRight?: number
@@ -125,6 +130,12 @@ export default function PlanetScene({ view, onPick, names, reserveRight = 0 }: P
     system.add(sunLight)
     const sunBall = new Mesh(new SphereGeometry(SUN_R, 64, 48), new MeshBasicMaterial({ map: texture(SUN_URL) }))
     system.add(sunBall, glow())
+    const sunTag = document.createElement('div')
+    sunTag.className = 'p-label'
+    sunTag.addEventListener('click', () => onPickRef.current?.('sun'))
+    const sunLabel = new CSS2DObject(sunTag)
+    sunLabel.position.set(0, -(SUN_R + 0.9), 0)
+    system.add(sunLabel)
     const orbiting = PLANETS.map((p, i) => {
       const r = orbitRadius(p)
       const pts = Array.from({ length: 181 }, (_, k) => new Vector3(Math.cos((k / 180) * Math.PI * 2) * r, 0, Math.sin((k / 180) * Math.PI * 2) * r))
@@ -184,10 +195,16 @@ export default function PlanetScene({ view, onPick, names, reserveRight = 0 }: P
         fly = 0
         return
       }
-      focus = v.focus ? orbiting.find((o) => o.p === v.focus) ?? null : null
+      focus = v.focus && v.focus !== 'sun' ? orbiting.find((o) => o.p === v.focus) ?? null : null
       orbiting.forEach((o) => o.tag.classList.toggle('on', o === focus))
+      sunLabel.visible = v.focus !== 'sun' // close up its name would sit on the Sun itself
       controls.maxDistance = 220
-      if (focus) {
+      if (v.focus === 'sun') {
+        // the Sun: from where the camera is now, close in (a little from above)
+        controls.minDistance = SUN_R * 1.4
+        const dir = camera.position.clone().normalize().add(new Vector3(0, 0.3, 0)).normalize()
+        startFly(dir.multiplyScalar(SUN_R * 5.5), new Vector3())
+      } else if (focus) {
         const r = ballRadius(focus.p) * (focus.p.id === 'saturn' ? 2.3 : 1)
         controls.minDistance = r * 1.6
         const at = focus.holder.getWorldPosition(new Vector3())
@@ -206,7 +223,10 @@ export default function PlanetScene({ view, onPick, names, reserveRight = 0 }: P
       b.tilt.traverse((o) => { if (o instanceof Mesh) { o.geometry.dispose(); (o.material as MeshStandardMaterial).dispose() } })
     }
 
-    function setNames(n: Record<string, string>) { orbiting.forEach((o) => { o.tag.textContent = n[o.p.id] ?? o.p.en }) }
+    function setNames(n: Record<string, string>) {
+      orbiting.forEach((o) => { o.tag.textContent = n[o.p.id] ?? o.p.en })
+      sunTag.textContent = n.sun ?? 'Sun'
+    }
 
     // tap on a planet (not after a drag)
     const ray = new Raycaster()
@@ -217,7 +237,7 @@ export default function PlanetScene({ view, onPick, names, reserveRight = 0 }: P
       const rect = renderer.domElement.getBoundingClientRect()
       ray.setFromCamera(new Vector2(((e.clientX - rect.left) / rect.width) * 2 - 1, -((e.clientY - rect.top) / rect.height) * 2 + 1), camera)
       const hit = ray.intersectObjects([sunBall, ...orbiting.map((o) => o.ball)], false)[0]
-      if (hit) onPickRef.current?.(hit.object === sunBall ? null : (hit.object.userData.planet as Planet))
+      if (hit) onPickRef.current?.(hit.object === sunBall ? 'sun' : (hit.object.userData.planet as Planet))
     })
 
     let reserve = 0
@@ -296,7 +316,7 @@ export default function PlanetScene({ view, onPick, names, reserveRight = 0 }: P
     }
   }, [])
 
-  const viewKey = view.kind === 'solo' ? 'solo:' + view.planet.id : 'system:' + (view.focus?.id ?? '')
+  const viewKey = view.kind === 'solo' ? 'solo:' + view.planet.id : 'system:' + (view.focus === 'sun' ? 'sun' : view.focus?.id ?? '')
   useEffect(() => { api.current?.setView(view) }, [viewKey]) // eslint-disable-line react-hooks/exhaustive-deps
   const namesKey = JSON.stringify(names)
   useEffect(() => { api.current?.setNames(names) }, [namesKey]) // eslint-disable-line react-hooks/exhaustive-deps

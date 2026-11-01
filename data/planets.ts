@@ -104,3 +104,23 @@ export const PLANETS: Planet[] = [
     texture: '2k_neptune.jpg',
   },
 ]
+
+/** The Sun: it can be picked in the Space tab like a planet (its own key figures). Source: NASA Sun fact sheet. */
+export const SUN = {
+  id: 'sun',
+  en: 'Sun',
+  de: 'Sonne',
+  kind: ['Star (yellow dwarf)', 'Stern (Gelber Zwerg)'] as [string, string],
+  diameterKm: 1392700,
+  timesEarth: 109,
+  distanceMkm: 149.6, // from the Earth
+  lightMinutes: '8 min 20 s',
+  surfaceC: 5500,
+  coreMillionC: 15,
+  ageBillion: 4.6,
+  turn: ['25 days (equator) to 35 days (poles)', '25 Tage (Äquator) bis 35 Tage (Pole)'] as [string, string],
+  fact: {
+    en: 'Our star: a giant ball of glowing gas, mostly hydrogen and helium. In its core hydrogen is fused into helium, and that is where its light and heat come from. It holds 99.8 % of all the mass in the solar system; about 1.3 million Earths would fit inside it. Its light needs 8 minutes to reach us.',
+    de: 'Unser Stern: eine riesige Kugel aus glühendem Gas, vor allem Wasserstoff und Helium. In seinem Kern verschmilzt Wasserstoff zu Helium, daher kommen Licht und Wärme. Die Sonne hat 99,8 % der gesamten Masse des Sonnensystems; rund 1,3 Millionen Erden würden in sie hineinpassen. Ihr Licht braucht 8 Minuten bis zu uns.',
+  },
+}

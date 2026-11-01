@@ -8,6 +8,7 @@ import { geoAzimuthalEqualArea, geoCentroid, geoDistance, geoPath, geoArea } fro
 import { feature } from 'topojson-client'
 import WorldMap, { countryOfFeature } from '../map/WorldMap'
 import { capitalsOf, countries, countryById, countryName, flagUrl, otherName } from '../data/countries'
+import { citiesOf, cityName } from '../data/cities'
 import { useLang, useT } from '../i18n'
 import { checkCountryName, type AnswerResult } from '../study/matcher'
 import { pickNextOpen, type QStatus, type Round } from './quizState'
@@ -42,12 +43,12 @@ function mainPieces(geo: any): any {
   return { type: 'MultiPolygon', coordinates: kept.map((p: any) => p.coordinates) }
 }
 
-/** SVG path of the country's outline, north up, filling the box. */
-function silhouette(geo: any): string {
+/** SVG path of the country's outline, north up, filling the box, and the projection (to place its cities). */
+function silhouette(geo: any) {
   const shape = mainPieces(geo)
   const [lon, lat] = geoCentroid(shape)
   const projection = geoAzimuthalEqualArea().rotate([-lon, -lat]).fitExtent([[PAD, PAD], [VW - PAD, VH - PAD]], shape)
-  return geoPath(projection)(shape) ?? ''
+  return { d: geoPath(projection)(shape) ?? '', projection }
 }
 
 type Phase = 'ask' | 'right' | 'wrong'
@@ -76,7 +77,16 @@ export default function ShapeQuiz({ ids, round, setStatus }: Props) {
   useEffect(() => { if (phase !== 'right') inputRef.current?.focus() }, [phase, current, geo])
 
   const c = current ? countryById.get(current)! : null
-  const d = useMemo(() => (c && geo?.get(c.id) ? silhouette(geo.get(c.id)) : null), [c, geo])
+  const sil = useMemo(() => (c && geo?.get(c.id) ? silhouette(geo.get(c.id)) : null), [c, geo])
+  const d = sil?.d
+  // after the answer: the biggest cities drawn into the outline (capital = red diamond)
+  const cityMarks = useMemo(() => {
+    if (!c || !sil) return []
+    return citiesOf(c.id).flatMap((city) => {
+      const p = sil.projection(city.at)
+      return p && p[0] > 0 && p[0] < VW && p[1] > 0 && p[1] < VH ? [{ city, x: p[0], y: p[1] }] : []
+    })
+  }, [c, sil])
 
   function next() {
     setCurrent(pickNextOpen(round, ids, current))
@@ -119,7 +129,17 @@ export default function ShapeQuiz({ ids, round, setStatus }: Props) {
       <article className={'shape-card card-surface' + (nudge ? (nudge % 2 ? ' nudge-a' : ' nudge-b') : '')}>
         <p className="eyebrow">{t.shapeQuestion}</p>
         <div className={'shape-box' + (phase === 'right' ? ' right' : phase === 'wrong' ? ' wrong' : '')}>
-          {d ? <svg viewBox={`0 0 ${VW} ${VH}`} role="img" aria-label={t.shapeQuestion}><path key={c.id} d={d} /></svg>
+          {d ? (
+            <svg viewBox={`0 0 ${VW} ${VH}`} role="img" aria-label={t.shapeQuestion}>
+              <path key={c.id} d={d} />
+              {phase === 'right' && cityMarks.map(({ city, x, y }, i) => (
+                <g key={i} className={'shape-city' + (city.cap ? ' cap' : '')} transform={`translate(${x},${y})`}>
+                  {city.cap ? <rect x={-6} y={-6} width={12} height={12} transform="rotate(45)" /> : <circle r={5} />}
+                  <text x={x > VW - 150 ? -11 : 11} textAnchor={x > VW - 150 ? 'end' : 'start'}>{cityName(city, lang)}</text>
+                </g>
+              ))}
+            </svg>
+          )
             : <div className="shape-loading">{geo ? t.shapeMissing : '…'}</div>}
         </div>
 

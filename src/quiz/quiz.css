@@ -111,10 +111,14 @@
 .shape-box svg { width: 100%; height: 100%; display: block; }
 .shape-box path { fill: var(--text); fill-opacity: .88; stroke: var(--text); stroke-width: .6; stroke-linejoin: round; animation: shape-in .45s cubic-bezier(.2, .7, .2, 1) both;
   transform-origin: center; transform-box: fill-box; transition: fill .3s; }
-.shape-box.right { max-height: 26vh; } /* smaller after the answer, so flag, name and map fit too */
+.shape-box.right { max-height: 34vh; } /* smaller after the answer, so flag, name and map fit too */
 .shape-box.right path { fill: var(--c-mastered); stroke: var(--c-mastered); fill-opacity: 1; }
 .shape-box.wrong path { fill: color-mix(in srgb, var(--red) 70%, var(--text)); }
 @keyframes shape-in { from { opacity: 0; transform: scale(.94); } to { opacity: 1; transform: none; } }
+.shape-city { animation: appear .4s ease-out both; }
+.shape-city circle { fill: #fff; stroke: #1d1d1f; stroke-width: 2; }
+.shape-city.cap rect { fill: var(--red); stroke: #fff; stroke-width: 2; }
+.shape-city text { font-size: 17px; font-weight: 650; dominant-baseline: central; fill: #fff; paint-order: stroke; stroke: rgba(0, 0, 0, .75); stroke-width: 4px; stroke-linejoin: round; }
 .shape-loading { color: var(--muted); font-size: .9rem; }
 .shape-flag { width: 72px; border-radius: 6px; box-shadow: 0 1px 4px rgba(0, 0, 0, .2); justify-self: center; }
 .shape-form { display: grid; gap: 12px; }
