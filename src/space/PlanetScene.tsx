@@ -8,15 +8,15 @@
 // `reserveRight` keeps everything centred in the part of the screen the panel doesn't cover.
 import { useEffect, useRef } from 'react'
 import {
-  AdditiveBlending, AmbientLight, BufferGeometry, CanvasTexture, DirectionalLight, DoubleSide, EquirectangularReflectionMapping,
-  Group, LineBasicMaterial, LineLoop, Mesh, MeshBasicMaterial, MeshStandardMaterial, PerspectiveCamera, PointLight,
-  Raycaster, RingGeometry, SRGBColorSpace, Scene, SphereGeometry, Sprite, SpriteMaterial, TextureLoader, Vector2, Vector3,
-  WebGLRenderer, type Texture,
+  AmbientLight, BufferGeometry, DirectionalLight, DoubleSide, EquirectangularReflectionMapping, Group, LineBasicMaterial, LineLoop,
+  Mesh, MeshStandardMaterial, PerspectiveCamera, PointLight, Raycaster, RingGeometry, SRGBColorSpace, Scene, SphereGeometry,
+  TextureLoader, Vector2, Vector3, WebGLRenderer, type Texture,
 } from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { CSS2DObject, CSS2DRenderer } from 'three/examples/jsm/renderers/CSS2DRenderer.js'
 import { starrySky, stars } from '../map/space'
 import { PLANETS, RING_URL, SUN_URL, textureUrl, type Planet } from './planets'
+import { makeSun } from './sun'
 
 const loader = new TextureLoader()
 const textures = new Map<string, Texture>()
@@ -62,19 +62,6 @@ function planetBall(p: Planet, radius: number) {
   tilt.add(ball)
   if (p.id === 'saturn') { const ring = ringMesh(); ring.scale.setScalar(radius); tilt.add(ring) }
   return { tilt, ball }
-}
-
-/** Soft yellow glow around the Sun. */
-function glow(): Sprite {
-  const c = document.createElement('canvas')
-  c.width = c.height = 256
-  const ctx = c.getContext('2d')!
-  const g = ctx.createRadialGradient(128, 128, 0, 128, 128, 128)
-  g.addColorStop(0, 'rgba(255,220,140,0.9)'); g.addColorStop(0.25, 'rgba(255,170,60,0.35)'); g.addColorStop(1, 'rgba(255,140,30,0)')
-  ctx.fillStyle = g; ctx.fillRect(0, 0, 256, 256)
-  const s = new Sprite(new SpriteMaterial({ map: new CanvasTexture(c), blending: AdditiveBlending, depthWrite: false, transparent: true }))
-  s.scale.setScalar(SUN_R * 6)
-  return s
 }
 
 /** What the camera looks at in the solar system: a planet, the Sun, or (null) everything. */
@@ -128,13 +115,15 @@ export default function PlanetScene({ view, onPick, names, reserveRight = 0 }: P
     scene.add(system)
     const sunLight = new PointLight(0xffffff, 3.2, 0, 0) // no fading with distance (the distances are squeezed anyway)
     system.add(sunLight)
-    const sunBall = new Mesh(new SphereGeometry(SUN_R, 64, 48), new MeshBasicMaterial({ map: texture(SUN_URL) }))
-    system.add(sunBall, glow())
+    // animated surface + corona (sun.ts)
+    const sun = makeSun(SUN_R, texture(SUN_URL))
+    const sunBall = sun.ball
+    system.add(sunBall, sun.corona)
     const sunTag = document.createElement('div')
     sunTag.className = 'p-label'
     sunTag.addEventListener('click', () => onPickRef.current?.('sun'))
     const sunLabel = new CSS2DObject(sunTag)
-    sunLabel.position.set(0, -(SUN_R + 0.9), 0)
+    sunLabel.position.set(0, -(SUN_R + 2.2), 0) // below the corona
     system.add(sunLabel)
     const orbiting = PLANETS.map((p, i) => {
       const r = orbitRadius(p)
@@ -262,6 +251,7 @@ export default function PlanetScene({ view, onPick, names, reserveRight = 0 }: P
       last = now
       if (current.kind === 'system') {
         sunBall.rotation.y += dt * 0.03
+        sun.update(now / 1000, camera.quaternion)
         for (const o of orbiting) {
           o.angle += dt * orbitSpeed(o.p)
           place(o)
@@ -301,11 +291,9 @@ export default function PlanetScene({ view, onPick, names, reserveRight = 0 }: P
       ro.disconnect()
       controls.dispose()
       scene.traverse((o) => {
-        if (o instanceof Mesh || o instanceof LineLoop || o instanceof Sprite) {
+        if (o instanceof Mesh || o instanceof LineLoop) {
           o.geometry?.dispose()
-          const m = o.material as MeshStandardMaterial
-          if (o instanceof Sprite) m.map?.dispose() // the glow picture (the planet pictures are kept for next time)
-          m.dispose()
+          ;(o.material as MeshStandardMaterial).dispose() // (the pictures are kept for next time)
         }
       })
       starLayers.forEach((s) => { s.geometry.dispose(); (s.material as MeshStandardMaterial).dispose() })
