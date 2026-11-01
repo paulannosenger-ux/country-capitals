@@ -212,9 +212,9 @@ The most important **rivers**, **waters** (seas, lakes, the Suez and Panama cana
 
 The 8 planets of the solar system as real 3D balls (`src/space/`, three.js, loaded only when the tab is opened): lit by the Sun from one side (day and night side), tilted like the real planets (Uranus lies on its side), Saturn with its rings, in front of the same starry sky as the globe (`src/map/space.ts`). Drag to turn, pinch/scroll to zoom.
 
-- **Explore**: the planets in a row in their order from the Sun (their sizes roughly in proportion); tap one to see it big, with position, kind (rocky planet / gas giant / ice giant), diameter, distance from the Sun, length of day and year, number of moons and a short fact (EN + DE).
+- **Explore**: the whole solar system: the Sun in the middle, the planets going round on their orbits, with their names (order right, distances and sizes squeezed so everything fits). Tap a planet (in space or in the row of the panel, sizes roughly in proportion): the camera flies to it and follows it, and the panel shows its position, kind (rocky planet / gas giant / ice giant), diameter, distance from the Sun, length of day and year, number of moons and a short fact (EN + DE). "← Whole solar system" (or tapping the Sun) goes back to the overview.
 - **Quiz**: a planet appears without its name, type it (English or German, small typos forgiven, another planet's name never counts). Tip = its position from the Sun. A wrong answer has to be written out once. The round is saved (localStorage `country-capitals:space:v1`).
-- **Data**: `data/planets.ts` (NASA fact sheets; moon counts as of 2025). **Pictures**: `npm run data:planets` downloads the Solar System Scope textures (CC BY 4.0, credit shown in the tab) into `public/planets/` (~1.8 MB, cached once used).
+- **Data**: `data/planets.ts` (NASA fact sheets; moon counts as of 2025). **Pictures**: `npm run data:planets` downloads the Solar System Scope textures (planets + Sun) (CC BY 4.0, credit shown in the tab) into `public/planets/` (~1.8 MB, cached once used).
 
 ## 9. Later ideas (not built)
 

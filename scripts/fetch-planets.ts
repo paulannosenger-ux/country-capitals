@@ -1,4 +1,4 @@
-// Builds public/planets/*: the surface pictures of the 8 planets (wrapped around the 3D planets in the Space tab).
+// Builds public/planets/*: the surface pictures of the 8 planets and the Sun (wrapped around the 3D balls in the Space tab).
 //   node scripts/fetch-planets.ts            (uses cached downloads in scripts/.cache/planets)
 //   node scripts/fetch-planets.ts --refresh  (re-downloads them)
 // Source: Solar System Scope textures (https://www.solarsystemscope.com/textures/, CC BY 4.0, credit shown in the app),
@@ -32,6 +32,11 @@ for (const p of PLANETS) {
   const out = jpeg.encode(img, QUALITY)
   writeFileSync(`public/planets/${p.id}.jpg`, out.data)
   console.log(`public/planets/${p.id}.jpg: ${img.width} x ${img.height}, ${Math.round(out.data.length / 1024)} KB`)
+}
+{
+  const img = jpeg.decode(readFileSync(await download('2k_sun.jpg')), { maxMemoryUsageInMB: 512 })
+  writeFileSync('public/planets/sun.jpg', jpeg.encode(img, QUALITY).data)
+  console.log('public/planets/sun.jpg')
 }
 copyFileSync(await download('2k_saturn_ring_alpha.png'), 'public/planets/saturn-ring.png')
 console.log('public/planets/saturn-ring.png')

@@ -1,9 +1,10 @@
 // Space tab: the 8 planets as 3D balls (PlanetScene), with a panel on the right (phones: below).
-// Explore: the planets in a row in their order from the Sun; tap one to see it turn, with its key figures.
+// Explore: the whole solar system (Sun, orbits, names); tap a planet there or in the row of the panel: the camera flies
+// to it and the panel shows its key figures. "Whole solar system" goes back to the overview.
 // Quiz: a planet appears without its name, type it (English or German). Tip = its position from the Sun
 // (counts as "with help"). A wrong answer has to be written out once. The round is saved (planets.ts).
 import { useEffect, useRef, useState } from 'react'
-import PlanetScene from './PlanetScene'
+import PlanetScene, { type SceneView } from './PlanetScene'
 import {
   EMPTY_SPACE_ROUND, PLANETS, checkPlanet, loadSpaceRound, otherPlanetName, pickNextPlanet, planetName, saveSpaceRound, textureUrl,
   type Planet, type SpaceRound,
@@ -21,7 +22,7 @@ export default function SpaceView() {
   const lang = useLang()
   const device = useDevice()
   const [mode, setMode] = useState<Mode>('explore')
-  const [selected, setSelected] = useState<Planet>(PLANETS[2]) // explore: the Earth first
+  const [selected, setSelected] = useState<Planet | null>(null) // explore: null = the whole solar system
 
   // quiz state
   const [round, setRound] = useState<SpaceRound>(loadSpaceRound)
@@ -76,14 +77,16 @@ export default function SpaceView() {
     return () => window.removeEventListener('keydown', onKey)
   })
 
-  const shown = mode === 'explore' ? selected : asked ?? selected
+  const view: SceneView = mode === 'explore' || !asked ? { kind: 'system', focus: mode === 'explore' ? selected : null } : { kind: 'solo', planet: asked }
+  const names = Object.fromEntries(PLANETS.map((p) => [p.id, planetName(p, lang)]))
   const reserveRight = device === 'desktop' ? Math.min(520, Math.max(380, window.innerWidth * 0.28)) + 40 : 0
   const named = round.solved.length
 
   return (
     <div className="space-stage">
       <div className="space-scene">
-        <PlanetScene planet={shown} reserveRight={reserveRight} />
+        <PlanetScene view={view} names={names} reserveRight={reserveRight} onPick={(p) => mode === 'explore' && setSelected(p)} />
+        {mode === 'explore' && selected && <button className="pill space-back" onClick={() => setSelected(null)}>{t.wholeSystem}</button>}
         <p className="space-hint">{t.dragToTurn}</p>
         <p className="space-credit">{t.planetCredit}</p>
       </div>
@@ -110,7 +113,14 @@ export default function SpaceView() {
                   </button>
                 ))}
               </div>
-              <PlanetFacts planet={selected} />
+              {selected ? (
+                <>
+                  <PlanetFacts planet={selected} />
+                  <button className="btn ghost" onClick={() => setSelected(null)}>{t.wholeSystem}</button>
+                </>
+              ) : (
+                <p className="muted">{t.systemHint}</p>
+              )}
             </>
           ) : !asked ? (
             <div className="space-done">

@@ -12,6 +12,7 @@ export const otherPlanetName = (p: Planet, lang: Lang) => {
 }
 export const textureUrl = (p: Planet) => `${import.meta.env.BASE_URL}planets/${p.id}.jpg`
 export const RING_URL = `${import.meta.env.BASE_URL}planets/saturn-ring.png`
+export const SUN_URL = `${import.meta.env.BASE_URL}planets/sun.jpg`
 
 const answersOf = (p: Planet) => [p.en, p.de, ...(p.aliases ?? [])].map(normalize)
 
