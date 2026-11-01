@@ -1,5 +1,5 @@
 {
- "lastUpdated": "2026-10-18",
+ "lastUpdated": "2026-11-01",
  "sources": {
   "base": "https://github.com/mledoze/countries",
   "wikidata": "https://www.wikidata.org (SPARQL: population P1082, government P122)",
@@ -59,7 +59,7 @@
     "capitals": [
      "Kabul"
     ],
-    "government": "Emirat, islamische Theokratie",
+    "government": "islamische Theokratie, Emirat",
     "summary": {
      "text": "Afghanistan ist ein Binnenstaat an der Schnittstelle von Südasien, Zentralasien und Vorderasien, der an Iran, Turkmenistan, Usbekistan, Tadschikistan, die Volksrepublik China und Pakistan grenzt. Drei Viertel des Landes mit heute 34 Provinzen bestehen aus schwer zugänglichen Gebirgsregionen.",
      "url": "https://de.wikipedia.org/wiki/Afghanistan",
@@ -179,7 +179,7 @@
    ],
    "government": "unitary semi-presidential republic",
    "summary": {
-    "text": "Algeria, officially the People's Democratic Republic of Algeria, is a country in the Maghreb region of North Africa. Spanning over 2,381,741 square kilometres, it is the largest country in Africa and the tenth largest in the world.",
+    "text": "Algeria, officially the People's Democratic Republic of Algeria, is a country in North Africa. It is bordered to the northeast by Tunisia; to the east by Libya; to the southeast by Niger; to the southwest by Mali, Mauritania, and Western Sahara; to the west by Morocco; and to the north by the Mediterranean Sea.",
     "url": "https://en.wikipedia.org/wiki/Algeria",
     "source": "Wikipedia"
    },
@@ -437,7 +437,7 @@
    ],
    "government": "federal presidential republic",
    "summary": {
-    "text": "Argentina, officially the Argentine Republic, is a country in the far south of South America. It covers an area of 2,780,085 km2, making it the second-largest country in South America after Brazil, the fourth-largest country in the Americas, and the eighth-largest country in the world.",
+    "text": "Argentina, officially the Argentine Republic, is a country in the far south of South America. It covers an area of 2,780,085 km2, making it the second-largest country in South America, after Brazil, the fourth-largest country in the Americas, and the eighth-largest country in the world.",
     "url": "https://en.wikipedia.org/wiki/Argentina",
     "source": "Wikipedia"
    },
@@ -894,7 +894,7 @@
    ],
    "government": "unitary parliamentary republic",
    "summary": {
-    "text": "Bangladesh, officially the People's Republic of Bangladesh, is a country in South Asia. 4 million within an area of 148,461 square kilometres. Bangladesh shares land borders with India to the north, west, and east, and Myanmar to the southeast.",
+    "text": "Bangladesh, officially the People's Republic of Bangladesh, is a country in South Asia. It is the eighth-most populous country in the world with a population of almost 180 million within an area of 148,461 square kilometres.",
     "url": "https://en.wikipedia.org/wiki/Bangladesh",
     "source": "Wikipedia"
    },
@@ -2020,9 +2020,9 @@
    "nameAliases": [],
    "flag": "flags/ca.svg",
    "population": {
-    "value": 41651653,
-    "year": 2025,
-    "source": "World Bank (SP.POP.TOTL)"
+    "value": 41798407,
+    "year": 2026,
+    "source": "Wikidata (P1082)"
    },
    "areaKm2": 9984670,
    "languages": [
@@ -3383,7 +3383,7 @@
     "capitals": [
      "San Salvador"
     ],
-    "government": "Präsidentielles Regierungssystem, repräsentative Demokratie",
+    "government": "repräsentative Demokratie, Präsidentielles Regierungssystem",
     "summary": {
      "text": "El Salvador ist ein Staat in Mittelamerika. Er grenzt im Nordwesten an Guatemala, im Nordosten an Honduras und im Süden an den Pazifischen Ozean. El Salvador ist das kleinste Land der Region Zentralamerika, weist zugleich deren höchste Bevölkerungsdichte auf und liegt in einem Erdbebengebiet.",
      "url": "https://de.wikipedia.org/wiki/El_Salvador",
@@ -3787,7 +3787,7 @@
    ],
    "government": "unitary parliamentary republic",
    "summary": {
-    "text": "Fiji, officially the Republic of Fiji, is an archipelagic country in Melanesia, part of Oceania in the South Pacific Ocean. It lies about 1,100 nautical miles north-northeast of New Zealand.",
+    "text": "Fiji, officially the Republic of Fiji, is an archipelagic country in the Melanesia region of Oceania, in the South Pacific Ocean. It lies about 1,100 nautical miles north-northeast of New Zealand.",
     "url": "https://en.wikipedia.org/wiki/Fiji",
     "source": "Wikipedia"
    },
@@ -4429,7 +4429,7 @@
    ],
    "government": "unitary constitutional monarchy",
    "summary": {
-    "text": "Grenada is an archipelagic country of the West Indies in the eastern Caribbean Sea. The southernmost of the Windward Islands, Grenada is directly south of Saint Vincent and the Grenadines and about 100 miles north of Trinidad and the South American mainland.",
+    "text": "Grenada is an archipelagic country of the West Indies in the eastern Caribbean Sea. The southernmost of the Windward Islands, Grenada is directly south of Saint Vincent and the Grenadines and about 160 kilometres north of Trinidad and the South American mainland.",
     "url": "https://en.wikipedia.org/wiki/Grenada",
     "source": "Wikipedia"
    },
@@ -4507,7 +4507,7 @@
     "capitals": [
      "Guatemala-Stadt"
     ],
-    "government": "Präsidentielles Regierungssystem, repräsentative Demokratie",
+    "government": "repräsentative Demokratie, Präsidentielles Regierungssystem",
     "summary": {
      "text": "Guatemala ist mit etwa 18,5 Millionen Einwohnern der bevölkerungsreichste Staat Zentralamerikas.",
      "url": "https://de.wikipedia.org/wiki/Guatemala",
@@ -4685,9 +4685,9 @@
      "symbol": "$"
     }
    ],
-   "government": "unitary parliamentary republic",
+   "government": "parliamentary republic",
    "summary": {
-    "text": "Guyana, officially the Co-operative Republic of Guyana, is a country on the northern coast of South America. It is bordered by the Atlantic Ocean to the north, Suriname to the east, Brazil to the south and southwest, and Venezuela to the west.",
+    "text": "Guyana, officially the Co-operative Republic of Guyana, is a country in South America. It is bordered by the Atlantic Ocean to the north, Suriname to the east, Brazil to the south and southwest, and Venezuela to the west.",
     "url": "https://en.wikipedia.org/wiki/Guyana",
     "source": "Wikipedia"
    },
@@ -5281,7 +5281,7 @@
    ],
    "government": "unitary parliamentary republic",
    "summary": {
-    "text": "Ireland, also known as the Republic of Ireland, is a country in Northwestern Europe. 4 million. 5 million. The sovereign state shares its only land border with Northern Ireland, which is part of the United Kingdom.",
+    "text": "Ireland, also known as the Republic of Ireland, is a country in Northwestern Europe. 5 million. 5 million. The sovereign state shares its only land border with Northern Ireland, which is part of the United Kingdom.",
     "url": "https://en.wikipedia.org/wiki/Republic_of_Ireland",
     "source": "Wikipedia"
    },
@@ -6352,7 +6352,7 @@
    ],
    "government": "unitary parliamentary constitutional monarchy",
    "summary": {
-    "text": "Lesotho, officially the Kingdom of Lesotho, is a landlocked country in Southern Africa. Surrounded by South Africa, it is the largest of the three sovereign enclaves. Lesotho is located in the Maloti Mountains, with the highest peak in southern Africa.",
+    "text": "Lesotho, officially the Kingdom of Lesotho, is a landlocked country in Southern Africa. Surrounded by South Africa, it is the largest of the three sovereign, non-exclave enclaves in the world. Lesotho is located in the Maloti Mountains, with the highest peak in southern Africa.",
     "url": "https://en.wikipedia.org/wiki/Lesotho",
     "source": "Wikipedia"
    },
@@ -6890,7 +6890,7 @@
     "capitals": [
      "Kuala Lumpur"
     ],
-    "government": "Wahlmonarchie, parlamentarische Monarchie",
+    "government": "parlamentarische Monarchie, föderale Monarchie",
     "summary": {
      "text": "Malaysia, seltener Malaysien, ist eine konstitutionelle Wahlmonarchie mit 34 Millionen Einwohnern, bestehend aus 13 Bundesstaaten in Südostasien auf der Malaiischen Halbinsel oder Westmalaysia mit der Hauptstadt Malaysias Kuala Lumpur und Ostmalaysia auf einem Teil der Insel Borneo.",
      "url": "https://de.wikipedia.org/wiki/Malaysia",
@@ -7725,7 +7725,7 @@
    ],
    "government": "unitary parliamentary semi-constitutional monarchy",
    "summary": {
-    "text": "Morocco, officially the Kingdom of Morocco, is a country in the Maghreb region of North Africa.",
+    "text": "Morocco, officially the Kingdom of Morocco, is a country in North Africa.",
     "url": "https://en.wikipedia.org/wiki/Morocco",
     "source": "Wikipedia"
    },
@@ -7790,7 +7790,7 @@
    ],
    "government": "unitary dominant-party semi-presidential republic",
    "summary": {
-    "text": "Mozambique, officially the Republic of Mozambique, is a country in Southern Africa bordered by the Indian Ocean to the east, Tanzania to the north, Malawi and Zambia to the northwest, Zimbabwe to the west, and Eswatini and South Africa to the south and southwest.",
+    "text": "Mozambique, officially the Republic of Mozambique, is a country in Southeast Africa bordered by the Indian Ocean to the east, Tanzania to the north, Malawi and Zambia to the northwest, Zimbabwe to the west, and Eswatini and South Africa to the south and southwest.",
     "url": "https://en.wikipedia.org/wiki/Mozambique",
     "source": "Wikipedia"
    },
@@ -7858,7 +7858,7 @@
    ],
    "government": "unitary assembly-independent republic",
    "summary": {
-    "text": "Myanmar, officially the Republic of the Union of Myanmar and also referred to as Burma, is a country in northwest Southeast Asia. It is the largest country by area in Mainland Southeast Asia and has a population of about 55 million.",
+    "text": "Myanmar, officially the Republic of the Union of Myanmar and also referred to as Burma, is a country in northwest Southeast Asia. It is the largest country by area in Mainland Southeast Asia and had a population of about 51 million at the 2024 census.",
     "url": "https://en.wikipedia.org/wiki/Myanmar",
     "source": "Wikipedia"
    },
@@ -8013,7 +8013,7 @@
    ],
    "government": "unitary parliamentary republic",
    "summary": {
-    "text": "Nauru, officially the Republic of Naoero, is an island country and microstate in the South Pacific Ocean. It lies within the Micronesia subregion of Oceania, with its nearest neighbour being Banaba about 300 kilometres to the east.",
+    "text": "Nauru or Naoero, officially the Republic of Naoero, is an island country in Oceania, in the South Pacific Ocean. It lies within the Micronesia region; its nearest neighbour, about 300 kilometres to the east, is Banaba, part of Kiribati.",
     "url": "https://en.wikipedia.org/wiki/Nauru",
     "source": "Wikipedia"
    },
@@ -8078,7 +8078,7 @@
    ],
    "government": "federal parliamentary republic",
    "summary": {
-    "text": "Nepal, officially the Federal Democratic Republic of Nepal, is a landlocked country in South Asia. It is mainly situated in the Himalayas, but also includes parts of the Indo-Gangetic Plain.",
+    "text": "Nepal is a landlocked country in South Asia. It is mainly situated in the Himalayas, but also includes parts of the Indo-Gangetic Plain.",
     "url": "https://en.wikipedia.org/wiki/Nepal",
     "source": "Wikipedia"
    },
@@ -9362,7 +9362,7 @@
      "symbol": "€"
     }
    ],
-   "government": "unitary semi-presidential republic",
+   "government": "de jure democracy",
    "summary": {
     "text": "Portugal, officially the Portuguese Republic, is a country in Southwestern Europe. Mainland Portugal is located on the southwestern portion of the Iberian Peninsula, and bordered by Spain to the north and east.",
     "url": "https://en.wikipedia.org/wiki/Portugal",
@@ -9426,7 +9426,7 @@
      "symbol": "ر.ق"
     }
    ],
-   "government": "unitary semi-constitutional monarchy",
+   "government": "constitutional monarchy",
    "summary": {
     "text": "Qatar, officially the State of Qatar, is a country in West Asia. It occupies the Qatar Peninsula on the northeastern coast of the Arabian Peninsula in the Middle East; it shares its sole land border with Saudi Arabia to the south, with the rest of its territory surrounded by the Persian Gulf.",
     "url": "https://en.wikipedia.org/wiki/Qatar",
@@ -9495,7 +9495,7 @@
    ],
    "government": "unitary semi-presidential republic",
    "summary": {
-    "text": "The Republic of the Congo, also known as the Congo Republic, Congo-Brazzaville, or simply the Congo, is a country located on the western coast of Central Africa to the west of the Congo River.",
+    "text": "The Republic of the Congo, also commonly known as the Congo Republic, Congo-Brazzaville, or simply Congo, is a country located on the western coast of Central Africa to the west of the Congo River.",
     "url": "https://en.wikipedia.org/wiki/Republic_of_the_Congo",
     "source": "Wikipedia"
    },
@@ -10026,7 +10026,7 @@
     "capitals": [
      "San Marino"
     ],
-    "government": "Doppelherrschaft, parlamentarische Republik",
+    "government": "parlamentarische Republik, Doppelherrschaft",
     "summary": {
      "text": "San Marino gilt als die älteste bestehende Republik der Welt mit einer Geschichte, die der Überlieferung nach bis auf das Jahr 301 mit der Gründung durch den heiligen Marinus zurückgeht.",
      "url": "https://de.wikipedia.org/wiki/San_Marino",
@@ -10222,7 +10222,7 @@
     ],
     "government": "Präsidentielles Regierungssystem",
     "summary": {
-     "text": "Senegal, ist ein Staat des frankophonen Afrikas und liegt an der westlichen Spitze Kontinentalafrikas.",
+     "text": "Senegal ist ein Staat des frankophonen Afrikas und liegt an der westlichen Spitze Kontinentalafrikas.",
      "url": "https://de.wikipedia.org/wiki/Senegal",
      "source": "Wikipedia (de)"
     },
@@ -10406,7 +10406,7 @@
    ],
    "government": "unitary presidential republic",
    "summary": {
-    "text": "Sierra Leone, officially the Republic of Sierra Leone, is a country on the west coast of West Africa. It is bordered to the southeast by Liberia and by Guinea to the north. Sierra Leone's land area is 73,252 km2.",
+    "text": "Sierra Leone, officially the Republic of Sierra Leone, is a country on the west coast of West Africa. It is bordered to the southeast by Liberia and to the north by Guinea. Sierra Leone's land area is 73,252 km2.",
     "url": "https://en.wikipedia.org/wiki/Sierra_Leone",
     "source": "Wikipedia"
    },
@@ -10475,7 +10475,7 @@
    ],
    "government": "unitary parliamentary republic",
    "summary": {
-    "text": "Singapore, officially the Republic of Singapore, is an island country in Southeast Asia. Its territory comprises a main island, over 60 satellite islands and islets, and one outlying islet.",
+    "text": "Singapore, officially the Republic of Singapore, is an island country and city-state in Southeast Asia. Its territory comprises a main island, over 60 satellite islands and islets, and one outlying islet.",
     "url": "https://en.wikipedia.org/wiki/Singapore",
     "source": "Wikipedia"
    },
@@ -10893,7 +10893,7 @@
    ],
    "government": "unitary presidential republic",
    "summary": {
-    "text": "South Korea, officially the Republic of Korea, is a country in East Asia. It extends over the southern half of the Korean Peninsula and includes the adjacent islands. It borders North Korea to its north along the Korean Demilitarized Zone, with the Yellow Sea to the west and the Sea of Japan to the east..",
+    "text": "South Korea, officially the Republic of Korea, is a country in East Asia. It extends over the southern half of the Korean Peninsula and includes the adjacent islands. It borders North Korea to its north along the Korean Demilitarized Zone, with the Yellow Sea to the west and the Sea of Japan to the east.",
     "url": "https://en.wikipedia.org/wiki/South_Korea",
     "source": "Wikipedia"
    },
@@ -11102,7 +11102,7 @@
     ],
     "government": "Republik",
     "summary": {
-     "text": "Sri Lanka, von 1796 bis 1972 Ceylon, ist ein Inselstaat im Indischen Ozean, 237 km östlich der Südspitze des Indischen Subkontinents, und hatte 2021 etwa 22 Millionen Einwohner. Die kürzeste Entfernung zwischen Indien und Sri Lanka beträgt 54,8 km.",
+     "text": "Sri Lanka, von 1796 bis 1972 Ceylon, ist ein Inselstaat im Indischen Ozean, 237 km östlich der Südspitze des indischen Subkontinents, und hatte 2021 etwa 22 Millionen Einwohner. Die kürzeste Entfernung zwischen Indien und Sri Lanka beträgt 54,8 km.",
      "url": "https://de.wikipedia.org/wiki/Sri_Lanka",
      "source": "Wikipedia (de)"
     },
@@ -11833,7 +11833,7 @@
    ],
    "government": "unitary parliamentary republic",
    "summary": {
-    "text": "Togo, officially the Togolese Republic, is a country located in West Africa. It is bordered by Ghana to the west, Benin to the east and Burkina Faso to the north. It is one of the least developed countries in the world.",
+    "text": "Togo, officially the Togolese Republic, is a country located in West Africa. It is bordered by Ghana to the west, Benin to the east and Burkina Faso to the north. It is one of the least developed countries in the world and has a lower-middle income economy.",
     "url": "https://en.wikipedia.org/wiki/Togo",
     "source": "Wikipedia"
    },
@@ -11897,7 +11897,7 @@
    ],
    "government": "semi-constitutional monarchy",
    "summary": {
-    "text": "Tonga, officially known as the Kingdom of Tonga, is an island country in Polynesia, part of Oceania. The country has 171 islands, of which 45 are inhabited. Its total surface area is about 750 km2, scattered over 700,000 km2 in the southern Pacific Ocean.",
+    "text": "Tonga, officially the Kingdom of Tonga, is an island country in Polynesia, part of Oceania. The country has 171 islands, of which 45 are inhabited. Its total surface area is about 750 km2, scattered over 700,000 km2 in the southern Pacific Ocean.",
     "url": "https://en.wikipedia.org/wiki/Tonga",
     "source": "Wikipedia"
    },
@@ -12155,7 +12155,7 @@
    ],
    "government": "unitary presidential republic",
    "summary": {
-    "text": "Turkmenistan is a landlocked country in Central Asia, bordered by Kazakhstan and Uzbekistan to the north, Afghanistan to the southeast, Iran to the south and southwest, and the Caspian Sea to the west.",
+    "text": "Turkmenistan, formerly known as Turkmenia, is a landlocked country in Central Asia, bordered by Kazakhstan and Uzbekistan to the north, Afghanistan to the southeast, Iran to the south and southwest, and the Caspian Sea to the west.",
     "url": "https://en.wikipedia.org/wiki/Turkmenistan",
     "source": "Wikipedia"
    },
@@ -12487,7 +12487,7 @@
    ],
    "government": "unitary parliamentary constitutional monarchy",
    "summary": {
-    "text": "The United Kingdom of Great Britain and Northern Ireland, commonly known as the United Kingdom or Britain, is a country in Northwestern Europe, off the coast of the continental mainland. It comprises England, Scotland, Wales and Northern Ireland, with a population of over 69 million in 2024.",
+    "text": "The United Kingdom of Great Britain and Northern Ireland, commonly known as the United Kingdom or Britain, is a country in Northwestern Europe, off the coast of the continental mainland. It comprises England, Scotland, Wales and Northern Ireland, with a population of over 69 million in 2025.",
     "url": "https://en.wikipedia.org/wiki/United_Kingdom",
     "source": "Wikipedia"
    },
@@ -12685,7 +12685,7 @@
    ],
    "government": "unitary semi-presidential republic",
    "summary": {
-    "text": "Uzbekistan, officially the Republic of Uzbekistan, is a sovereign, doubly landlocked country located in Central Asia. It is bordered by Kazakhstan to the north, Kyrgyzstan to the northeast, Tajikistan to the southeast, Afghanistan to the south, and Turkmenistan to the south-west.",
+    "text": "Uzbekistan, officially the Republic of Uzbekistan, formerly known as Uzbekia, is a sovereign, doubly landlocked country located in Central Asia. It is bordered by Kazakhstan to the north, Kyrgyzstan to the northeast, Tajikistan to the southeast, Afghanistan to the south, and Turkmenistan to the south-west.",
     "url": "https://en.wikipedia.org/wiki/Uzbekistan",
     "source": "Wikipedia"
    },
@@ -12753,7 +12753,7 @@
    ],
    "government": "unitary parliamentary republic",
    "summary": {
-    "text": "Vanuatu, officially the Republic of Vanuatu, is an archipelagic country in Melanesia located in the South Pacific Ocean. The archipelago, which is of volcanic origin, is 1,750 km east of northern Australia, 540 km northeast of New Caledonia, east of New Guinea, southeast of Solomon Islands, and west of Fiji.",
+    "text": "Vanuatu, officially the Republic of Vanuatu, is an archipelagic country in the Melanesia region of Oceania located in the South Pacific Ocean. The archipelago, which is of volcanic origin, is 1,750 km east of northern Australia, 540 km northeast of New Caledonia, east of New Guinea, southeast of Solomon Islands, and west of Fiji.",
     "url": "https://en.wikipedia.org/wiki/Vanuatu",
     "source": "Wikipedia"
    },
@@ -12825,7 +12825,7 @@
    ],
    "government": "unitary theocratic elective absolute monarchy",
    "summary": {
-    "text": "Vatican City, officially the Vatican City State, often shortened as the Vatican, is a landlocked sovereign city-state in Southern Europe. Ruled by the pope, it is an enclave within the city of Rome, Italy, and serves as the administrative centre of the Catholic Church.",
+    "text": "Vatican City, officially the Vatican City State, is a landlocked sovereign city-state in Southern Europe. Ruled by the pope, it is an enclave within the city of Rome, Italy, and serves as the administrative center of the Catholic Church.",
     "url": "https://en.wikipedia.org/wiki/Vatican_City",
     "source": "Wikipedia"
    },
